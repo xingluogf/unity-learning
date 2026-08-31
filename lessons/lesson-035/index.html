@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 35 课：综合练习：搭建一个 3D 小房间 · Unity 星辰学院</title>
+<meta name="description" content="综合练习：搭建一个 3D 小房间 · Unity 星辰学院第 35 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-035">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 3 章 · 场景与基础对象</a><span class="sep">/</span>
+    <span>第 35 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 35 · 场景与基础对象</span>
+    <h1>综合练习：搭建一个 3D 小房间</h1>
+    <p class="sub">你亲手搭建了人生第一个 3D 房间！第 3 章圆满结束。下一章学习导入外部资源。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 25 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 3 章 · 场景与基础对象</span><span class="meta-item">📍 第 35 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:11.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">35 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">搭建房间结构</a>
+<a href="#sec-1">添加灯光与家具</a>
+<a href="#sec-2">收尾与保存</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>综合运用本章全部技能</li><li>独立搭建一个完整 3D 场景</li><li>养成规范命名与组织的习惯</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>检验学习成果的时候到了！本课把前面所有技能串起来，搭建一个看得见的“作品”。请一步步跟做。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>搭建房间结构</h2>
+<p>地板 + 四面墙。</p>
+<ol class="steps"><li>新建场景并命名为 Room01。</li><li>【地板】：右键创建 Plane（平面），它默认就在 (0,0,0)。改名 Floor。</li><li>【墙壁】：创建 4 个 Cube，分别命名为 Wall1~4，用数值摆位：Wall1 在 (0,0.5,5) 缩放 (10,1,0.2)，Wall2 在 (0,0.5,-5)，Wall3 在 (5,0.5,0) 缩放 (0.2,1,10)，Wall4 在 (-5,0.5,0)。</li><li>这样四面墙围出一个 10x10 的房间。</li><li>创建材质：Room_Wall（浅灰）、Room_Floor（木色 Albedo 用棕色），分别赋给墙壁和地板。</li><li>在场景里转一圈，确认房间成形、墙缝对齐。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>数值摆位比手拖精确得多。墙的位置=半墙厚偏移，多试几次数值找到贴合感。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>添加灯光与家具</h2>
+<p>让房间“活”起来。</p>
+<ol class="steps"><li>【灯光】：右键创建 Point Light（点光源），放到房间中间天花板位置 (0,4,0)，Intensity 调到 3，模拟吊灯。</li><li>【吊灯】效果：给点光源加一个黄白色的颜色。</li><li>【家具-床】：Cube 缩放 (2,0.3,1) 放 (2,0.15,0)，再叠一个 Cube 做枕头（小号）。</li><li>【家具-桌】：Cube 缩放 (1.5,0.15,0.8) 放 (-2,0.075,0.5)，四根桌腿用细长 Cube。</li><li>【家具-灯】：留到特效课后加粒子。</li><li>给家具分别做材质上色，让房间色彩丰富。</li><li>【摄像机】：把 Main Camera 摆到 (0,2,-7) 看向房间中央（旋转 Y 到朝向房间）。</li><li>点播放，从 Game 视图欣赏你的房间！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>做每个物体前先想清楚：它由几个基本几何体组成、各放哪里，再用数值精准摆位。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>收尾与保存</h2>
+<p>规范的收尾。</p>
+<ol class="steps"><li>把所有“家具”按逻辑建立父子分组：建一个空对象 Furniture，把床、桌拖进去管理。</li><li>把灯光放入空对象 Lights 分组。</li><li>在 Hierarchy 里选中各物体，检查命名是否清晰、无默认名（Cube/Cube (1) 等）。</li><li>按 Ctrl+S 保存场景。</li><li>点播放/停止，确认无报错。</li><li>对着自己的作品截个图，这是你的里程碑！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>本章所有技能都在这间房子里了：坐标、材质、光源、父子、场景管理。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>房间里一片漆黑？<br><b>原因：</b>点光源范围太小或强度太低<br><b>解决：</b>把点光源 Range 加大（如 10），Intensity 调到 3 以上。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>完成房间搭建并保存</li><li>为房间增加一扇“门”（一个 Cube 就能表示）</li><li>试着把房间的天花板也补上（第 5 面墙）</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>你亲手搭建了人生第一个 3D 房间！第 3 章圆满结束。下一章学习导入外部资源。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-034/index.html"><span class="dir">← 上一课</span><span class="t">预制体变体 Prefab Variant</span></a><a class="nav-item next" href="../lesson-036/index.html"><span class="dir">下一课 →</span><span class="t">导入模型资源（FBX / OBJ）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

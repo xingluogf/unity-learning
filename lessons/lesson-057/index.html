@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 57 课：数组 Array · Unity 星辰学院</title>
+<meta name="description" content="数组 Array · Unity 星辰学院第 57 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-057">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 57 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 57 · C# 编程基础</span>
+    <h1>数组 Array</h1>
+    <p class="sub">数组已掌握。下一课学可动态增删的 List。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 57 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:19.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">57 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">数组的声明与初始化</a>
+<a href="#sec-1">遍历数组</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握数组声明与初始化</li><li>掌握下标访问元素</li><li>掌握数组遍历</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>要存 100 个敌人的血量，总不能建 100 个变量。数组就是“一排带编号的抽屉”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>数组的声明与初始化</h2>
+<p>三种写法。</p>
+<ol class="steps"><li>语法：数据类型[] 数组名; 例：int[] scores;</li><li>【初始化方式1】指定长度：int[] scores = new int[5]; // 5 个默认值 0</li><li>【初始化方式2】直接给值：int[] scores = { 90, 80, 70, 60, 50 }; // 自动确定长度</li><li>【初始化方式3】new + 值：int[] scores = new int[] { 1, 2, 3 };</li><li>数组长度固定，创建后不能增删元素。</li><li>【访问元素】用下标（索引）：scores[0] 是第一个元素，scores[1] 第二个……下标从 0 开始！</li><li>【数组长度】scores.Length 返回元素个数。</li><li>给元素赋值：scores[0] = 100;</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>下标从 0 开始是新手第一坑：长度 5 的数组，最大下标是 4，访问 scores[5] 会越界报错。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>遍历数组</h2>
+<p>for 与 foreach 皆可。</p>
+<ol class="steps"><li>for 遍历：for (int i = 0; i &lt; scores.Length; i++) { Debug.Log(scores[i]); }</li><li>foreach 遍历：foreach (int s in scores) { Debug.Log(s); }</li><li>for 可以改元素（scores[i] = 0），foreach 只读。</li><li>【求和】：int sum = 0; for (...) { sum += scores[i]; }</li><li>【找最大值】：int max = scores[0]; for (...) { if (scores[i] &gt; max) max = scores[i]; }</li><li>数组在 Unity 中常用于：配置关卡数据、存储一批点位、敌人列表等。</li><li>【多维数组】进阶：int[,] grid = new int[3,3]; 二维网格，先了解。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>要“动态增删”的集合用 List（第 58 课），数组适合数量固定的数据。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>报错：IndexOutOfRangeException？<br><b>原因：</b>访问了超出范围的下标<br><b>解决：</b>检查循环边界是否用了 &lt;= 而越界；改用 scores.Length 作为上限。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>声明一个 5 元素的 float 数组并全部赋值</li><li>用 for 求和并打印平均分</li><li>用 for 找出数组中的最大值</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>数组已掌握。下一课学可动态增删的 List。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-056/index.html"><span class="dir">← 上一课</span><span class="t">break 与 continue 控制循环</span></a><a class="nav-item next" href="../lesson-058/index.html"><span class="dir">下一课 →</span><span class="t">List 动态列表</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

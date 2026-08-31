@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 88 课：MonoBehaviour 消息 OnEnable/OnDisable · Unity 星辰学院</title>
+<meta name="description" content="MonoBehaviour 消息 OnEnable/OnDisable · Unity 星辰学院第 88 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-088">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 6 章 · 游戏对象与组件交互</a><span class="sep">/</span>
+    <span>第 88 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 88 · 游戏对象与组件交互</span>
+    <h1>MonoBehaviour 消息 OnEnable/OnDisable</h1>
+    <p class="sub">OnEnable/OnDisable 已掌握。下一课学运行时调试技巧。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 6 章 · 游戏对象与组件交互</span><span class="meta-item">📍 第 88 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:29.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">88 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">OnEnable / OnDisable</a>
+<a href="#sec-1">实战：显隐与订阅</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 OnEnable/OnDisable 时机</li><li>掌握事件订阅退订最佳实践</li><li>掌握对象显隐控制</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>上节课提到事件要在 OnDisable 里退订。本课系统讲 OnEnable/OnDisable 这对“开关门”方法。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>OnEnable / OnDisable</h2>
+<p>对象“激活/失活”时触发。</p>
+<ol class="steps"><li>【OnEnable】对象被启用（激活）时调用：首次加载时、从失活恢复时、脚本组件勾选启用时。</li><li>【OnDisable】对象被禁用时调用：失活、脚本禁用、销毁前。</li><li>【时机细节】首次激活时顺序：Awake → OnEnable → Start。</li><li>【与 SetActive】gameObject.SetActive(false) 失活会触发 OnDisable；再 SetActive(true) 触发 OnEnable。</li><li>【用途1】启用时初始化、禁用时清理：OnEnable 里开启协程、OnDisable 里停止。</li><li>【用途2】事件订阅退订的最佳位置（第 83 课）：OnEnable 订阅 +=、OnDisable 退订 -=。</li><li>【注意】组件禁用（勾选取消）也触发 OnDisable；对象销毁会先 OnDisable 再 OnDestroy。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>铁律：事件订阅在 OnEnable、退订在 OnDisable，避免“幽灵订阅”导致报错/泄漏。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：显隐与订阅</h2>
+<p>做一个可开关的对象。</p>
+<ol class="steps"><li>新建脚本 ToggleDemo，挂到 Cube 上：</li><li>void OnEnable() { Debug.Log("启用"); }</li><li>void OnDisable() { Debug.Log("禁用"); }</li><li>void Update() { if (Input.GetKeyDown(KeyCode.H)) { gameObject.SetActive(!gameObject.activeSelf); } }</li><li>播放：按 H 键让方块隐藏/显示，观察 Console 输出 OnDisable/OnEnable。</li><li>【事件订阅实践】在 OnEnable 里写 health.OnDeath += HandleDeath; 在 OnDisable 里写 health.OnDeath -= HandleDeath;</li><li>这样对象被禁用/销毁时自动退订，不会报“已销毁对象仍被调用”错误。</li><li>【用途】敌人死亡时先播放特效再销毁、UI 面板开关等。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>显隐控制 SetActive 比 Destroy 更省（可复用），配合 OnEnable/OnDisable 完成“复活”逻辑。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>对象禁用后事件仍被调用报错？<br><b>原因：</b>没在 OnDisable 退订<br><b>解决：</b>把订阅放 OnEnable、退订放 OnDisable，或退订时判空。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 SetActive 控制一个对象显隐并观察生命周期</li><li>在 OnEnable/OnDisable 里订阅/退订一个事件</li><li>说出 OnEnable 与 Start 的先后关系</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>OnEnable/OnDisable 已掌握。下一课学运行时调试技巧。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-087/index.html"><span class="dir">← 上一课</span><span class="t">命名与代码规范实战</span></a><a class="nav-item next" href="../lesson-089/index.html"><span class="dir">下一课 →</span><span class="t">运行时调试技巧</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

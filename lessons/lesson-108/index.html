@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 108 课：摩擦与弹性的实际应用 · Unity 星辰学院</title>
+<meta name="description" content="摩擦与弹性的实际应用 · Unity 星辰学院第 108 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-108">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 108 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 108 · 物理系统</span>
+    <h1>摩擦与弹性的实际应用</h1>
+    <p class="sub">摩擦与弹性应用已掌握。下一课学刚体插值 Interpolation。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 108 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:36.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">108 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">常见表面配方</a>
+<a href="#sec-1">组合实现一个“滑冰场+弹床”</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握常见表面材质参数</li><li>做出冰面/沙地/弹床</li><li>理解摩擦系数的配合</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>把第 93 课的物理材质用出花样：冰面滑行、沙地减速、弹床弹人。本课给常见表面配“标准配方”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>常见表面配方</h2>
+<p>直接抄参数。</p>
+<ol class="steps"><li>【冰面 Ice】Dynamic Friction=0、Static Friction=0、Bounciness=0：角色走上去打滑，球滑得远。</li><li>【沙地/地毯 Sand】Friction=1、Bounciness=0：强烈减速，球很快停下。</li><li>【木地板 Wood】Friction=0.4、Bounciness=0.2：适中手感。</li><li>【橡胶球 Rubber】Friction=0.6、Bounciness=0.7：弹且有抓地。</li><li>【弹床 Trampoline】Bounciness=1（或更大）、Friction=0.3：踩上去被高高弹起。</li><li>【滑梯 Slide】Friction=0、Bounciness=0 + 倾斜表面：角色滑下去。</li><li>【金属 Metal】Friction=0.3、Bounciness=0.5。</li><li>记住“摩擦越小越滑、弹性越大越弹”，按需组合。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>配方不是绝对，实际以你的手感为准，先按配方起步再微调。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>组合实现一个“滑冰场+弹床”</h2>
+<p>动手验证配方。</p>
+<ol class="steps"><li>创建三块相邻的地板（Cube 压扁），分别赋上 Ice、Sand、Rubber 三种物理材质。</li><li>做一个球（Sphere + 刚体），从一端以相同初速度推出（AddForce Impulse）。</li><li>观察球在三块地上的表现：冰上滑得最远、沙地最快停下、橡胶有反弹。</li><li>再做一块“弹床”：把 Rubber 材质 Bounciness 调到 1，让角色/球踩上去弹起。</li><li>【角色滑冰】给角色（带刚体）加一个“加速/减速”逻辑：在冰面上按方向键获得初速度后不再施力（惯性滑行）。</li><li>【对比实验】每块地板都放一个球同时释放，直观对比。</li><li>【注意】物理材质赋给 Collider 的 Material 槽，别赋错。</li><li>【调优】Bounciness 超 1 会越弹越高，注意控制。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>三块地板对比实验做完，你对摩擦/弹性的理解就实战化了。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>角色在冰面上反而“原地踏步”？<br><b>原因：</b>角色每帧都在施加移动力，抵消了滑行感<br><b>解决：</b>让角色“先给初速、松键后不再施力”，才能体现惯性滑行。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>制作冰/沙/橡胶三块地板并对比测试</li><li>做一个弹床让球高高弹起</li><li>调整参数直到手感满意</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>摩擦与弹性应用已掌握。下一课学刚体插值 Interpolation。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-107/index.html"><span class="dir">← 上一课</span><span class="t">物体跟随与注视（Follow &amp; LookAt）</span></a><a class="nav-item next" href="../lesson-109/index.html"><span class="dir">下一课 →</span><span class="t">刚体插值 Interpolation 与抖动消除</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

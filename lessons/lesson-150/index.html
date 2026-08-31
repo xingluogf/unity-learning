@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 150 课：Button 按钮详解 · Unity 星辰学院</title>
+<meta name="description" content="Button 按钮详解 · Unity 星辰学院第 150 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-150">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 150 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 150 · UI 界面系统</span>
+    <h1>Button 按钮详解</h1>
+    <p class="sub">Button 已掌握。下一课学 Slider 滑动条。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 150 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:50.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">150 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Button 组件属性</a>
+<a href="#sec-1">动态创建与批量按钮</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握按钮组件</li><li>掌握过渡效果</li><li>掌握动态按钮</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>按钮是 UI 交互的“主力”。本课把它从上到下讲透：状态、效果、事件、动态生成。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Button 组件属性</h2>
+<p>认识按钮的“身体”。</p>
+<ol class="steps"><li>创建 UI → Button - TextMeshPro，得到按钮对象（含 Image + Button 组件 + TMP 子物体）。</li><li>【Interactable 可交互】勾选则可点；取消则按钮变“禁用”状态（变灰/不可点）。</li><li>【Transition 过渡】按钮在不同状态下的视觉效果：</li><li>① Color Tint（默认）：不同状态变颜色。</li><li>Target Graphic：应用过渡的图片；Normal/Highlighted/Pressed/Selected/Disabled 五色。</li><li>② Sprite Swap：换图（需要多张状态图）。</li><li>③ Animation：自定义动画（用 Animator）。</li><li>【Navigation】键盘/手柄导航：默认 Automatic（自动判断上下左右）；可设为 None 禁用。</li><li>【On Click ()】点击事件列表：加监听、绑方法（第 123 课）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>默认 Color Tint 最省事；想要“发光/放大”效果用 Sprite Swap 或 Animation。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>动态创建与批量按钮</h2>
+<p>代码生成按钮。</p>
+<ol class="steps"><li>【代码创建】需要 using UnityEngine.UI; 与 TMPro;</li><li>Button newBtn = GameObject.Find("Canvas").AddComponent&lt;Button&gt;();（先有 Image）</li><li>更常用：从预制体实例化按钮（第 76 课）然后绑定事件。</li><li>【事件传参】批量生成多个按钮时，给每个按钮绑定不同参数：</li><li>for (int i = 0; i &lt; 5; i++) {</li><li>Button b = Instantiate(btnPrefab, parent).GetComponent&lt;Button&gt;();</li><li>int level = i + 1; // 捕获循环变量</li><li>b.onClick.AddListener(delegate { LoadLevel(level); });</li><li>b.GetComponentInChildren&lt;TMP_Text&gt;().text = "关卡 " + level;</li><li>}</li><li>【注意】循环里用局部变量捕获 i（int level = i+1），否则所有按钮都读到最后一个 i。</li><li>【布局】配合 Layout Group 自动排列（第 156 课）。</li><li>【禁用单个】b.interactable = false;（未解锁关卡灰显）。</li><li>【实战】做一个“关卡选择”界面：5 个按钮，点击进入对应关卡。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>批量按钮三件套：循环实例化 + AddListener 传参 + 局部变量捕获，搞定关卡选择。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>循环创建的按钮都触发同一个参数？<br><b>原因：</b>闭包捕获了循环变量<br><b>解决：</b>在循环体里用局部变量复制 i 再传给委托。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>配置按钮五种状态颜色</li><li>做一个被禁用（interactable=false）的按钮</li><li>批量生成 5 个带不同参数的事件按钮</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Button 已掌握。下一课学 Slider 滑动条。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-149/index.html"><span class="dir">← 上一课</span><span class="t">Image 图片与 UI 背景</span></a><a class="nav-item next" href="../lesson-151/index.html"><span class="dir">下一课 →</span><span class="t">Slider 滑动条</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

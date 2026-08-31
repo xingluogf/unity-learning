@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 215 课：2D 子弹与弹幕 · Unity 星辰学院</title>
+<meta name="description" content="2D 子弹与弹幕 · Unity 星辰学院第 215 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-215">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 215 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 215 · 2D 游戏开发</span>
+    <h1>2D 子弹与弹幕</h1>
+    <p class="sub">弹幕系统完成。下一课做 2D 摄像机跟随。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 215 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:71.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">215 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">多种发射方式</a>
+<a href="#sec-1">子弹管理优化</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现多种弹道</li><li>实现扇形弹幕</li><li>实现旋转环绕</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“单发”太单调，来点“弹幕”！本课实现扇形、环绕、追踪等多样化子弹。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>多种发射方式</h2>
+<p>按方向算。</p>
+<ol class="steps"><li>【扇形弹幕】一次发射多颗、角度分散：</li><li>void FireFan(int count, float spreadAngle) {</li><li>float baseAngle = AimAngle(); // 朝玩家的角度</li><li>for (int i = 0; i &lt; count; i++) {</li><li>float offset = (i - (count-1)/2f) * spreadAngle / count;</li><li>float angle = baseAngle + offset;</li><li>Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));</li><li>SpawnBullet(dir);</li><li>}</li><li>}</li><li>【圆形弹幕】360 度：for 遍历 0-360 度每 30 度发射一颗。</li><li>【追踪弹】朝玩家当前位置：每帧修正子弹方向（Transform.LookAt/方向 Lerp）。</li><li>【螺旋弹】基础角度随时间递增（baseAngle += Time.deltaTime * 50）。</li><li>【方向计算】Mathf.Atan2/Cos/Sin 是弹幕基本功。</li><li>【注意】角度转方向：dir = (cos θ, sin θ)。</li><li>【实战】Boss 发射圆形+螺旋弹幕。</li><li>【完成】弹幕系统“炫”起来了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>弹幕核心公式：角度 → 方向（cosθ, sinθ），遍历角度=各种弹幕。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>子弹管理优化</h2>
+<p>弹幕多了不卡。</p>
+<ol class="steps"><li>【问题】弹幕大量 Instantiate/Destroy 造成卡顿。</li><li>【对象池】子弹用对象池（第 198 课）：</li><li>ObjectPool.Instance.GetBullet(pos, dir);</li><li>【实现】预创建 100 颗子弹隐藏，取出时设置位置/方向/速度，撞击或超时回收。</li><li>【Bullet 脚本调整】</li><li>public void Init(Vector2 pos, Vector2 dir) {</li><li>transform.position = pos;</li><li>GetComponent&lt;Rigidbody2D&gt;().velocity = dir * speed;</li><li>gameObject.SetActive(true);</li><li>StartCoroutine(AutoDeactivate());</li><li>}</li><li>IEnumerator AutoDeactivate() { yield return new WaitForSeconds(3f); gameObject.SetActive(false); }</li><li>【碰撞】OnTriggerEnter2D 里命中后 gameObject.SetActive(false) 而非 Destroy。</li><li>【注意】对象池子弹要正确重置（速度、旋转、tag）。</li><li>【性能】上千子弹也能流畅。</li><li>【完成】弹幕再多也不怕！</li><li>【进阶】子弹用 ScriptableObject 配置（伤害/速度/颜色）。</li><li>【注意】对象池 Get 时确保子弹状态清零。</li><li>【推荐】所有高频物（子弹、粒子）一律对象池。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>弹幕性能：对象池 + 循环复用 + 速度重置。1000 颗子弹也流畅。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>对象池子弹复用后“卡住”？<br><b>原因：</b>速度/旋转没重置<br><b>解决：</b>Init 时重置 velocity、rotation、tag、颜色后再激活。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现扇形与圆形弹幕</li><li>实现追踪子弹</li><li>用对象池优化大量子弹</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>弹幕系统完成。下一课做 2D 摄像机跟随。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-214/index.html"><span class="dir">← 上一课</span><span class="t">2D 射击游戏基础</span></a><a class="nav-item next" href="../lesson-216/index.html"><span class="dir">下一课 →</span><span class="t">2D 摄像机跟随</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

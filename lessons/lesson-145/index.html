@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 145 课：综合练习：完整角色动画状态机 · Unity 星辰学院</title>
+<meta name="description" content="综合练习：完整角色动画状态机 · Unity 星辰学院第 145 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-145">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 145 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 145 · 动画系统</span>
+    <h1>综合练习：完整角色动画状态机</h1>
+    <p class="sub">角色状态机完成！动画章毕业。下一章进入 UI 界面系统，为游戏加上“脸面”。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 25 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 145 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:48.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">145 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">准备素材</a>
+<a href="#sec-1">搭建状态机</a>
+<a href="#sec-2">代码驱动与测试</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>综合运用动画章知识</li><li>搭建完整角色状态机</li><li>实现参数驱动的动画切换</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>把动画章所有能力整合：一个角色，六种状态、参数驱动、平滑过渡。这是动画章毕业项目！</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>准备素材</h2>
+<p>角色 + 动画片段。</p>
+<ol class="steps"><li>导入一个 Humanoid 角色模型（带基础动画或商店下载）。</li><li>确认 Rig=Humanoid、Avatar 配置成功（第 138 课）。</li><li>准备动画片段：Idle（待机）、Walk（走路）、Run（跑步）、Jump（跳跃）、Attack（攻击）、Hit（受击）、Dead（死亡）。</li><li>建议用商店“免费人形动画包”，或让角色模型自带。</li><li>【混合树】把 Walk/Run 做进一个 1D 混合树（Speed 参数），第 134 课。</li><li>把动画片段整理进 Animations 文件夹。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>没有现成动画也没关系：用 Animation 窗口自己录 Idle/Walk 基础版也能练。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>搭建状态机</h2>
+<p>六状态 + 参数 + 过渡。</p>
+<ol class="steps"><li>创建 Animator Controller，命名 CharacterAnim。</li><li>【状态】创建 6 个状态并绑定动画：Idle、Move（混合树）、Jump、Attack、Hit、Dead。</li><li>【参数】添加：Speed（Float）、IsGrounded（Bool）、Attack（Trigger）、IsDead（Bool）、IsHit（Bool）。</li><li>【过渡】</li><li>Idle ↔ Move：Speed&gt;0.1 / Speed&lt;0.1。</li><li>Move → Jump：IsGrounded=false；Jump → Idle：IsGrounded=true。</li><li>Any State → Hit：IsHit=true；Hit → Idle：播完（Has Exit Time）。</li><li>Any State → Dead：IsDead=true。</li><li>【注意】Jump 在空中不可切攻击？可加限制（进阶）。</li><li>【初始状态】Idle 设为默认。</li><li>【过渡时长】0.1-0.15 秒平滑。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>状态机“画”好后，重点在过渡条件是否互斥清晰。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>代码驱动与测试</h2>
+<p>让角色动起来。</p>
+<ol class="steps"><li>挂 CharacterControl 脚本（第 142 课整合版）：</li><li>public float speed = 4f;</li><li>void Update() {</li><li>float h = Input.GetAxis("Horizontal"); float v = Input.GetAxis("Vertical");</li><li>Vector3 move = new Vector3(h, 0, v);</li><li>anim.SetFloat("Speed", move.magnitude, 0.1f, Time.deltaTime);</li><li>if (move != Vector3.zero) transform.rotation = Quaternion.LookRotation(move);</li><li>bool grounded = Physics.Raycast(transform.position, Vector3.down, 0.2f);</li><li>anim.SetBool("IsGrounded", grounded);</li><li>if (Input.GetKeyDown(KeyCode.Space) &amp;&amp; grounded) { anim.SetTrigger("Jump"); rb.AddForce(Vector3.up * 8f, ForceMode.Impulse); }</li><li>if (Input.GetMouseButtonDown(0)) { anim.SetTrigger("Attack"); }</li><li>if (Input.GetKeyDown(KeyCode.H)) { anim.SetBool("IsHit", true); }</li><li>if (Input.GetKeyDown(KeyCode.K)) { anim.SetBool("IsDead", true); }</li><li>}</li><li>播放测试：WASD 走动/跑步、空格跳、左键攻击、H 受击、K 死亡。</li><li>逐个验证每个状态与过渡，调整 Duration 与条件。</li><li>检查无报错，保存场景与动画控制器。</li><li>【完成】你的角色已经“会表演”了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>动画章毕业：从录关键帧到完整状态机，你已掌握游戏动画的 90% 核心能力。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>受击后无法恢复？<br><b>原因：</b>Hit 状态的过渡没设好<br><b>解决：</b>Hit→Idle 过渡勾选 Has Exit Time；或用 Trigger 而非 Bool 复位。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>完成六状态完整状态机</li><li>用参数驱动全部切换并测试</li><li>（进阶）把 Walk/Run 合并成混合树</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>角色状态机完成！动画章毕业。下一章进入 UI 界面系统，为游戏加上“脸面”。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-144/index.html"><span class="dir">← 上一课</span><span class="t">布娃娃 Ragdoll</span></a><a class="nav-item next" href="../lesson-146/index.html"><span class="dir">下一课 →</span><span class="t">Canvas 画布与 UI 基础</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

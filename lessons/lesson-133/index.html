@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 133 课：动画过渡 Transitions 与条件 · Unity 星辰学院</title>
+<meta name="description" content="动画过渡 Transitions 与条件 · Unity 星辰学院第 133 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-133">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 133 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 133 · 动画系统</span>
+    <h1>动画过渡 Transitions 与条件</h1>
+    <p class="sub">过渡已掌握。下一课学混合树 Blend Tree。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 133 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:44.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">133 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">创建与配置过渡</a>
+<a href="#sec-1">打断与优先级</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握过渡条件设置</li><li>理解 Has Exit Time</li><li>掌握过渡时长与打断</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>状态之间的“桥”就是过渡（Transition）。桥的通行规则（条件、时间、打断）决定动画衔接是否自然。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>创建与配置过渡</h2>
+<p>连一条“桥”。</p>
+<ol class="steps"><li>【创建过渡】在 Animator 里右键状态A → Make Transition → 点击状态B，生成 A→B 的箭头。</li><li>【选中箭头】点击箭头，右侧 Inspector 显示过渡属性。</li><li>【Conditions 条件】点【+】添加条件：选择参数、比较方式（Greater/Less/Equals/Not Equals）、填数值。</li><li>例：Speed Greater 0.1 时从 Idle 切到 Walk。</li><li>【Has Exit Time】勾选：当前动画“播完/播到退出时间”才允许过渡（适合动作完成后的衔接）。</li><li>取消勾选：条件满足立即过渡（适合即时响应，如走路立刻变攻击）。</li><li>【Transition Duration】过渡时长：0.1-0.2 秒的交叉融合让切换自然。</li><li>【Transition Offset】从目标动画的哪个时间点开始播（进阶）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Has Exit Time 勾选=播完才走（完整动作）；不勾=立即走（实时响应）。多数游戏动作选不勾。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>打断与优先级</h2>
+<p>让过渡可控。</p>
+<ol class="steps"><li>【打断】默认过渡可被其他过渡打断。</li><li>【Interruption Source】下拉：None（不可打断）、Current State（被当前状态的其他过渡打断）、Next State 等（进阶）。</li><li>【优先级】多个过渡条件同时满足时，Animator 按“过渡箭头列表的顺序”选择（越靠上越优先）。</li><li>调整顺序：在状态 Inspector 的 Transitions 列表里拖动。</li><li>【Any State 过渡】优先级最高，用于紧急打断（死亡、受击）。</li><li>【优化】条件尽量互斥、减少同时满足的情况，状态机更稳定。</li><li>【过渡预览】点 Play 播放，看过渡是否自然，调整 Duration。</li><li>【常见问题】“动画卡住不动”多因过渡条件永远不满足或 Duration 过大。</li><li>【实战】Idle↔Walk、Walk→Jump、Jump→Idle（落地）、Any→Dead。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>过渡三要素：条件（何时切）+ 时长（多自然）+ 打断（谁优先）。调好它们动画才“听话”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>动画切换生硬/卡顿？<br><b>原因：</b>Transition Duration 为 0 或过渡未配置好<br><b>解决：</b>把 Duration 设 0.1-0.2；确认条件逻辑正确；必要时用 Blend Tree（第 134 课）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>搭建 Idle→Walk 的条件过渡</li><li>设置 Jump 的过渡与落地回 Idle</li><li>调整 Transition Duration 体验自然度</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>过渡已掌握。下一课学混合树 Blend Tree。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-132/index.html"><span class="dir">← 上一课</span><span class="t">动画参数 Parameters</span></a><a class="nav-item next" href="../lesson-134/index.html"><span class="dir">下一课 →</span><span class="t">动画混合树 Blend Tree</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

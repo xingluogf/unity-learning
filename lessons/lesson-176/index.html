@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 176 课：AudioMixer 混音器 · Unity 星辰学院</title>
+<meta name="description" content="AudioMixer 混音器 · Unity 星辰学院第 176 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-176">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 176 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 176 · 音频系统</span>
+    <h1>AudioMixer 混音器</h1>
+    <p class="sub">AudioMixer 已掌握。下一课做完整音量控制面板。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 176 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:58.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">176 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">AudioMixer 基础</a>
+<a href="#sec-1">代码控制混音器音量</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 AudioMixer 作用</li><li>创建音量分组</li><li>实现代码控制音量</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“BGM 和音效分开调音量”“一键静音”——AudioMixer 把声音分门别类管理。本课掌握。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>AudioMixer 基础</h2>
+<p>声音的“调音台”。</p>
+<ol class="steps"><li>【创建】Project 右键 → Create → Audio Mixer，命名 MainMixer。</li><li>【打开】双击打开 Audio Mixer 窗口（Window → Audio → Audio Mixer）。</li><li>【分组结构】默认有 Master（主组）。在 Groups 面板点 + 创建子组：Music（音乐）、SFX（音效）。</li><li>【音量推子】选中组，右边推子（Volume）控制该组音量（0dB 基准，往下减）。</li><li>【挂接 AudioSource】给背景音乐的 AudioSource 的【Output】槽拖入 Music 组；音效 AudioSource 的 Output 拖入 SFX 组。</li><li>【效果】拖动 Music 组推子只影响背景音乐；SFX 只影响音效。</li><li>【组层级】子组音量受 Master 与父组共同影响。</li><li>【快照 Snapshot】保存当前所有推子状态（如“正常”“静音”“低血”），一键切换（第 177 课）。</li><li>【注意】Mixer 组是“总线”：AudioSource 的 Output 指向哪个组，音量就归谁管。</li><li>【Exposed Parameters】把推子暴露给代码（下一步）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>AudioMixer = 声音“分组调音台”：Music 一组、SFX 一组、Master 总管。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>代码控制混音器音量</h2>
+<p>把推子暴露给脚本。</p>
+<ol class="steps"><li>【暴露参数】选中要控制的推子（如 Music Volume）→ Inspector 右上角展开 → 把 Volume 参数设为【Exposed】。</li><li>给它命名（如 musicVol）。</li><li>【代码获取】</li><li>public AudioMixer mixer;</li><li>public void SetMusicVolume(float v) { mixer.SetFloat("musicVol", Mathf.Log10(v) * 20f); }</li><li>【说明】推子单位是 dB（分贝），0-1 线性音量要换算：dB = log10(v) * 20。</li><li>【读取】mixer.GetFloat("musicVol", out float db); 转回 0-1。</li><li>【静音】SetFloat("musicVol", -80f)（接近 -80 = 无声）；或切换快照。</li><li>【淡入淡出】用 Mixer 的 TransitionTo（快照过渡）或协程渐变 SetFloat 值。</li><li>【快照切换】mixer.FindSnapshot("Normal"); snap.TransitionTo(0.2f);</li><li>【设置面板】把音乐/音效音量 Slider 接到对应 SetMusicVolume/SetSFXVolume。</li><li>【完成】你的游戏有了专业音量系统。</li><li>【注意】-80dB 约等于无声，但不会完全静音，完全静音用 Mute。</li><li>【推荐】所有 AudioSource 都路由到 Mixer 组，别裸播。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>混音器三件套：建组 → Output 路由 → 暴露推子给代码。音量面板两小时搞定。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>代码 SetFloat 没效果？<br><b>原因：</b>推子没暴露（Exposed）<br><b>解决：</b>在 Mixer 里把对应推子设为 Exposed，并确认名字一致。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>建 Music/SFX 两组并路由声音</li><li>暴露音量推子给代码</li><li>实现音乐/音效独立音量控制</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>AudioMixer 已掌握。下一课做完整音量控制面板。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-175/index.html"><span class="dir">← 上一课</span><span class="t">3D 空间音频与衰减</span></a><a class="nav-item next" href="../lesson-177/index.html"><span class="dir">下一课 →</span><span class="t">音乐播放器与音量控制面板</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

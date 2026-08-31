@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 63 课：类 Class 与对象 · Unity 星辰学院</title>
+<meta name="description" content="类 Class 与对象 · Unity 星辰学院第 63 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-063">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 63 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 63 · C# 编程基础</span>
+    <h1>类 Class 与对象</h1>
+    <p class="sub">类与对象已掌握。下一课学构造函数。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 63 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:21.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">63 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">类与对象的关系</a>
+<a href="#sec-1">定义一个类并使用</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解类的概念</li><li>掌握创建对象 new</li><li>理解字段与方法组合</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>C# 是面向对象语言。类是“图纸”，对象是“按图纸造出的实物”。Unity 里的每个组件其实都是类。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>类与对象的关系</h2>
+<p>“图纸”与“实物”。</p>
+<ol class="steps"><li>【类 Class】：定义一种事物的“模板/图纸”，描述它有什么数据（字段）和能做什么（方法）。</li><li>【对象 Object/实例】：根据类“new 出来”的具体实体，有自己独立的数据。</li><li>例：定义一个 Player 类（有名字、血量字段，有攻击方法）；new 出两个玩家对象，各有各的血量。</li><li>类定义语法：public class 类名 { 字段; 方法; }</li><li>创建对象：类名 变量名 = new 类名();</li><li>访问对象成员：对象名.字段名 / 对象名.方法名()。</li><li>Unity 脚本类继承 MonoBehaviour，但普通的数据类可以不继承（用来存数据、写逻辑）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>一句话：类 = 图纸，对象 = 用图纸造出的实物，可造无数个。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>定义一个类并使用</h2>
+<p>动手造一个“玩家”类。</p>
+<ol class="steps"><li>在 Project/Scripts 里创建 C# 脚本，命名为 PlayerData（注意文件名=类名）。</li><li>把内容改成（不继承 MonoBehaviour，作为普通数据类）：</li><li>public class PlayerData { public string name; public int hp = 100; public void SayHello() { UnityEngine.Debug.Log(name + "：你好！"); } }</li><li>保存，等待编译。</li><li>再创建脚本 PlayerTest（继承 MonoBehaviour）挂到空对象上，在 Start 里写：</li><li>PlayerData p1 = new PlayerData(); p1.name = "小明"; p1.hp = 80;</li><li>PlayerData p2 = new PlayerData(); p2.name = "小红"; p2.hp = 120;</li><li>p1.SayHello(); p2.SayHello(); Debug.Log(p1.hp);</li><li>播放：两个玩家各自输出自己的名字。</li><li>体会：同一张图纸（类）造出两个独立对象。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>不继承 MonoBehaviour 的类不能挂到对象上，但可以作为“数据容器”在脚本里使用，这是游戏开发常用手法。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>创建脚本后没有挂载选项？<br><b>原因：</b>脚本类不继承 MonoBehaviour<br><b>解决：</b>普通数据类本身不能挂；让它继承 MonoBehaviour 或作为字段在别的脚本里 new 使用。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>定义一个 Enemy 类（字段：名字、血量；方法：受伤）</li><li>创建两个敌人对象，各自设定血量</li><li>调用方法让它们分别报出自己的血量</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>类与对象已掌握。下一课学构造函数。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-062/index.html"><span class="dir">← 上一课</span><span class="t">方法参数与返回值</span></a><a class="nav-item next" href="../lesson-064/index.html"><span class="dir">下一课 →</span><span class="t">构造函数 Constructor</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

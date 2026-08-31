@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unity 星辰学院 · 零基础到精通 300 课全攻略</title>
+<meta name="description" content="Unity 星辰学院：从下载安装到项目实战，300 节超详细零基础 Unity 学习课程，每一步都有详细图文步骤，闭着眼都能学会。">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="assets/css/theme.css">
+<style>
+/* ===== 主站专属样式 ===== */
+/* 主站内容容器（星空画布之上） */
+.home-wrap{position:relative;z-index:1}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;padding:120px 6% 60px;position:relative;overflow:hidden;
+}
+.hero-kicker{
+  font-size:13px;letter-spacing:6px;color:var(--cyan);text-transform:uppercase;
+  border:1px solid rgba(34,211,238,.4);padding:7px 22px;border-radius:999px;
+  background:rgba(34,211,238,.06);animation:fadeUp 1s .1s both;
+}
+.hero h1{
+  font-size:clamp(40px,8vw,88px);line-height:1.08;margin:26px 0 8px;
+  animation:fadeUp 1s .25s both;font-weight:900;
+}
+.hero .type-line{
+  font-size:clamp(16px,2.6vw,24px);color:var(--text-2);min-height:1.8em;margin:10px 0 30px;
+  animation:fadeUp 1s .4s both;
+}
+.hero .type-line .cursor{color:var(--cyan);animation:blink 1s step-end infinite}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp 1s .55s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
+
+/* 行星轨道系统 */
+.solar{
+  position:absolute;inset:0;margin:auto;width:min(760px,90vw);height:min(760px,90vw);
+  pointer-events:none;
+}
+.solar .orbit{position:absolute;border:1px solid rgba(120,170,255,.14);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.solar .o1{width:24%;height:24%}
+.solar .o2{width:42%;height:42%}
+.solar .o3{width:62%;height:62%}
+.solar .o4{width:84%;height:84%}
+.solar .core{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:56px;height:56px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#9be8ff,#22d3ee 55%,#0e5f7a);
+  box-shadow:0 0 60px rgba(34,211,238,.75),0 0 120px rgba(34,211,238,.35);
+  animation:pulseCore 4s ease-in-out infinite;
+}
+@keyframes pulseCore{0%,100%{box-shadow:0 0 50px rgba(34,211,238,.7),0 0 110px rgba(34,211,238,.3)}50%{box-shadow:0 0 80px rgba(34,211,238,.95),0 0 150px rgba(34,211,238,.5)}}
+.solar .sat{
+  position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#60a5fa 60%,#1d3a8a);
+  box-shadow:0 0 12px rgba(96,165,250,.8);
+}
+.solar .s1{width:14px;height:14px;top:-7px;left:calc(50% - 7px)}
+.solar .s2{width:10px;height:10px;top:-5px;left:calc(50% - 5px)}
+.solar .s3{width:12px;height:12px;top:-6px;left:calc(50% - 6px)}
+.solar .s4{width:9px;height:9px;top:-4.5px;left:calc(50% - 4.5px)}
+.spin{animation:spin 22s linear infinite}
+.spin2{animation:spin 36s linear infinite reverse}
+.spin3{animation:spin 48s linear infinite}
+.spin4{animation:spin 60s linear infinite reverse}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* 滚动提示 */
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  color:var(--text-3);font-size:13px;letter-spacing:3px;animation:floatY 2s ease-in-out infinite;
+}
+@keyframes floatY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+
+/* ---------- 数据统计 ---------- */
+.stats{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:54px auto 0;max-width:1000px}
+.stat{
+  flex:1;min-width:150px;padding:22px 12px;text-align:center;
+  background:linear-gradient(160deg,var(--glass),var(--glass-2));
+  border:1px solid var(--line);border-radius:var(--radius);
+  backdrop-filter:blur(12px);
+}
+.stat .num{font-size:clamp(30px,4vw,44px);font-weight:900;color:var(--cyan);font-family:var(--font-mono)}
+.stat .lab{font-size:13px;color:var(--text-3);margin-top:4px;letter-spacing:2px}
+
+/* ---------- 课程表：搜索 + 筛选 ---------- */
+.course-toolbar{
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin-bottom:34px;
+}
+.search-box{position:relative;flex:1;min-width:260px;max-width:520px}
+.search-box input{
+  width:100%;padding:14px 20px 14px 46px;border-radius:999px;color:var(--text-1);
+  background:rgba(10,18,48,.7);border:1px solid var(--line);outline:none;font-size:15px;
+  transition:.3s;backdrop-filter:blur(10px);
+}
+.search-box input:focus{border-color:var(--cyan);box-shadow:0 0 22px rgba(34,211,238,.25)}
+.search-box .ic{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:17px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{
+  padding:8px 16px;border-radius:999px;cursor:pointer;font-size:13px;font-weight:600;
+  color:var(--text-2);background:rgba(120,170,255,.06);border:1px solid var(--line);transition:.25s;
+}
+.chip:hover{color:#fff;border-color:var(--line-glow)}
+.chip.active{color:#03121f;background:linear-gradient(135deg,#22d3ee,#60a5fa);border:none;box-shadow:var(--glow-cyan)}
+
+/* 课程卡片网格 */
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:18px}
+.lesson-card{
+  padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:8px;
+}
+.lesson-card .no{font-family:var(--font-mono);font-size:12px;color:var(--text-3);letter-spacing:1px}
+.lesson-card .t{font-weight:700;font-size:15.5px;color:var(--text-1);line-height:1.5}
+.lesson-card .ch{font-size:12px;color:var(--text-3)}
+.lesson-card.done .t{color:var(--green)}
+.lesson-card.done::after{
+  content:"✓ 已完成";position:absolute;top:12px;right:14px;font-size:11px;color:var(--green);
+  border:1px solid rgba(52,211,153,.5);border-radius:999px;padding:2px 8px;background:rgba(52,211,153,.08);
+}
+.lesson-card .bar{height:4px;border-radius:99px;background:rgba(120,170,255,.15);overflow:hidden}
+.lesson-card .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#a78bfa);transition:.4s}
+.lesson-card.done .bar i{width:100%}
+
+/* ---------- 章节横向滑动 ---------- */
+.chapter-strip{
+  display:flex;gap:18px;overflow-x:auto;padding:14px 6px 26px;scroll-snap-type:x mandatory;
+  scrollbar-width:thin;
+}
+.chapter-strip::-webkit-scrollbar{height:8px}
+.chapter-card{
+  flex:0 0 auto;width:280px;scroll-snap-align:start;padding:24px;cursor:pointer;
+}
+.chapter-card .ch-idx{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:2px;color:var(--purple);margin-bottom:10px;
+}
+.chapter-card h3{font-size:18px;margin-bottom:8px}
+.chapter-card p{font-size:13px;color:var(--text-3);margin-bottom:16px;min-height:40px}
+.chapter-card .range{font-size:12px;color:var(--cyan);font-family:var(--font-mono)}
+.chapter-card .prog{margin-top:14px}
+.chapter-card .prog .row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-3);margin-bottom:6px}
+
+/* ---------- 特性卡 ---------- */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.feat-card{padding:28px 24px}
+.feat-card .f-ic{
+  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;margin-bottom:16px;
+  background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(167,139,250,.18));
+  border:1px solid var(--line-glow);color:var(--cyan);
+}
+.feat-card h3{font-size:17px;margin-bottom:8px}
+.feat-card p{font-size:14px;color:var(--text-3)}
+
+/* ---------- 快速开始 ---------- */
+.start-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:st}
+.start-step{padding:24px;text-align:center}
+.start-step .n{
+  width:44px;height:44px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#22d3ee,#a78bfa);color:#03121f;font-weight:900;font-size:18px;
+  box-shadow:var(--glow-cyan);
+}
+.start-step h4{font-size:15px;margin-bottom:6px}
+.start-step p{font-size:13px;color:var(--text-3)}
+
+/* ---------- 进度面板 ---------- */
+.progress-panel{
+  display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center;
+  padding:26px 30px;margin-top:30px;
+}
+.progress-panel .info{text-align:left;min-width:200px}
+.progress-panel .info .big{font-size:34px;font-weight:900;color:var(--cyan);font-family:var(--font-mono)}
+.progress-panel .info .small{font-size:13px;color:var(--text-3)}
+.progress-panel .progress-track{flex:1;min-width:220px;height:14px}
+.ring-wrap{position:relative;width:120px;height:120px}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-wrap .pct{
+  position:absolute;inset:0;display:grid;place-items:center;font-size:24px;font-weight:900;color:#fff;
+  font-family:var(--font-mono);
+}
+
+/* 空结果提示 */
+.empty-tip{text-align:center;color:var(--text-3);padding:60px 0;font-size:15px;display:none}
+</style>
+</head>
+<body data-lesson-key="home">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<!-- ============ 导航栏 ============ -->
+<nav class="navbar">
+  <div class="brand">
+    <div class="logo">U</div>
+    <span>Unity <span style="color:var(--cyan)">星辰学院</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#hero" class="active">首页</a>
+    <a href="#course">课程表</a>
+    <a href="#chapters">章节导览</a>
+    <a href="#features">特色</a>
+    <a href="#start">快速开始</a>
+    <a href="lessons/lesson-001/index.html" class="btn btn-cyan btn-sm" style="margin-left:8px">开始学习 →</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="home-wrap">
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <!-- 行星轨道背景 -->
+    <div class="solar" aria-hidden="true">
+      <div class="orbit o1 spin"><div class="sat s1"></div></div>
+      <div class="orbit o2 spin2"><div class="sat s2"></div></div>
+      <div class="orbit o3 spin3"><div class="sat s3"></div></div>
+      <div class="orbit o4 spin4"><div class="sat s4"></div></div>
+      <div class="core"></div>
+    </div>
+
+    <div class="hero-kicker">UNITY 零基础 · 300 节全攻略</div>
+    <h1 class="neon-title">从零到游戏大师</h1>
+    <div class="type-line"><span id="type-text"></span><span class="cursor">▌</span></div>
+    <div class="hero-cta">
+      <a href="lessons/lesson-001/index.html" class="btn btn-cyan">🚀 从第 1 课开始</a>
+      <a href="#course" class="btn btn-ghost">📚 查看全部 300 课</a>
+      <a href="#chapters" class="btn btn-ghost">🗺️ 章节导览</a>
+    </div>
+
+    <!-- 数据统计 -->
+    <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="300">0</div><div class="lab">节精讲课程</div></div>
+      <div class="stat reveal d1"><div class="num" data-count="18">0</div><div class="lab">大章节体系</div></div>
+      <div class="stat reveal d2"><div class="num" data-count="100">0<span style="font-size:.6em">%</span></div><div class="lab">手把手跟做</div></div>
+      <div class="stat reveal d3"><div class="num" data-count="24">0<span style="font-size:.6em">h</span></div><div class="lab">实操代码示例</div></div>
+    </div>
+    <div class="scroll-hint">▼ 向下滑动探索</div>
+  </header>
+
+  <!-- ============ 进度面板 ============ -->
+  <section class="section" id="progress">
+    <div class="glass-card progress-panel reveal">
+      <div class="info">
+        <div class="big" id="done-count">0</div>
+        <div class="small">节课已完成</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="global-bar" style="width:0%"></div></div>
+      <div class="ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(120,170,255,.15)" stroke-width="9"/>
+          <circle id="ring" cx="60" cy="60" r="52" fill="none" stroke="url(#g1)" stroke-width="9" stroke-linecap="round"
+            stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="pct" id="ring-pct">0%</div>
+      </div>
+      <a href="lessons/lesson-001/index.html" class="btn btn-cyan">继续学习 →</a>
+    </div>
+  </section>
+
+  <!-- ============ 课程表 ============ -->
+  <section class="section" id="course">
+    <div class="section-head reveal">
+      <span class="section-tag">Course Table</span>
+      <h2>300 节课程总表</h2>
+      <p>输入关键词搜索，点击任意卡片即可进入对应课程。系统会记住你的学习进度。</p>
+    </div>
+
+    <div class="course-toolbar reveal d1">
+      <div class="search-box">
+        <span class="ic">⌕</span>
+        <input id="search" type="text" placeholder="搜索课程，如：安装 / 刚体 / 粒子 / 动画 / UI / 发布……">
+      </div>
+    </div>
+    <div class="chip-row reveal d2" id="chip-row"></div>
+
+    <div id="lesson-grid" class="lesson-grid mt-2"></div>
+    <div class="empty-tip" id="empty-tip">没有找到匹配的课程，换个关键词试试～</div>
+  </section>
+
+  <!-- ============ 章节导览（横向滑动） ============ -->
+  <section class="section" id="chapters">
+    <div class="section-head reveal">
+      <span class="section-tag">Chapters</span>
+      <h2>章节星球导览</h2>
+      <p>← 左右滑动查看 18 大章节 → 每个章节都是一颗学习星球</p>
+    </div>
+    <div class="chapter-strip reveal d1" id="chapter-strip"></div>
+  </section>
+
+  <!-- ============ 特色 ============ -->
+  <section class="section" id="features">
+    <div class="section-head reveal">
+      <span class="section-tag">Features</span>
+      <h2>为什么选择星辰学院</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="glass-card feat-card reveal">
+        <div class="f-ic">📖</div>
+        <h3>闭眼也能跟做</h3>
+        <p>每一步都拆到"点哪里、写什么、为什么"，配合完整代码与截图级说明，照着做不会迷路。</p>
+      </div>
+      <div class="glass-card feat-card reveal d1">
+        <div class="f-ic">⚡</div>
+        <h3>零基础友好</h3>
+        <p>从下载安装 Unity 开始教起，不懂英文、没写过代码都完全没问题，第 1 课就能上手。</p>
+      </div>
+      <div class="glass-card feat-card reveal d2">
+        <div class="f-ic">🧩</div>
+        <h3>系统化体系</h3>
+        <p>18 大章节环环相扣：环境→界面→编程→物理→动画→UI→特效→2D→3D→AI→优化→发布→实战。</p>
+      </div>
+      <div class="glass-card feat-card reveal d3">
+        <div class="f-ic">✅</div>
+        <h3>进度自动记录</h3>
+        <p>学完一课点"完成"，主站实时统计你的总进度，环形进度条见证你的成长。</p>
+      </div>
+      <div class="glass-card feat-card reveal">
+        <div class="f-ic">🔧</div>
+        <h3>常见坑全收录</h3>
+        <p>每节课都有"常见错误"专区，把新手最容易翻车的报错和解决方式提前告诉你。</p>
+      </div>
+      <div class="glass-card feat-card reveal d1">
+        <div class="f-ic">🎮</div>
+        <h3>实战驱动</h3>
+        <p>最后 5 课带你完整做出跑酷、射击、塔防、平台跳跃四个小游戏，学完即可独立做作品。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 快速开始 ============ -->
+  <section class="section" id="start">
+    <div class="section-head reveal">
+      <span class="section-tag">Quick Start</span>
+      <h2>三步开启你的游戏之旅</h2>
+    </div>
+    <div class="start-steps">
+      <div class="glass-card start-step reveal">
+        <div class="n">1</div>
+        <h4>下载安装 Unity</h4>
+        <p>进入<a href="lessons/lesson-001/index.html">第 1 课</a>，跟着教程注册账号、下载 Unity Hub 和引擎，全程手把手。</p>
+      </div>
+      <div class="glass-card start-step reveal d1">
+        <div class="n">2</div>
+        <h4>按顺序学基础</h4>
+        <p>前 80 课覆盖界面操作与 C# 编程基础，循序渐进，每课 10 分钟就能掌握一个知识点。</p>
+      </div>
+      <div class="glass-card start-step reveal d2">
+        <div class="n">3</div>
+        <h4>动手做小游戏</h4>
+        <p>学到第 296 课进入实战篇，跟着做完整小游戏，把你的作品分享给朋友吧！</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="brand" style="justify-content:center">
+    <div class="logo">U</div>
+    <span>Unity 星辰学院</span>
+  </div>
+  <div class="f-links">
+    <a href="#hero">首页</a>
+    <a href="#course">课程表</a>
+    <a href="#chapters">章节导览</a>
+    <a href="lessons/lesson-001/index.html">第 1 课</a>
+    <a href="lessons/lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略 · 让每个人都能做出自己的游戏</p>
+  <p style="margin-top:6px">本站完全免费 · 建议使用 Chrome / Edge 浏览器获得最佳体验</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="assets/js/lessons-data.js"></script>
+<script src="assets/js/stars.js"></script>
+<script src="assets/js/common.js"></script>
+<script>
+/* ============ 主站动态逻辑 ============ */
+(function(){
+  "use strict";
+
+  // ---------- 打字机 ----------
+  var phrases = [
+    "300 节超详细课程 · 从下载安装到做出自己的游戏",
+    "每一课都拆解到「点哪里 / 写什么 / 为什么」",
+    "C# 编程 · 物理 · 动画 · UI · 特效 · AI · 发布 全覆盖",
+    "零基础也能闭着眼跟着做，学会为止",
+    "开始你的第一段游戏开发之旅吧"
+  ];
+  var pi=0, ci=0, deleting=false, tEl=document.getElementById("type-text");
+  (function type(){
+    var cur=phrases[pi];
+    tEl.textContent = deleting ? cur.slice(0,ci--) : cur.slice(0,++ci);
+    var delay = deleting ? 40 : 70;
+    if(!deleting && ci===cur.length){ delay=2200; deleting=true; }
+    else if(deleting && ci===0){ deleting=false; pi=(pi+1)%phrases.length; delay=300; }
+    setTimeout(type, delay);
+  })();
+
+  // ---------- 课程数据 ----------
+  var lessons = window.UNITY_LESSONS || [];
+  var chapters = window.UNITY_CHAPTERS || [];
+
+  // ---------- 渲染章节芯片 ----------
+  var chipRow = document.getElementById("chip-row");
+  var allChip = document.createElement("button");
+  allChip.className="chip active"; allChip.textContent="全部 (300)";
+  allChip.dataset.ch="all"; chipRow.appendChild(allChip);
+  chapters.forEach(function(c,i){
+    var b=document.createElement("button");
+    b.className="chip"; b.textContent=c.name+" ("+c.count+")"; b.dataset.ch=String(i);
+    chipRow.appendChild(b);
+  });
+  var activeCh="all", keyword="";
+
+  // ---------- 渲染课程卡片 ----------
+  function renderGrid(){
+    var grid=document.getElementById("lesson-grid");
+    var list = lessons.filter(function(l){
+      var okCh = activeCh==="all" || l.chapter===activeCh;
+      var kw = keyword.toLowerCase();
+      var okKw = !kw || (l.title.toLowerCase().indexOf(kw)>=0) || (l.keywords||"").toLowerCase().indexOf(kw)>=0 || (l.summary||"").toLowerCase().indexOf(kw)>=0;
+      return okCh && okKw;
+    });
+    grid.innerHTML="";
+    document.getElementById("empty-tip").style.display = list.length?"none":"block";
+    list.forEach(function(l){
+      var done = localStorage.getItem("unity_done_"+l.key)==="1";
+      var card=document.createElement("a");
+      card.className="glass-card lesson-card"+(done?" done":"");
+      card.href=l.url;
+      card.style.animationDelay=Math.random()*0.2+"s";
+      card.innerHTML=
+        '<div class="no">LESSON '+l.num+' · '+l.chapterName+'</div>'+
+        '<div class="t">'+l.title+'</div>'+
+        '<div class="ch">'+(l.summary||"")+'</div>'+
+        '<div class="bar"><i></i></div>';
+      grid.appendChild(card);
+    });
+  }
+
+  // ---------- 搜索与筛选 ----------
+  var searchEl=document.getElementById("search");
+  searchEl.addEventListener("input",function(){ keyword=searchEl.value.trim(); renderGrid(); });
+  chipRow.addEventListener("click",function(e){
+    if(e.target.classList.contains("chip")){
+      chipRow.querySelectorAll(".chip").forEach(function(c){c.classList.remove("active")});
+      e.target.classList.add("active");
+      activeCh=e.target.dataset.ch;
+      renderGrid();
+    }
+  });
+
+  // ---------- 章节横向卡 ----------
+  var strip=document.getElementById("chapter-strip");
+  chapters.forEach(function(c,i){
+    var done=0;
+    c.list.forEach(function(k){ if(localStorage.getItem("unity_done_"+k)==="1")done++; });
+    var pct=Math.round(done/c.list.length*100);
+    var card=document.createElement("div");
+    card.className="glass-card chapter-card";
+    card.innerHTML=
+      '<div class="ch-idx">CHAPTER '+String(i+1).padStart(2,"0")+'</div>'+
+      '<h3>'+c.name+'</h3>'+
+      '<p>'+c.desc+'</p>'+
+      '<div class="range">第 '+c.start+' - '+c.end+' 课</div>'+
+      '<div class="prog"><div class="row"><span>章节进度</span><span>'+pct+'%</span></div>'+
+      '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div></div>';
+    card.addEventListener("click",function(){
+      var target=document.getElementById("lesson-grid");
+      chipRow.querySelectorAll(".chip").forEach(function(x){x.classList.remove("active")});
+      chipRow.querySelector('[data-ch="'+i+'"]').classList.add("active");
+      activeCh=String(i); keyword=""; searchEl.value="";
+      renderGrid();
+      document.getElementById("course").scrollIntoView({behavior:"smooth"});
+    });
+    strip.appendChild(card);
+  });
+
+  // ---------- 全局进度 ----------
+  function updateProgress(){
+    var count=0;
+    lessons.forEach(function(l){ if(localStorage.getItem("unity_done_"+l.key)==="1")count++; });
+    var pct=lessons.length?count/lessons.length*100:0;
+    var pctShow=(Math.round(pct*10)/10);
+    document.getElementById("done-count").textContent=count;
+    document.getElementById("global-bar").style.width=pct+"%";
+    var ring=document.getElementById("ring");
+    var CIRC=2*Math.PI*52;
+    ring.style.strokeDashoffset=CIRC*(1-pct/100);
+    document.getElementById("ring-pct").textContent=pctShow+"%";
+  }
+  updateProgress();
+  window.addEventListener("unity-progress-change",function(){ updateProgress(); });
+  window.addEventListener("storage",function(){ updateProgress(); });
+
+  // 首次进入自动渲染
+  renderGrid();
+})();
+</script>
+</body>
+</html>

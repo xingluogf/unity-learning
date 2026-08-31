@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 87 课：命名与代码规范实战 · Unity 星辰学院</title>
+<meta name="description" content="命名与代码规范实战 · Unity 星辰学院第 87 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-087">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 6 章 · 游戏对象与组件交互</a><span class="sep">/</span>
+    <span>第 87 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 87 · 游戏对象与组件交互</span>
+    <h1>命名与代码规范实战</h1>
+    <p class="sub">代码规范已落地。下一课学 MonoBehaviour 消息 OnEnable/OnDisable 的妙用。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 6 章 · 游戏对象与组件交互</span><span class="meta-item">📍 第 87 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:29.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">87 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">命名规范落地</a>
+<a href="#sec-1">注释与职责单一</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握命名与注释规范</li><li>理解职责单一原则</li><li>写出可维护的代码</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>代码是写给“未来的自己”看的。本课把规范真正用起来，让你的脚本专业、易维护。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>命名规范落地</h2>
+<p>一眼看懂每个名字。</p>
+<ol class="steps"><li>【类/方法】大驼峰：PlayerController、StartMove、TakeDamage。</li><li>【字段/变量】小驼峰：playerSpeed、maxHp、isDead。</li><li>【常量】全大写：MAX_HP、GRAVITY。</li><li>【私有字段前缀】_ 开头（如 _hp）区分公有：private int _hp;（社区常用下划线风格）。</li><li>【布尔变量】is/ has/ can 前缀表状态：isDead、hasKey、canJump。</li><li>【禁止】不缩写到看不懂（btn 可，bt 不行）；不用拼音；不同语言混用。</li><li>【Unity 字段】public 的序列化字段名清晰表达用途：moveSpeed、damagePerHit。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>好名字胜过注释：moveSpeed 比 spd 或“速度”更好。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>注释与职责单一</h2>
+<p>让代码“自解释”+“小而专”。</p>
+<ol class="steps"><li>【注释规范】说明“为什么”而非“是什么”：// 用 Lerp 平滑跟随，避免瞬移</li><li>【块注释】类顶部写类的作用：/// &lt;summary&gt; 控制玩家移动 &lt;/summary&gt;</li><li>【职责单一】一个脚本只做一件事：PlayerMove 管移动、PlayerHealth 管血量、PlayerAttack 管攻击，别大杂烩。</li><li>【方法小而精】一个方法只做一件事；过长拆分成子方法。</li><li>【去魔法数字】用常量/字段代替写死的数字：const int MAX_HP = 100。</li><li>【及时重构】代码重复出现两次以上就提取成方法/类。</li><li>【删除无用代码】注释掉的死代码直接删，Git 会记住历史。</li><li>【规范收尾】写完跑一遍确认无警告；把调试 Log 清理或保留有用的。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>专业标准：脚本“小而专”、命名“自解释”、注释“说原因”、重复“必提取”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>代码能跑但以后看不懂？<br><b>原因：</b>缺规范与注释<br><b>解决：</b>从下一课起，所有新脚本都按本课规范书写，逐步养成习惯。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把之前写的脚本按本课规范重命名与整理</li><li>给类和方法补充 XML 注释</li><li>把一个大方法拆成两个职责单一的方法</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>代码规范已落地。下一课学 MonoBehaviour 消息 OnEnable/OnDisable 的妙用。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-086/index.html"><span class="dir">← 上一课</span><span class="t">单例模式 Singleton</span></a><a class="nav-item next" href="../lesson-088/index.html"><span class="dir">下一课 →</span><span class="t">MonoBehaviour 消息 OnEnable/OnDisable</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

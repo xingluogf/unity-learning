@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 178 课：综合练习：完整音频系统 · Unity 星辰学院</title>
+<meta name="description" content="综合练习：完整音频系统 · Unity 星辰学院第 178 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-178">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 178 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 178 · 音频系统</span>
+    <h1>综合练习：完整音频系统</h1>
+    <p class="sub">完整音频系统完成！音频章毕业。下一章进入视觉特效：粒子系统。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 25 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 178 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:59.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">178 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">全局音频管理器</a>
+<a href="#sec-1">整合混音器与音量</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>整合音频全部能力</li><li>搭建全局音频管理器</li><li>体验音频系统开发</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>把音频章所有能力整合：一个“永不消失”的音频管理器，管 BGM、管 SFX、管音量。音频章毕业项目！</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>全局音频管理器</h2>
+<p>一站式声音中心。</p>
+<ol class="steps"><li>创建空对象 AudioManager，挂单例脚本（第 86 课 + 172 课 DontDestroyOnLoad）：</li><li>public class AudioManager : MonoBehaviour {</li><li>public static AudioManager Instance;</li><li>public AudioSource bgmSource;</li><li>public AudioSource sfxSource;</li><li>void Awake() {</li><li>if (Instance != null) { Destroy(gameObject); return; }</li><li>Instance = this;</li><li>DontDestroyOnLoad(gameObject);</li><li>}</li><li>public void PlayBGM(AudioClip clip) { bgmSource.clip = clip; bgmSource.Play(); }</li><li>public void PlaySFX(AudioClip clip) { sfxSource.PlayOneShot(clip); }</li><li>public void PlaySFX(AudioClip clip, float volume) { sfxSource.PlayOneShot(clip, volume); }</li><li>public void SetBGMVolume(float v) { bgmSource.volume = v; }</li><li>}</li><li>【两个 AudioSource】bgmSource（Loop、低优先）、sfxSource（一次性、高优先）。</li><li>【PlayOneShot】同一个 Source 可叠加多个音效（不打断），适合密集音效。</li><li>【调用】AudioManager.Instance.PlaySFX(hitSound); 任何脚本都能用。</li><li>【注意】跨场景时引用要用单例，别存当前场景的引用。</li><li>【完整】BGM/SFX 全局可调、跨场景不丢。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>AudioManager = 单例 + DontDestroyOnLoad + 双 AudioSource（BGM+SFX）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>整合混音器与音量</h2>
+<p>接入 Mixer 与设置。</p>
+<ol class="steps"><li>给 AudioManager 的两个 Source 的 Output 分别路由到 Music 组与 SFX 组（第 176 课）。</li><li>接入设置面板：音量滑块 → mixer.SetFloat（第 177 课）。</li><li>【音效绑定】给游戏各动作加音效：</li><li>跳跃 → PlaySFX(jumpSound)；金币 → PlaySFX(coinSound)；攻击 → PlaySFX(attackSound)。</li><li>【3D 音效】角色脚步/环境音用 3D Source（第 175 课）。</li><li>【音乐切换】进入新场景时（或场景事件）PlayBGM(新音乐)。</li><li>【淡入淡出】切 BGM 时协程渐变音量。</li><li>【随机】SFX 用随机 Pitch（第 173 课）。</li><li>【完整测试】BGM 循环、切场景不断、SFX 各动作发声、音量面板生效、静音生效。</li><li>【优化】检查 Console 无 AudioListener 重复、无缺失引用。</li><li>【收尾】保存场景，音频系统毕业！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>一套可复用的 AudioManager 让未来所有游戏“开箱即响”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>切场景后 AudioManager 重复？<br><b>原因：</b>单例检查没写对<br><b>解决：</b>Awake 里 if(Instance!=null) Destroy(gameObject) return; 再赋值 Instance。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>搭建全局 AudioManager</li><li>接入混音器与音量面板</li><li>给跳跃/金币/攻击加音效并测试</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>完整音频系统完成！音频章毕业。下一章进入视觉特效：粒子系统。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-177/index.html"><span class="dir">← 上一课</span><span class="t">音乐播放器与音量控制面板</span></a><a class="nav-item next" href="../lesson-179/index.html"><span class="dir">下一课 →</span><span class="t">音频性能与压缩</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

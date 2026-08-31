@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 20 课：3D 场景导航漫游实战 · Unity 星辰学院</title>
+<meta name="description" content="3D 场景导航漫游实战 · Unity 星辰学院第 20 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-020">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 2 章 · Unity 界面初探</a><span class="sep">/</span>
+    <span>第 20 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 20 · Unity 界面初探</span>
+    <h1>3D 场景导航漫游实战</h1>
+    <p class="sub">3D 场景漫游已炉火纯青！界面篇结束，下一章进入场景与基础对象，真正开始“搭建世界”。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 2 章 · Unity 界面初探</span><span class="meta-item">📍 第 20 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:6.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">20 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">自由漫游练习</a>
+<a href="#sec-1">飞行模式</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>熟练在 3D 空间自由漫游</li><li>掌握飞行模式 WASD</li><li>建立空间方向感</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>本课是场景操作的“驾照考试”：综合运用前面所有导航技巧，在 3D 空间里自由穿梭。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>自由漫游练习</h2>
+<p>先搭一个“练习场”。</p>
+<ol class="steps"><li>在场景里右键创建 5-8 个不同物体（Cube、Sphere、Cylinder、Capsule 等），并分散摆放到不同位置（用 W 工具拖开）。</li><li>【旋转漫游】：按住鼠标右键拖动，环绕场景转一圈，练习瞄准目标物。</li><li>【平移漫游】：按住鼠标中键拖动，左右上下平移。</li><li>【缩放】：滚动滚轮靠近/远离物体，体验“拉近看细节、拉远看全貌”。</li><li>【聚焦】：逐一点击 Hierarchy 里的物体并按 F，快速在物体间“传送”。</li><li>把视角拉到俯视（点击右上角 Gizmo 的 Y 轴箭头），从上方俯瞰整个练习场。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>若画面被物体挡住，按住右键可以“绕开”；中键平移可走出死角。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>飞行模式</h2>
+<p>第一人称式自由飞行，最爽的导航方式。</p>
+<ol class="steps"><li>在场景视图任意位置，【按住鼠标右键不放】。</li><li>此时视图进入“飞行模式”：按键盘【W】前进、【S】后退、【A】左移、【D】右移。</li><li>按住【Shift】加速飞行；按【Q/E】可上下升降（部分版本为鼠标滚轮）。</li><li>像玩第一人称游戏一样在场景里“飞”，穿过物体内部观察结构。</li><li>松开右键退出飞行模式。</li><li>练习：从练习场一端飞到另一端，绕一个物体飞一圈再飞回来。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>飞行模式 + F 聚焦 = 3D 场景最强导航组合，做复杂场景必备。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>飞行时画面卡住不动？<br><b>原因：</b>焦点不在场景视图<br><b>解决：</b>点击场景视图内部，确保它是当前焦点，再按住右键飞行。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>搭建一个 8 物体的练习场</li><li>用飞行模式完成“绕场一周”</li><li>用俯视视角检查所有物体是否都在视野内</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 场景漫游已炉火纯青！界面篇结束，下一章进入场景与基础对象，真正开始“搭建世界”。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-019/index.html"><span class="dir">← 上一课</span><span class="t">窗口布局与自定义布局</span></a><a class="nav-item next" href="../lesson-021/index.html"><span class="dir">下一课 →</span><span class="t">什么是 GameObject 游戏对象</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

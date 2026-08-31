@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 194 课：光效与光晕（特效整合） · Unity 星辰学院</title>
+<meta name="description" content="光效与光晕（特效整合） · Unity 星辰学院第 194 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-194">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 12 章 · 特效与粒子</a><span class="sep">/</span>
+    <span>第 194 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 194 · 特效与粒子</span>
+    <h1>光效与光晕（特效整合）</h1>
+    <p class="sub">光效制作已掌握。下一课学后期处理。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 12 章 · 特效与粒子</span><span class="meta-item">📍 第 194 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:64.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">194 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">火焰 + 光晕组合</a>
+<a href="#sec-1">激光与发光特效</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>制作火焰光晕</li><li>制作发光特效</li><li>组合灯光与粒子</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“火把既发光又冒烟”“魔法球发光”——粒子 + 灯光的黄金组合。本课做发光特效。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>火焰 + 光晕组合</h2>
+<p>火光要点亮周围。</p>
+<ol class="steps"><li>【火焰粒子】做一个火焰粒子（第 186-187 课），放在火把位置。</li><li>【加光】火焰位置加一个 Point Light：橙黄色、Range 5、Intensity 2。</li><li>【效果】火焰周围被照亮，明暗随火光闪烁（进阶：代码随机光强模拟闪烁）。</li><li>【光晕感】粒子 Start Color 用带半透明的亮黄白粒子做“内焰”，外层橙色。</li><li>【闪烁】给 Light Intensity 加随机：</li><li>IEnumerator Flicker() { while(true) { light.intensity = Random.Range(1.8f, 2.4f); yield return new WaitForSeconds(0.1f); } }</li><li>【完成】一个“会发光的火把”。</li><li>【适用】蜡烛、营火、霓虹、魔法阵。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>火光 = 粒子（看得见的火焰）+ 点光（照亮周围）+ 随机闪烁（活起来）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>激光与发光特效</h2>
+<p>科幻感光效。</p>
+<ol class="steps"><li>【激光束】用“拉伸的发光体”做激光：细长 Cube + Unlit 发光材质（不受光、自己亮，第 188 课）。</li><li>或粒子 Stretch（Render Mode 拉伸）拉成长条 + Emission 发光材质。</li><li>【发光材质】材质用 Unlit + Emission 亮色，或 Standard 开 Emission（第 189 课）。</li><li>【光晕 Sprite】用一张“径向渐变”发光贴图（PhotoShop 画个柔光圆）做光晕：Billboard 粒子或 UI 放光源处。</li><li>【屏幕空间光晕】Post Processing 的 Bloom（泛光，第 195 课）让亮的地方“发光”，光效之王。</li><li>【魔法球】球体 + 自发光材质 + 周围粒子环绕（Circle Shape + 轨道旋转）+ 点光。</li><li>【组合】把以上组合成一个“魔法传送门”特效：环状粒子 + 发光盘 + 点光 + Bloom。</li><li>【注意】发光物体通常用 Unlit/自发光，配合 Bloom 才有“光感”。</li><li>【性能】发光贴图 + Bloom 是主流方案，比实时灯光省。</li><li>【完成】你的场景有“科幻感”了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>发光三件套：Unlit/自发光材质 + 发光贴图 + Bloom 泛光。电影感光效的钥匙。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>发光物体不发光？<br><b>原因：</b>材质没开 Emission 或用了受光材质但没光<br><b>解决：</b>用 Unlit 材质或 Standard 开 Emission；亮度调高；配合 Bloom。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做会闪烁的火把光晕</li><li>做一根激光束</li><li>组合做一个魔法传送门</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>光效制作已掌握。下一课学后期处理。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-193/index.html"><span class="dir">← 上一课</span><span class="t">天空盒与环境光</span></a><a class="nav-item next" href="../lesson-195/index.html"><span class="dir">下一课 →</span><span class="t">后期处理 Post Processing</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

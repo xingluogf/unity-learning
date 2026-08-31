@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 265 课：脚本与 GC 优化 · Unity 星辰学院</title>
+<meta name="description" content="脚本与 GC 优化 · Unity 星辰学院第 265 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-265">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 15 章 · 寻路与导航</a><span class="sep">/</span>
+    <span>第 265 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 265 · 寻路与导航</span>
+    <h1>脚本与 GC 优化</h1>
+    <p class="sub">脚本与 GC 优化完成。下一课学资源与加载优化。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 15 章 · 寻路与导航</span><span class="meta-item">📍 第 265 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:88.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">265 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">缓存与查找优化</a>
+<a href="#sec-1">GC 优化与字符串</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握缓存技巧</li><li>避免每帧分配</li><li>优化字符串</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“GC 卡顿”是脚本元凶。本课学会写出“不产生垃圾”的代码。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>缓存与查找优化</h2>
+<p>别每帧“找”。</p>
+<ol class="steps"><li>【问题】GetComponent/Find/FindObjectOfType 每帧调用很慢。</li><li>【缓存】在 Awake/Start 缓存引用：</li><li>private Rigidbody rb;</li><li>void Awake() { rb = GetComponent&lt;Rigidbody&gt;(); }</li><li>【之后】直接用 rb，不再 GetComponent。</li><li>【Find 禁用】避免 FindGameObjectWithTag/Find（用引用/单例/序列化）。</li><li>【transform 缓存】transform 属性访问有开销，缓存：</li><li>Transform t; void Awake() { t = transform; }</li><li>【循环】for 比 foreach 快（foreach 有枚举器分配）。</li><li>【每帧循环】Update 里别放重复查找。</li><li>【注意】改对象结构后缓存会失效（重新获取）。</li><li>【测试】Profiler 对比缓存前后。</li><li>【完成】脚本“轻”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>缓存黄金律：Awake 拿一次引用，Update 直接复用。GetComponent 进 Start 不进 Update。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>GC 优化与字符串</h2>
+<p>消灭垃圾。</p>
+<ol class="steps"><li>【GC 原理】每帧分配（new）的对象最终要回收（GC），回收时卡顿。</li><li>【避免每帧分配】</li><li>每帧 new 数组/List/string = 垃圾。</li><li>复用：预分配 List/数组，Clear 后重用。</li><li>【字符串拼接】每帧 “分数：” + score 会产生新字符串：</li><li>用 StringBuilder（System.Text）：</li><li>StringBuilder sb = new StringBuilder(16);</li><li>sb.Clear(); sb.Append("分数：").Append(score); text.text = sb.ToString();</li><li>或缓存：“只在分数变化时更新文字”。</li><li>【闭包/委托】每帧 new 委托也是垃圾：缓存委托。</li><li>【协程】每帧启动协程有开销：常驻协程用 while(true) + yield。</li><li>【对象池】高频物对象池（第 198 课）。</li><li>【Profiler】Memory 模块看 GC Alloc 每帧分配量。</li><li>【目标】移动端每帧 GC Alloc &lt; 1KB 理想。</li><li>【注意】装箱（int 转 object）也分配：避免隐式装箱。</li><li>【完成】“零垃圾”代码！</li><li>【测试】Profiler 看 GC Alloc 下降。</li><li>【说明】减少分配 = 减少 GC 卡顿，这是脚本优化核心。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>GC 三不：不每帧 new、不每帧拼字符串、不每帧 GetComponent。做到就流畅。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>还是卡？<br><b>原因：</b>GC Alloc 仍高<br><b>解决：</b>用 Profiler Memory 定位分配源；重点查每帧 new/字符串/委托。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>缓存组件引用</li><li>用 StringBuilder 优化拼接</li><li>用 Profiler 验证 GC 下降</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>脚本与 GC 优化完成。下一课学资源与加载优化。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-264/index.html"><span class="dir">← 上一课</span><span class="t">物理优化</span></a><a class="nav-item next" href="../lesson-266/index.html"><span class="dir">下一课 →</span><span class="t">资源与加载优化</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

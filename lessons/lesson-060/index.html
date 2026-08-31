@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 60 课：字符串 String 常用操作 · Unity 星辰学院</title>
+<meta name="description" content="字符串 String 常用操作 · Unity 星辰学院第 60 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-060">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 60 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 60 · C# 编程基础</span>
+    <h1>字符串 String 常用操作</h1>
+    <p class="sub">字符串操作已掌握。下一课学习方法的定义与调用。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 60 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:20.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">60 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">拼接与比较</a>
+<a href="#sec-1">截取、替换、查找与格式化</a>
+<a href="#sec-2">Unity 实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握字符串拼接与比较</li><li>掌握截取与查找</li><li>掌握格式化输出</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>玩家名字、对话文本、日志信息都是字符串。本课把 String 最常用的操作一网打尽。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>拼接与比较</h2>
+<p>把文字组合、比较。</p>
+<ol class="steps"><li>【拼接】用 + ：string full = "你好" + "世界"; 得 "你好世界"。</li><li>数字自动转字符串：string msg = "分数：" + 100; 得 "分数：100"。</li><li>【频繁拼接用 StringBuilder】（性能更好）：using System.Text; StringBuilder sb = new StringBuilder(); sb.Append("a"); sb.Append("b");</li><li>【比较相等】：str1 == str2 返回 bool（比较内容）。</li><li>【忽略大小写比较】：str1.Equals(str2, System.StringComparison.OrdinalIgnoreCase)。</li><li>【是否包含】：str.Contains("世界") 返回 bool。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>循环里大量用 + 拼字符串会消耗性能，用 StringBuilder 代替（第 16 章优化讲）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>截取、替换、查找与格式化</h2>
+<p>文本加工四件套。</p>
+<ol class="steps"><li>【长度】：str.Length。</li><li>【截取】：str.Substring(1) 从下标 1 截到末尾；str.Substring(1, 3) 从 1 开始截 3 个字符。</li><li>【替换】：str.Replace("好", "棒") 把所有“好”换成“棒”。</li><li>【查找下标】：str.IndexOf("世界") 返回首次出现位置，找不到返回 -1。</li><li>【转大写/小写】：str.ToUpper() / str.ToLower()。</li><li>【去空格】：str.Trim() 去掉首尾空格。</li><li>【拆分】：string[] parts = str.Split(','); 按逗号拆成数组。</li><li>【格式化】：string.Format("你好，{0}！你的分数是 {1}", name, score)；或插值 string msg = $"你好，{name}！分数 {score}";（推荐，更直观）。</li><li>格式化用于动态生成文本、UI 显示数据等，非常常用。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>插值字符串 $"...{变量}..." 比 + 拼接更清晰，推荐优先使用。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Unity 实战</h2>
+<p>处理 UI 文本。</p>
+<ol class="steps"><li>新建脚本 StringDemo。</li><li>string name = "玩家"; int score = 250;</li><li>用插值生成：string msg = $"{name} 的分数是 {score}"; Debug.Log(msg);</li><li>截取练习：string s = "HelloUnity"; Debug.Log(s.Substring(0, 5)); // Hello</li><li>替换：Debug.Log(s.Replace("Unity", "C#")); // HelloC#</li><li>拆分：string data = "1,2,3,4"; string[] arr = data.Split(','); foreach (var a in arr) Debug.Log(a);</li><li>播放观察输出。</li><li>实际应用中常把变量拼进 UI 文本：uiText.text = $"血量：{hp}";（第 167 课）</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>字符串是不可变对象：每次 + 都会创建新字符串，所以频繁拼接用 StringBuilder。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>Substring 越界报错？<br><b>原因：</b>起始位置超出长度<br><b>解决：</b>先判断 str.Length 再截取，或用安全的 Substring(0, Math.Min(len, str.Length))。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用插值拼出"我是 XX，今年 XX 岁"</li><li>把一个句子中的某个词替换掉</li><li>把"苹果,香蕉,橘子"拆分并逐个打印</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>字符串操作已掌握。下一课学习方法的定义与调用。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-059/index.html"><span class="dir">← 上一课</span><span class="t">字典 Dictionary</span></a><a class="nav-item next" href="../lesson-061/index.html"><span class="dir">下一课 →</span><span class="t">方法（函数）的定义与调用</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

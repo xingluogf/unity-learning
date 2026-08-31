@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 298 课：项目实战：内容完善 · Unity 星辰学院</title>
+<meta name="description" content="项目实战：内容完善 · Unity 星辰学院第 298 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-298">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 18 章 · 项目实战</a><span class="sep">/</span>
+    <span>第 298 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 298 · 项目实战</span>
+    <h1>项目实战：内容完善</h1>
+    <p class="sub">内容完善完成！下一课做打磨与测试。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 25 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 18 章 · 项目实战</span><span class="meta-item">📍 第 298 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:99.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">298 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">内容扩充</a>
+<a href="#sec-1">系统整合</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>完善关卡内容</li><li>完善系统功能</li><li>整合全部模块</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“原型变游戏”——本课把内容做满：多关、敌人、道具、UI、音效、存档全上。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>内容扩充</h2>
+<p>“更丰富”。</p>
+<ol class="steps"><li>【多关卡】做 3 关：不同平台布局、难度递增（第 218 课关卡设计）。</li><li>【敌人】巡逻、追击两种（第 211 课）；放不同位置。</li><li>【道具】加速/无敌/加血（第 212 课）。</li><li>【检查点】每关中段放旗帜（第 218 课）。</li><li>【Boss】（可选）第 3 关加一个简单 Boss（多血敌人+弹幕）。</li><li>【难度曲线】每关引入新机制：第1关跳跃、第2关敌人、第3关道具组合。</li><li>【完成】内容“丰富了”。</li><li>【注意】新机制“先试用再组合”（第 218 课教学节奏）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>内容公式：关卡递增难度 + 每关一个新机制 + 敌人/道具点缀。丰富又有序。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>系统整合</h2>
+<p>“全套”上齐。</p>
+<ol class="steps"><li>【UI】主菜单、暂停、结束、HUD 全套（第 161-163/170 课）。</li><li>【音效】BGM + 跳跃/金币/受伤音效（第 178/221 课）。</li><li>【特效】跳跃尘土、金币闪光、死亡粒子（第 186-200 课）。</li><li>【存档】检查点自动存档 + 继续游戏（第 220/246 课）。</li><li>【设置】音量滑块（第 177 课）。</li><li>【架构】GameManager/AudioManager/UIManager 单例（第 274 课）。</li><li>【对象池】子弹/特效走池（第 269 课）。</li><li>【测试】全系统联调：菜单→玩→存档→暂停→结束→继续。</li><li>【完成】“游戏”成型！</li><li>【注意】每加一个系统就测一次，别攒一起。</li><li>【里程碑验收】3 关 + 全套系统 = M2 完成。</li><li>【推荐】整合阶段最考验架构，按第 274 课分层做。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>系统整合 = UI 全套 + 音效 + 特效 + 存档 + 单例架构。齐了才叫“游戏”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>系统互相打架？<br><b>原因：</b>耦合严重<br><b>解决：</b>用单例/事件解耦（第 274 课）；各系统独立测试再联调。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做满 3 关内容</li><li>整合全套系统</li><li>多关联调测试</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>内容完善完成！下一课做打磨与测试。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-297/index.html"><span class="dir">← 上一课</span><span class="t">项目实战：核心玩法原型</span></a><a class="nav-item next" href="../lesson-299/index.html"><span class="dir">下一课 →</span><span class="t">项目实战：打磨与测试</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

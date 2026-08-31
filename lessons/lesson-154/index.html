@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 154 课：Dropdown 下拉框 · Unity 星辰学院</title>
+<meta name="description" content="Dropdown 下拉框 · Unity 星辰学院第 154 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-154">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 154 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 154 · UI 界面系统</span>
+    <h1>Dropdown 下拉框</h1>
+    <p class="sub">Dropdown 已掌握。下一课学 ScrollView 滚动视图。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 154 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:51.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">154 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Dropdown 组件</a>
+<a href="#sec-1">动态选项与实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握 Dropdown 创建</li><li>掌握选项管理</li><li>掌握选中事件</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“选择角色”“选择语言”用下拉框最省空间。本课掌握 Dropdown。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Dropdown 组件</h2>
+<p>创建与配置选项。</p>
+<ol class="steps"><li>Hierarchy 右键 → UI → Dropdown - TextMeshPro，创建下拉框。</li><li>【组件属性】</li><li>Options：选项列表（每项有文本，可加图片）。</li><li>Value：当前选中的索引（从 0 开始）。</li><li>【读取】dropdown.value 返回选中索引；dropdown.options[value].text 返回选中文字。</li><li>【设置】dropdown.value = 2;</li><li>【事件 On Value Changed】选中变化时回调（int 索引参数）。</li><li>【结构】Dropdown → Template（下拉面板）+ Label + Arrow（箭头）。</li><li>【注意】TMP 的下拉框是 TMP_Dropdown，别与旧版混用。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>读取下拉 = .value 索引 + .options[value].text 文字。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>动态选项与实战</h2>
+<p>代码加选项。</p>
+<ol class="steps"><li>【静态配置】在 Inspector 的 Options 列表里直接添加选项（点 + 加项、输入文字）。</li><li>【代码动态】</li><li>TMP_Dropdown dd = GetComponent&lt;TMP_Dropdown&gt;();</li><li>dd.ClearOptions(); // 清空</li><li>dd.AddOptions(new List&lt;string&gt; { "战士", "法师", "弓箭手" });</li><li>【读取选中】</li><li>int idx = dd.value;</li><li>string cls = dd.options[idx].text;</li><li>Debug.Log($"选择职业：{cls}");</li><li>【事件】dd.onValueChanged.AddListener(OnClassChange); void OnClassChange(int i) { ... }</li><li>【实战】角色创建界面：职业下拉 + 确定按钮。</li><li>【默认值】dd.value 在 Inspector 设默认选中项。</li><li>【注意】ClearOptions 后要重新 AddOptions；选项为 0 时交互异常。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>下拉框动态选项 = ClearOptions + AddOptions(List&lt;string&gt;)，一行搞定。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>下拉框打开没选项？<br><b>原因：</b>Options 为空<br><b>解决：</b>在 Inspector 添加选项或用代码 AddOptions。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建下拉框并配置 3 个静态选项</li><li>读取选中项的文本</li><li>用代码动态添加职业选项</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Dropdown 已掌握。下一课学 ScrollView 滚动视图。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-153/index.html"><span class="dir">← 上一课</span><span class="t">Toggle 开关</span></a><a class="nav-item next" href="../lesson-155/index.html"><span class="dir">下一课 →</span><span class="t">ScrollView 滚动视图</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

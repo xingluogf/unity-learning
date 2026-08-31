@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 201 课：2D 游戏开发入门 · Unity 星辰学院</title>
+<meta name="description" content="2D 游戏开发入门 · Unity 星辰学院第 201 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-201">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 201 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 201 · 2D 游戏开发</span>
+    <h1>2D 游戏开发入门</h1>
+    <p class="sub">2D 环境搭建完成。下一课学 Sprite 精灵。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 201 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:67.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">201 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">创建 2D 项目</a>
+<a href="#sec-1">正交相机设置</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>创建 2D 项目</li><li>掌握 2D 场景设置</li><li>掌握正交相机</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>从零做一个 2D 游戏：先搭好“2D 环境”。本课创建项目并理解 2D 与 3D 的区别。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>创建 2D 项目</h2>
+<p>选对模板。</p>
+<ol class="steps"><li>【创建】Unity Hub → New Project → 选【2D Core】模板（2D 模板预置了 2D 设置）。</li><li>【命名】输入项目名，如 My2DGame，选择保存位置，创建。</li><li>【2D 模板特点】默认场景自带相机（正交）、光源、2D 渲染设置。</li><li>【若已是 3D 项目】Edit → Project Settings → Editor → Default Behavior Mode 改 2D（进阶）。</li><li>【目录规划】按第 4 章规范建文件夹：Scenes、Scripts、Sprites、Audio 等。</li><li>【场景】File → New Scene → 选 Basic 2D，保存为 Main。</li><li>【了解 2D 视图】2D 模式下 Scene 视图正面看场景（Toggle 2D 按钮切换）。</li><li>【注意】2D 模板用 URP 2D Renderer，光照基于精灵（Sprite-Lit Default）。</li><li>【准备】准备几张测试精灵图（第 202 课）。</li><li>【完成】2D 项目环境就绪！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>2D 与 3D 最大区别：2D 用精灵图（Sprite）+ 正交相机 + 2D 物理。选对模板省一半事。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>正交相机设置</h2>
+<p>2D 的“眼睛”。</p>
+<ol class="steps"><li>【正交 vs 透视】2D 用正交投影（Orthographic）：无近大远小、物体不变形。</li><li>【检查相机】选中 Main Camera，Projection 应为 Orthographic。</li><li>【Size】相机 Size 决定“看到的世界高度的一半”（Size=5 → 上下各 5 单位）。</li><li>【调整】Size 小=看得近（物体显得大）；Size 大=看得远。</li><li>【背景】Camera 的 Background 设天空色/纯色。</li><li>【分辨率】Game 视图分辨率决定可视宽高比（竖屏手游设 9:16）。</li><li>【安全区】竖屏游戏注意 UI 安全区（第 158 课）。</li><li>【像素单位】1 单位=多少像素由精灵 PPU 决定（第 202 课）。</li><li>【预览】运行前切 2D 视图确认场景内容在相机视野内。</li><li>【注意】2D 相机通常不旋转、不缩放（跟随时用代码平移，第 216 课）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>正交相机 = 2D 标准：Projection Orthographic + Size 调视野 + 背景色。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>场景物体显示不出/大小不对？<br><b>原因：</b>相机 Size 或物体位置超出视野<br><b>解决：</b>调整相机 Size；把物体放在 (0,0,0) 附近；检查 2D 视图。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建 2D 项目</li><li>确认相机为正交并调整 Size</li><li>规划项目目录</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>2D 环境搭建完成。下一课学 Sprite 精灵。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-200/index.html"><span class="dir">← 上一课</span><span class="t">综合练习：爆炸特效与反馈系统</span></a><a class="nav-item next" href="../lesson-202/index.html"><span class="dir">下一课 →</span><span class="t">Sprite 精灵与 SpriteRenderer</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

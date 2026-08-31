@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 180 课：环境音与场景音效设计 · Unity 星辰学院</title>
+<meta name="description" content="环境音与场景音效设计 · Unity 星辰学院第 180 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-180">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 180 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 180 · 音频系统</span>
+    <h1>环境音与场景音效设计</h1>
+    <p class="sub">环境音设计完成。下一课学数据驱动音效。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 180 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:60.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">180 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">环境音设计思路</a>
+<a href="#sec-1">实现环境音系统</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解音效设计</li><li>实现环境底噪</li><li>实现区域音效</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“风声、鸟叫、脚步的回响”——环境音让场景“活”。本课学场景音效设计。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>环境音设计思路</h2>
+<p>声音“分层”。</p>
+<ol class="steps"><li>【底噪】全场的基础环境音（风、虫鸣、氛围）——低音量、常驻、循环。</li><li>【区域音效】特定位置的声源（瀑布、火焰、NPC 说话声）——3D 声源放位置。</li><li>【天气音效】雨声、雷声——可切换/随机。</li><li>【层次】底噪 + 区域 + 事件，三层叠加出“场景感”。</li><li>【音效素材】商店“环境音包”或自己录（白噪音+滤波）。</li><li>【音量】底噪低（0.2-0.4）、区域音适中、事件音响亮。</li><li>【远近】区域音效用 3D 衰减（第 175 课）：走近大声、走远弱。</li><li>【变化】循环音效加随机 Pitch 防“呆板”（第 173 课）。</li><li>【完成】设计思路“有了”。</li><li>【注意】别让底噪盖住关键音效（层次要分明）。</li><li>【示例】森林：虫鸣底噪 + 溪流 3D + 鸟叫随机。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>场景声音分层：底噪（常驻低）+ 区域（3D 位置）+ 事件（随机）。三层成“呼吸感”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实现环境音系统</h2>
+<p>动手布置。</p>
+<ol class="steps"><li>【底噪】创建 AmbientManager（单例）：</li><li>挂一个 2D AudioSource 播放环境底噪（Spatial Blend=0，循环，音量 0.3）。</li><li>【区域音效】在场景放 3D AudioSource（第 175 课）：</li><li>瀑布：粒子位置 + 水声（Spatial=1、Loop）。</li><li>火焰：火光 + 噼啪声。</li><li>【天气切换】按时间段/场景切换：</li><li>public AudioClip sunny, rain;</li><li>public void SetWeather(AudioClip clip) { ambientSource.clip = clip; ambientSource.Play(); }</li><li>【随机事件】随机播放鸟叫/风声（协程）：</li><li>IEnumerator AmbientLoop() { while(true) {</li><li>yield return new WaitForSeconds(Random.Range(8f, 20f));</li><li>AudioSource.PlayClipAtPoint(birdSound, RandomNavPoint(), 0.5f);</li><li>} }</li><li>【音量联动】环境音进 Mixer 的 Ambient 组（第 176 课），可单独调。</li><li>【区域进入】进洞穴切换环境音（触发器切 clip）。</li><li>【完成】场景“活了”！</li><li>【注意】环境音太多会“吵”，保持克制。</li><li>【推荐】每个场景配一套环境音预制体。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>环境音系统 = 底噪常驻 + 3D 区域音 + 随机事件 + 场景切换。四层组建。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>环境音太吵盖住音效？<br><b>原因：</b>底噪音量太高<br><b>解决：</b>底噪音量降到 0.2-0.3；音效用 Mixer 分组调平衡。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>布置场景底噪</li><li>做 3D 区域音效</li><li>实现随机鸟叫</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>环境音设计完成。下一课学数据驱动音效。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-179/index.html"><span class="dir">← 上一课</span><span class="t">音频性能与压缩</span></a><a class="nav-item next" href="../lesson-181/index.html"><span class="dir">下一课 →</span><span class="t">游戏音频编程（数据驱动音效）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

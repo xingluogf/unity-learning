@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 11 课：Scene 场景视图详解 · Unity 星辰学院</title>
+<meta name="description" content="Scene 场景视图详解 · Unity 星辰学院第 11 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-011">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 2 章 · Unity 界面初探</a><span class="sep">/</span>
+    <span>第 11 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 11 · Unity 界面初探</span>
+    <h1>Scene 场景视图详解</h1>
+    <p class="sub">场景视图操作已掌握：右键旋转、中键平移、滚轮缩放、F 聚焦。下一课看运行时的“成品窗口”Game 视图。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 2 章 · Unity 界面初探</span><span class="meta-item">📍 第 11 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:3.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">11 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">鼠标导航操作（最重要）</a>
+<a href="#sec-1">场景视图顶栏工具</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握场景视图的鼠标导航</li><li>学会切换视角模式</li><li>认识场景视图工具栏</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>场景视图是你在 Unity 里的“建模车间”。本课把它的所有操作讲透，这是最值得花时间熟练的技能之一。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>鼠标导航操作（最重要）</h2>
+<p>记住这三组操作，你就能在 3D 空间里自由漫游。</p>
+<ol class="steps"><li>【旋转视角】按住鼠标右键不放并拖动：视角绕中心旋转，像转动自己的头。</li><li>【平移视角】按住鼠标中键（滚轮按下）不放并拖动：整个视图平移。</li><li>【缩放视角】滚动鼠标滚轮：拉近拉远；或者按住 Alt + 鼠标左键拖动。</li><li>【俯视/其他视角】在场景视图右上角有一个坐标轴小方块（Gizmo）：点击箭头从不同方向看（正前/正后/俯视等）。</li><li>【聚焦对象】在 Hierarchy 里双击某个对象，或选中对象后按 F 键，视角会立刻飞过去对准它。</li><li>【绕物体旋转】选中物体后，按住 Alt + 鼠标左键拖动，视角围绕该物体旋转。</li><li>练习：在场景里放几个物体，用以上操作在它们之间“飞行”一圈。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>快捷键 F 聚焦非常常用！找不到物体时，选中它按 F 立刻找回。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>场景视图顶栏工具</h2>
+<p>顶部一行小按钮，控制显示方式。</p>
+<ol class="steps"><li>视图模式下拉框：默认是“阴影 Shadow”模式，可切换到“线框 Wireframe”，线框模式便于看清结构。</li><li>【2D/3D 切换】：2D 按钮把视图锁定为平面俯视（2D 项目常用）。</li><li>【着色模式】默认 Shaded，可选 Wireframe、Shaded Wireframe 等。</li><li>【光照开关】小灯泡图标：关闭后无光照、显示纯色，方便看清模型；但运行不受影响。</li><li>【Audio 音频/效果开关】等按钮，新手先了解即可。</li><li>【Gizmo 开关】：控制对象辅助图标（坐标轴、相机锥体等）的显示。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>若物体在场景里“消失”，多数是被移动到了视野外，用 Hierarchy 选中 + F 找回。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>场景视图里物体一直在闪烁？<br><b>原因：</b>可能是多个重叠物体或 Z-fighting<br><b>解决：</b>检查是否同一位置堆了多个平面；新手阶段先忽略，进阶课会讲。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>放 5 个物体，练习旋转/平移/缩放视角</li><li>选中一个物体按 F，体验聚焦</li><li>切换到线框模式看看物体结构</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>场景视图操作已掌握：右键旋转、中键平移、滚轮缩放、F 聚焦。下一课看运行时的“成品窗口”Game 视图。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-010/index.html"><span class="dir">← 上一课</span><span class="t">创建并运行第一个场景：Hello Unity</span></a><a class="nav-item next" href="../lesson-012/index.html"><span class="dir">下一课 →</span><span class="t">Game 游戏视图与运行控制</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

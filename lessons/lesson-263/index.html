@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 263 课：渲染优化（合批与光影） · Unity 星辰学院</title>
+<meta name="description" content="渲染优化（合批与光影） · Unity 星辰学院第 263 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-263">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 15 章 · 寻路与导航</a><span class="sep">/</span>
+    <span>第 263 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 263 · 寻路与导航</span>
+    <h1>渲染优化（合批与光影）</h1>
+    <p class="sub">渲染优化完成。下一课学物理优化。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 15 章 · 寻路与导航</span><span class="meta-item">📍 第 263 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:87.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">263 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">合批技术</a>
+<a href="#sec-1">光影优化</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握合批</li><li>掌握光影优化</li><li>掌握 Shader 精简</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>渲染是 3D 游戏最大开销。本课把 Draw Call 与光影成本降下来。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>合批技术</h2>
+<p>让 GPU 一次画一批。</p>
+<ol class="steps"><li>【静态合批】静态物体（勾 Static）同材质自动合并：一次渲染调用。</li><li>【条件】同材质 + 同 Shader + 静态。</li><li>【动态合批】小物体（顶点少）自动合批（Unity 自动，有条件：顶点数限制）。</li><li>【SRP Batcher】URP 的合批器：同 Shader 变体材质批量渲染（默认开）。</li><li>【GPU Instancing】大量同模型同材质：实例化绘制（草、树）。</li><li>【图集】UI/精灵合批（第 203 课）。</li><li>【查看】Frame Debugger（Window → Analysis）看 Draw Call 与合批情况。</li><li>【优化动作】</li><li>统一材质（少换材质）。</li><li>同材质物体勾 Static。</li><li>用图集/共享贴图。</li><li>【目标】手游 Draw Call &lt; 100-200。</li><li>【测试】Profiler/Frame Debugger 对比合批前后。</li><li>【完成】Draw Call “打下来了”！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>合批四法：静态合批、动态合批、SRP Batcher、GPU Instancing。按场景选。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>光影优化</h2>
+<p>少算光。</p>
+<ol class="steps"><li>【烘焙】静态场景光影烘焙（第 192 课）：运行零光照计算。</li><li>【灯光数量】实时灯少用（URP 限制 + 性能）。</li><li>【阴影】少开/近距阴影（第 192 课 Shadow Distance）。</li><li>【反射探针】一个反射探针服务一片区域（别每物一个）。</li><li>【后处理】Bloom 等适量（第 195 课）。</li><li>【Shader】用 URP 轻量 Shader；少用复杂 Shader。</li><li>【材质】减少多 Pass/透明材质。</li><li>【LOD】远处低模（第 245 课）。</li><li>【综合】“烘焙 + 少灯 + 短阴影”是 3D 场景标配。</li><li>【测试】逐项开关对比帧率。</li><li>【完成】光影成本“可控”。</li><li>【推荐】静态全烘焙、动态只开必要的灯。</li><li>【说明】URP 对光照数量有严格限制（Forward 每物体最多 8 实时灯）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>光影优化口诀：静态烘焙、实时灯少、阴影短、后处理轻。四句够用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>合批没生效？<br><b>原因：</b>材质不同或没勾 Static<br><b>解决：</b>统一材质；静态物体勾 Static；用 Frame Debugger 确认合批。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 Frame Debugger 分析 Draw Call</li><li>做静态合批与图集</li><li>烘焙光影降低开销</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>渲染优化完成。下一课学物理优化。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-262/index.html"><span class="dir">← 上一课</span><span class="t">帧率与目标平台</span></a><a class="nav-item next" href="../lesson-264/index.html"><span class="dir">下一课 →</span><span class="t">物理优化</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

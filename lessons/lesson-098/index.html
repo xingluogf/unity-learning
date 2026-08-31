@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 98 课：关节 Joint 详解 · Unity 星辰学院</title>
+<meta name="description" content="关节 Joint 详解 · Unity 星辰学院第 98 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-098">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 98 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 98 · 物理系统</span>
+    <h1>关节 Joint 详解</h1>
+    <p class="sub">关节已掌握。下一课学物理层碰撞矩阵。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 98 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:32.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">98 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">关节基础与类型</a>
+<a href="#sec-1">实战：摆锤与门</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解关节的作用</li><li>掌握常用关节类型</li><li>做出摆锤与门</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“门能绕轴转”“钟摆来回晃”“两个物体被弹簧连着”——关节（Joint）把物体“连”起来，产生联动。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>关节基础与类型</h2>
+<p>认识常见关节。</p>
+<ol class="steps"><li>关节（Joint）连接两个刚体（或一个刚体与世界），产生约束力。</li><li>【Hinge Joint 铰链】：绕一个轴旋转，像门、摆锤、车轮轴。</li><li>【Spring Joint 弹簧】：像弹簧一样连接两点，有弹性伸缩。</li><li>【Fixed Joint 固定】：把两个物体固定在一起，像一个整体。</li><li>【Character Joint 角色关节】/Configurable Joint：进阶（布娃娃用）。</li><li>【添加】给物体加 Rigidbody → Add Component → 选关节类型。</li><li>【连接对象】关节的 Connected Body 槽拖入另一个刚体（空则连接世界/固定点）。</li><li>【共同要求】被连接的物体必须带刚体。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>关节是物理约束：它不让物体“自由飞翔”，而是“按规则相连”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：摆锤与门</h2>
+<p>两个经典应用。</p>
+<ol class="steps"><li>【摆锤】创建“支架”（静止 Cube 无刚体或有刚体冻结），下面挂一个球：</li><li>给球加 Rigidbody，再给它加 Hinge Joint。</li><li>在 Hinge Joint 的【Anchor】设 (0, 0.5, 0)（球上方连接点），【Connected Body】留空（连接世界）。</li><li>播放：球像钟摆一样来回摆动！</li><li>【门】做一个“门板” Cube + 刚体 + Hinge Joint，Anchor 设在门的一侧边缘，让门绕铰链转动。</li><li>【弹簧】创建弹簧关节：连接两个球，调整 Spring/Damper 数值，播放看弹性伸缩。</li><li>【固定】Fixed Joint 把两个物体焊在一起移动。</li><li>【参数】Hinge Joint 的 Limits（角度限制）可让门只开 90 度。</li><li>【注意】关节调参需要耐心，先小步调整数值观察。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>摆锤（Hinge）与固定（Fixed）最常用，掌握这两个就够应付多数物理结构。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>关节连接后乱飞？<br><b>原因：</b>Anchor/连接点设置不当或物体初始位置不合理<br><b>解决：</b>先把连接物体摆好相对位置，再设 Anchor；必要时冻结部分轴。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做一个会摆动的钟摆</li><li>做一个只能开 90 度的门</li><li>用 Fixed Joint 把两个物体固定在一起</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>关节已掌握。下一课学物理层碰撞矩阵。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-097/index.html"><span class="dir">← 上一课</span><span class="t">刚体约束与 Sleep、碰撞检测模式</span></a><a class="nav-item next" href="../lesson-099/index.html"><span class="dir">下一课 →</span><span class="t">物理层 Layer 碰撞矩阵</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 221 课：2D 音效与音乐整合 · Unity 星辰学院</title>
+<meta name="description" content="2D 音效与音乐整合 · Unity 星辰学院第 221 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-221">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 221 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 221 · 2D 游戏开发</span>
+    <h1>2D 音效与音乐整合</h1>
+    <p class="sub">2D 音频整合完成。下一课做 2D 对话与剧情。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 221 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:73.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">221 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">绑定音效</a>
+<a href="#sec-1">音量与静音</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>接入 BGM</li><li>绑定动作音效</li><li>整合音量系统</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>2D 游戏“跑、跳、捡、打”配上声音才有“手感”。本课把音频系统接入 2D 玩法。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>绑定音效</h2>
+<p>动作触发声音。</p>
+<ol class="steps"><li>【准备】AudioManager（第 178 课）就绪，音效素材已导入。</li><li>【BGM】进入游戏场景时 PlayBGM(关卡音乐)（第 172 课）。</li><li>【跳跃】PlayerController 的 Jump() 里：AudioManager.Instance.PlaySFX(jumpSound);</li><li>【射击】Fire() 里播射击音（第 214 课）。</li><li>【金币】拾取时播金币音（第 212 课）。</li><li>【受伤】扣血时播受伤音 + 可选低沉音调。</li><li>【死亡】播死亡音效。</li><li>【随机音调】重复音效（跳跃/脚步）用随机 Pitch（第 173 课）。</li><li>【2D 音效】2D 游戏音效用 Spatial Blend=0（全屏声）或小范围 3D（第 175 课）。</li><li>【注意】别每个音效都新建 AudioSource，走单例 PlaySFX。</li><li>【完成】游戏“有声有色”。</li><li>【测试】跑跳捡打全程听音效是否到位。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>音效绑定 = 动作函数里加一行 PlaySFX。手感瞬间翻倍。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>音量与静音</h2>
+<p>让玩家能控制。</p>
+<ol class="steps"><li>【音量面板】主菜单/暂停菜单里加音量设置（第 177 课）。</li><li>【混音器】BGM/SFX 分两组（第 176 课），分开控制。</li><li>【静音】Toggle 或按钮一键静音（第 177 课）。</li><li>【保存】音量设置存 PlayerPrefs（第 220 课）。</li><li>【进入游戏】AudioManager 读取保存的音量应用。</li><li>【环境音】（可选）瀑布/风声等 3D 环境音（第 199 课）。</li><li>【测试】开音量、调音量、静音、重启保持。</li><li>【注意】音量别全关（0 也要留一点或提示）。</li><li>【完成】音频体验完整！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>2D 音频 = BGM（循环）+ 动作音效（PlaySFX）+ 音量面板（PlayerPrefs）。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>音效叠太多爆音？<br><b>原因：</b>PlaySFX 太频繁或音量叠加<br><b>解决：</b>限制播放频率（冷却）；控制单例 SFX 音量；混音器限幅。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>接入关卡 BGM</li><li>给跳跃/射击/拾取绑音效</li><li>做音量设置并保存</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>2D 音频整合完成。下一课做 2D 对话与剧情。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-220/index.html"><span class="dir">← 上一课</span><span class="t">2D 存档读档（PlayerPrefs）</span></a><a class="nav-item next" href="../lesson-222/index.html"><span class="dir">下一课 →</span><span class="t">2D 对话与剧情系统</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

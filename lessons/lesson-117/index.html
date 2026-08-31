@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 117 课：角色移动脚本（WASD + 相机） · Unity 星辰学院</title>
+<meta name="description" content="角色移动脚本（WASD + 相机） · Unity 星辰学院第 117 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-117">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 8 章 · 输入系统</a><span class="sep">/</span>
+    <span>第 117 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 117 · 输入系统</span>
+    <h1>角色移动脚本（WASD + 相机）</h1>
+    <p class="sub">角色移动脚本已完成。下一课学第一人称视角控制。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 8 章 · 输入系统</span><span class="meta-item">📍 第 117 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:39.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">117 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">基础移动脚本</a>
+<a href="#sec-1">相对相机移动</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现标准移动脚本</li><li>实现相对相机移动</li><li>实现转向与速度控制</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>几乎所有 3D 游戏都要“控制角色移动”。本课实现一个标准的第三人称移动脚本，可直接复用。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>基础移动脚本</h2>
+<p>读输入、算方向、移动。</p>
+<ol class="steps"><li>新建脚本 ThirdPersonMove 挂到角色：</li><li>public float moveSpeed = 5f;</li><li>void Update() {</li><li>float h = Input.GetAxis("Horizontal");</li><li>float v = Input.GetAxis("Vertical");</li><li>Vector3 move = new Vector3(h, 0, v);</li><li>move = transform.TransformDirection(move); // 转为世界方向（相对自身）</li><li>transform.Translate(move * moveSpeed * Time.deltaTime, Space.World);</li><li>}</li><li>这是“相对角色自身”的移动（不随相机）。</li><li>【刚体版】配合 Rigidbody：rb.velocity = move * moveSpeed;（保持 y 速度），更平滑、碰撞更稳。</li><li>【加速/减速】用 Mathf.Lerp 让速度渐进：当前速度向目标速度插值，手感更滑。</li><li>【跑步】按住 Shift 时 moveSpeed 翻倍（第 112 课 GetKey）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>先跑通“自身坐标移动”，再升级到“相对相机移动”（下一步）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>相对相机移动</h2>
+<p>按相机方向移动（标准的第三人称）。</p>
+<ol class="steps"><li>目标：按 W 是“朝相机看的方向”走，而不是“朝世界 Z”。</li><li>获取相机的前方/右方（忽略 Y）：</li><li>Transform cam = Camera.main.transform;</li><li>Vector3 forward = cam.forward; forward.y = 0; forward.Normalize();</li><li>Vector3 right = cam.right; right.y = 0; right.Normalize();</li><li>Vector3 moveDir = forward * v + right * h;</li><li>transform.position += moveDir * moveSpeed * Time.deltaTime;</li><li>【说明】先取相机朝向，抹平 Y 轴，得到“水平面上的相机方向”。</li><li>【朝向】让角色转向移动方向：if (moveDir.sqrMagnitude &gt; 0.01f) transform.rotation = Quaternion.LookRotation(moveDir);</li><li>【完整版】把这段整合进一个脚本，WASD 移动 + 自动转向 + 相机任意旋转都正确。</li><li>【注意】相机需先有（第 118-119 课）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>“相对相机移动”是第三人称标准：相机朝前，W 就向前。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>角色斜向移动速度变快？<br><b>原因：</b>对角输入时向量长度大于 1<br><b>解决：</b>移动方向向量先归一化：moveDir = moveDir.normalized（或 ClampMagnitude(1)）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现自身坐标移动脚本</li><li>升级为相对相机移动</li><li>加入移动方向转向与跑步加速</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>角色移动脚本已完成。下一课学第一人称视角控制。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-116/index.html"><span class="dir">← 上一课</span><span class="t">新版 Input System 配置入门</span></a><a class="nav-item next" href="../lesson-118/index.html"><span class="dir">下一课 →</span><span class="t">第一人称视角控制（鼠标旋转）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 187 课：粒子系统模块详解 · Unity 星辰学院</title>
+<meta name="description" content="粒子系统模块详解 · Unity 星辰学院第 187 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-187">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 12 章 · 特效与粒子</a><span class="sep">/</span>
+    <span>第 187 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 187 · 特效与粒子</span>
+    <h1>粒子系统模块详解</h1>
+    <p class="sub">粒子模块已掌握。下一课学材质与 Shader 基础。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 12 章 · 特效与粒子</span><span class="meta-item">📍 第 187 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:62.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">187 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">核心模块逐个看</a>
+<a href="#sec-1">生命周期曲线模块</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握常用模块</li><li>掌握曲线与渐变</li><li>组合出多样特效</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>粒子系统十几个模块各管一件事。本课把最常用的模块逐个讲透。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>核心模块逐个看</h2>
+<p>Main / Emission / Shape。</p>
+<ol class="steps"><li>【Main 主模块】全局：Duration、Looping、Start Lifetime/Speed/Size/Color、Gravity Modifier（重力）。</li><li>Gravity Modifier=1 粒子受重力下落（雨滴）；0 悬浮（烟雾）。</li><li>【Emission 发射模块】</li><li>Rate over Time：每秒发射粒子数（越多越浓）。</li><li>Bursts：爆发（一次性多发）——爆炸用：点 + 添加 Burst，Time 0、Count 100。</li><li>【Shape 形状模块】粒子从什么形状区域发射：</li><li>Sphere（球体内）、Cone（锥形，火焰/喷泉）、Box（盒状，雨）、Circle（圆盘）。</li><li>Angle（锥角）、Radius（半径）控制发射范围。</li><li>【Renderer 渲染模块】粒子的“长相”：Material 材质、Render Mode（Billboard 始终面向相机/Stretch 拉伸）、Sorting Order。</li><li>【常见组合】雨=Box+重力+蓝色；喷泉=Cone+上速度+重力回落。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>模块记忆：Main 是“总体设置”，Emission 是“喷多少”，Shape 是“从哪喷”，Renderer 是“长啥样”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>生命周期曲线模块</h2>
+<p>粒子“成长”过程。</p>
+<ol class="steps"><li>【Size over Lifetime 大小曲线】粒子从生到死的尺寸变化：</li><li>点开 → 曲线编辑器 → 火焰做“从小到大再收缩”（山峰曲线）。</li><li>【Color over Lifetime 颜色渐变】粒子颜色随时间变化：</li><li>火焰从黄白 → 橙 → 红 → 透明；选 Gradient 编辑多个颜色。</li><li>【Velocity over Lifetime 速度】粒子自己的附加速度（飘动、漂移）。</li><li>【Force over Lifetime 力】持续受的力（风、浮力）。</li><li>【Rotation over Lifetime 旋转】粒子旋转（落叶、碎屑）。</li><li>【Noise 噪波】让粒子轨迹“抖动”（烟雾缭绕、火苗摇曳），增加自然感。</li><li>【Trails 拖尾】粒子拖出轨迹（流星、魔法）。</li><li>【组合示例】火光：Color 黄→红→透明 + Size 小→大→小 + Noise 摇曳。</li><li>【注意】曲线编辑器：右键可加关键点、选切线类型（第 128 课曲线知识复用）。</li><li>【学会看】调一个模块看一个，别一次全改。</li><li>【完成】你已经会“捏”粒子了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>特效质感 = 生命周期曲线：Size/Color 从生到死的“剧本”写得越好越生动。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>曲线怎么调不出效果？<br><b>原因：</b>没选对模块或曲线没应用到<br><b>解决：</b>确认展开对应模块并启用（勾选模块名前的勾）；曲线编辑器改对数值范围。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 Burst 做一次性爆炸</li><li>用 Size/Color 曲线做火焰</li><li>用 Noise 做烟雾缭绕</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>粒子模块已掌握。下一课学材质与 Shader 基础。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-186/index.html"><span class="dir">← 上一课</span><span class="t">粒子系统入门</span></a><a class="nav-item next" href="../lesson-188/index.html"><span class="dir">下一课 →</span><span class="t">材质与 Shader 基础</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

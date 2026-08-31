@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 226 课：3D 游戏进阶入门 · Unity 星辰学院</title>
+<meta name="description" content="3D 游戏进阶入门 · Unity 星辰学院第 226 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-226">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 226 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 226 · 3D 游戏进阶</span>
+    <h1>3D 游戏进阶入门</h1>
+    <p class="sub">3D 环境搭建完成。下一课做第一人称控制器。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 226 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:75.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">226 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">3D 项目与环境</a>
+<a href="#sec-1">搭建基础 3D 场景</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>创建 3D 项目</li><li>掌握 3D 坐标</li><li>搭建基础 3D 场景</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>把 2D 学的思维迁移到 3D：多一个维度，多无限可能。本课搭好 3D 地基。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>3D 项目与环境</h2>
+<p>3D 世界的“地基”。</p>
+<ol class="steps"><li>【创建】Unity Hub → New Project → 选【3D Core】模板。</li><li>【3D 默认】场景自带 Directional Light + Main Camera（透视投影）。</li><li>【坐标】3D 三维坐标：X（右）、Y（上）、Z（前）。旋转用四元数（Quaternion，第 62 课）。</li><li>【单位】1 单位 = 1 米（物理常用）。</li><li>【场景】新建场景 Level1，规划目录（第 4 章）。</li><li>【地面】创建 Plane（平面）或 Cube 压扁做地面。</li><li>【测试物】放几个 Cube/Sphere 测试光照与碰撞。</li><li>【相机】Main Camera 透视投影（Perspective）即 3D 标准。</li><li>【渲染管线】URP 更现代（第 260 课），本系列 3D 用 URP。</li><li>【注意】3D 用 Rigidbody（非 2D）、Mesh Renderer（非 SpriteRenderer）。</li><li>【完成】3D 环境就绪！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>3D 与 2D 核心区别：三维坐标 + 透视相机 + 网格渲染 + 3D 物理。一套新工具。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>搭建基础 3D 场景</h2>
+<p>灯光 + 地面 + 物体。</p>
+<ol class="steps"><li>【灯光】保留 Directional Light，旋转到 45° 打光（第 191 课）。</li><li>【地面】Plane 上放默认材质（或贴纹理）。</li><li>【物体】放几个几何体（Cube 做房子、Sphere 做球）。</li><li>【材质】给物体上材质（第 188-190 课）。</li><li>【天空盒】换一个天空盒（第 193 课）增加氛围。</li><li>【碰撞】确认地面有 Collider（Plane 自带）、物体有 Collider。</li><li>【相机视角】调整相机位置/角度看到场景。</li><li>【移动相机】Scene 视图右键 WASD 飞（Q/E 升降）快速查看。</li><li>【游戏视图】切 Game 视图预览。</li><li>【保存】保存场景 Level1。</li><li>【完成】一个 3D 场景“立”起来了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>3D 场景五件套：地面、物体、材质、灯光、天空盒。五样凑齐画面就“立”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>场景全黑/物体看不见？<br><b>原因：</b>灯光缺失或相机朝向不对<br><b>解决：</b>确认有 Directional Light 且朝向场景；相机看向场景。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建 3D 项目并认识坐标</li><li>搭建地面+物体+灯光+天空盒</li><li>用 WASD 在 Scene 视图飞视角</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 环境搭建完成。下一课做第一人称控制器。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-225/index.html"><span class="dir">← 上一课</span><span class="t">2D 章综合练习：发布与收尾</span></a><a class="nav-item next" href="../lesson-227/index.html"><span class="dir">下一课 →</span><span class="t">第一人称控制器 FPS</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

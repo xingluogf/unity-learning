@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 168 课：小地图制作（UI 层） · Unity 星辰学院</title>
+<meta name="description" content="小地图制作（UI 层） · Unity 星辰学院第 168 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-168">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 168 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 168 · UI 界面系统</span>
+    <h1>小地图制作（UI 层）</h1>
+    <p class="sub">小地图已实现。下一课做屏幕提示与对话气泡。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 168 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:56.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">168 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">小地图原理</a>
+<a href="#sec-1">实现小地图</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解小地图原理</li><li>实现玩家位置箭头</li><li>实现敌人标记</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>右上角的雷达小地图实时显示玩家与敌人位置。原理是“世界坐标→地图坐标”的映射。本课实现。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>小地图原理</h2>
+<p>世界坐标“压”到小图。</p>
+<ol class="steps"><li>【思路】把世界 XZ 坐标映射到小地图的 UI 位置。</li><li>【映射公式】地图位置 = 地图中心 + (世界坐标 - 世界中心) × 缩放比例。</li><li>【缩放比例】小地图 UI 大小 / 实际地图大小。</li><li>【中心】小地图中心对应世界中心（或玩家）。</li><li>【方案1 简化】让地图固定中心在“玩家初始位置”，用玩家相对偏移。</li><li>【方案2 相机法】用第二台正交相机渲染俯视图（性能高但复杂）。</li><li>【本课用方案1 纯 UI 映射，最灵活。</li><li>【坐标系】世界 X → UI 右（X），世界 Z → UI 上（Y，注意 UI 的 Y 向下为正需取反）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>小地图 = 世界坐标 → UI 坐标 的线性映射。公式：uiPos = center + (worldPos - worldCenter) * scale。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实现小地图</h2>
+<p>玩家箭头 + 敌人红点。</p>
+<ol class="steps"><li>【小地图 UI】创建 Canvas 右下角圆形/方形 Image（半透明黑）作为雷达背景，锚点右上。</li><li>【玩家箭头】建 Image 小箭头（▲），作为小地图的子物体，锚点中心。</li><li>【映射脚本 Minimap】</li><li>public RectTransform mapRect; // 小地图 RectTransform</li><li>public Transform player;</li><li>public RectTransform playerArrow;</li><li>public float worldRadius = 50f; // 实际地图半径</li><li>void Update() {</li><li>Vector3 offset = player.position; // 相对世界中心（这里假设中心原点）</li><li>float uiRadius = mapRect.rect.width * 0.5f;</li><li>float scale = uiRadius / worldRadius;</li><li>playerArrow.anchoredPosition = new Vector2(offset.x * scale, offset.z * scale);</li><li>playerArrow.localRotation = Quaternion.Euler(0, 0, -player.eulerAngles.y); // 箭头旋转对应朝向</li><li>}</li><li>【敌人红点】创建 List&lt;RectTransform&gt; 敌人箭头，遍历设置位置（同理映射）。</li><li>【世界中心】若玩家从 (0,0) 出发，offset=player.position 即可。</li><li>【边界】用 Clamp 限制红点在雷达圈内。</li><li>【注意】UI Y 轴向下，世界 Z 映射到 UI Y 时取负或符号统一（按实际朝向调）。</li><li>【完成】玩家箭头跟随、敌人红点显示。</li><li>【进阶】小地图边框、缩放雷达、迷雾。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>小地图公式三件套：偏移 × 缩放 = 位置；-旋转 = 朝向；Clamp = 边界。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>箭头方向反了？<br><b>原因：</b>UI 坐标方向与世界不一致<br><b>解决：</b>Y 取反或调整旋转符号（localRotation 用 -eulerAngles.y）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做小地图背景与玩家箭头</li><li>实现玩家位置与朝向映射</li><li>加入 3 个敌人红点</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>小地图已实现。下一课做屏幕提示与对话气泡。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-167/index.html"><span class="dir">← 上一课</span><span class="t">UI 与代码交互（显示数据）</span></a><a class="nav-item next" href="../lesson-169/index.html"><span class="dir">下一课 →</span><span class="t">屏幕提示与对话气泡</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

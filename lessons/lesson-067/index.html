@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 67 课：多态 Polymorphism 与虚方法 · Unity 星辰学院</title>
+<meta name="description" content="多态 Polymorphism 与虚方法 · Unity 星辰学院第 67 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-067">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 67 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 67 · C# 编程基础</span>
+    <h1>多态 Polymorphism 与虚方法</h1>
+    <p class="sub">多态已掌握。下一课学接口 Interface。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 67 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:22.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">67 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">虚方法与重写</a>
+<a href="#sec-1">父类引用指向子类对象</a>
+<a href="#sec-2">Unity 实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解多态的概念</li><li>掌握 virtual/override</li><li>会用父类引用处理子类</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“同一个动作，不同对象表现不同”：所有敌人都会“攻击”，但普通怪和 Boss 攻击方式不同。这就是多态。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>虚方法与重写</h2>
+<p>“可被改写的钩子”。</p>
+<ol class="steps"><li>【virtual 虚方法】父类方法标 virtual，允许子类重写。</li><li>【override 重写】子类用 override 提供自己的实现。</li><li>例：class Animal { public virtual void Speak() { Debug.Log("动物叫"); } }</li><li>class Dog : Animal { public override void Speak() { Debug.Log("汪汪"); } }</li><li>class Cat : Animal { public override void Speak() { Debug.Log("喵喵"); } }</li><li>创建对象调用 Speak()：Dog 输出汪汪，Cat 输出喵喵。</li><li>核心：调用的是“同一个方法名”，但根据实际对象类型执行不同实现。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>virtual + override 是多态的基础：父类定义“接口”，子类提供“实现”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>父类引用指向子类对象</h2>
+<p>多态的经典写法。</p>
+<ol class="steps"><li>父类类型的变量可以指向子类对象：Animal a = new Dog();</li><li>调用 a.Speak() 时，实际执行的是 Dog 的 Speak（多态生效）。</li><li>【好处】用一个父类数组装所有子类：Animal[] zoo = { new Dog(), new Cat() };</li><li>foreach (Animal a in zoo) { a.Speak(); } // 依次汪汪、喵喵</li><li>以后新增一个 Bird 类继承 Animal 并 override Speak，zoo 代码不用改就能处理它——这就是“开闭原则”。</li><li>这非常适合游戏里的“对象管理”：用一个 Enemy 列表管理普通怪和 Boss。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>多态让代码“面向父类编程”，扩展新类型时不改旧代码，是专业架构的核心。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Unity 实战</h2>
+<p>多态管理敌人。</p>
+<ol class="steps"><li>沿用上节课的 Enemy / Boss 类（Speak 换成 Attack 逻辑即可）。</li><li>在测试脚本里写：</li><li>Enemy[] enemies = { new Enemy(), new Boss(), new Enemy() };</li><li>foreach (Enemy en in enemies) { en.TakeDamage(50); en.ShowInfo(); }</li><li>播放：列表里的对象各自按自己的类型响应。</li><li>体会：一个数组、一个循环，管理了不同类型的敌人。</li><li>【注意】若父类没标 virtual 而子类想重写，会报错或静默隐藏，务必标 virtual。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>多态三要素：继承 + virtual/override + 父类引用。三者缺一不可。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>调用子类特有方法报错？<br><b>原因：</b>父类引用看不到子类新增方法<br><b>解决：</b>把引用类型设为子类，或用类型判断转型（如 if (en is Boss)）——进阶。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>定义 Animal 基类与两个子类，各自 override Speak</li><li>用父类数组存储子类对象并循环调用</li><li>说出多态的三个条件</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>多态已掌握。下一课学接口 Interface。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-066/index.html"><span class="dir">← 上一课</span><span class="t">继承 Inheritance</span></a><a class="nav-item next" href="../lesson-068/index.html"><span class="dir">下一课 →</span><span class="t">接口 Interface</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

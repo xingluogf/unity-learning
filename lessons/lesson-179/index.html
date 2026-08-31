@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 179 课：音频性能与压缩 · Unity 星辰学院</title>
+<meta name="description" content="音频性能与压缩 · Unity 星辰学院第 179 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-179">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 179 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 179 · 音频系统</span>
+    <h1>音频性能与压缩</h1>
+    <p class="sub">音频性能优化完成。下一课学环境音与场景音效设计。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 179 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:59.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">179 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">音频加载方式</a>
+<a href="#sec-1">压缩格式与采样率</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解音频加载方式</li><li>掌握压缩格式</li><li>优化音频性能</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>几十个音效就能撑爆包体和内存。本课学音频资源的“精打细算”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>音频加载方式</h2>
+<p>三种方式各有取舍。</p>
+<ol class="steps"><li>选中音频文件 → Inspector 看【Load Type】加载方式。</li><li>【Decompress On Load 解压时加载】导入即解压成 PCM：播放快、内存大（适合短音效）。</li><li>【Compressed In Memory 压缩在内存】保持压缩：播放时解压：内存小、CPU 略高（适合中长音）。</li><li>【Streaming 流式】边播边从磁盘读：内存极小（适合 BGM 长音乐）。</li><li>【选择建议】</li><li>短音效（&lt;5 秒）用 Decompress On Load。</li><li>背景音乐用 Streaming。</li><li>中等音效用 Compressed In Memory。</li><li>【注意】Decompress 音效多会撑爆内存，长音频千万别用。</li><li>【性能】CPU 解压与内存的平衡按平台调。</li><li>【完成】加载方式“会选”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>音频加载口诀：短音效解压（快）、长音乐流式（省内存）、中间压缩（平衡）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>压缩格式与采样率</h2>
+<p>体积“瘦身”。</p>
+<ol class="steps"><li>【压缩格式】</li><li>Vorbis（Unity 默认）：有损、体积小（BGM 用）。</li><li>MP3：兼容好、体积小。</li><li>PCM/Uncompressed：无损、巨大（慎用）。</li><li>【采样率】44.1kHz 足够（人耳上限）；96kHz 无必要（省体积）。</li><li>【压缩质量】Vorbis Quality 100（高质大体积）vs 70（低质小体积）——听感平衡。</li><li>【单声道】环境音/大多数音效用 Mono（体积减半），立体声只给需要方位感的。</li><li>【剪辑】导入前剪掉多余静音（音频编辑工具）。</li><li>【检查】按项目排序找大音频文件。</li><li>【目标】游戏包体音频占比合理。</li><li>【完成】音频“瘦身”成功！</li><li>【注意】压缩过度会“糊”，用听感判断质量下限。</li><li>【推荐】BGM 流式+压缩、音效压缩在内存。</li><li>【说明】导入设置改完点 Apply。</li><li>【实践】把项目音频按类型设置合适的加载与压缩。</li><li>【进阶】音效用音频图集/事件（FMOD/Wwise，进阶）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>音频优化三招：加载方式（内存）、压缩格式（体积）、采样率（质量）。都调对。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>音频内存占用高？<br><b>原因：</b>长音频用了 Decompress<br><b>解决：</b>长音频改 Streaming；检查是否大量音效都 Decompress。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>按类型设置三种加载方式</li><li>压缩音频并对比体积</li><li>检查项目音频内存</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>音频性能优化完成。下一课学环境音与场景音效设计。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-178/index.html"><span class="dir">← 上一课</span><span class="t">综合练习：完整音频系统</span></a><a class="nav-item next" href="../lesson-180/index.html"><span class="dir">下一课 →</span><span class="t">环境音与场景音效设计</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

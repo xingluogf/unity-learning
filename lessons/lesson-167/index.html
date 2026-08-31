@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 167 课：UI 与代码交互（显示数据） · Unity 星辰学院</title>
+<meta name="description" content="UI 与代码交互（显示数据） · Unity 星辰学院第 167 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-167">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 167 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 167 · UI 界面系统</span>
+    <h1>UI 与代码交互（显示数据）</h1>
+    <p class="sub">UI 数据交互已掌握。下一课做小地图。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 167 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:55.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">167 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">直接更新 vs 事件更新</a>
+<a href="#sec-1">实战：分数与倒计时</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现数据→UI 更新</li><li>掌握刷新时机</li><li>用事件解耦</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“分数变了，UI 文字要跟着变”。本课讲“数据→UI”的更新机制与最佳实践。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>直接更新 vs 事件更新</h2>
+<p>两种刷新方式。</p>
+<ol class="steps"><li>【方式1 每帧刷新（简单）】在 UIManager 的 Update 里：scoreText.text = score.ToString();</li><li>优点：简单，数据随时最新。缺点：每帧更新浪费性能（文字不常变时）。</li><li>【方式2 事件驱动（推荐）】数据变化时通知 UI 刷新：</li><li>分数系统：</li><li>public event System.Action&lt;int&gt; OnScoreChanged;</li><li>public int score;</li><li>public void AddScore(int n) { score += n; OnScoreChanged?.Invoke(score); }</li><li>UI 订阅：</li><li>scoreSystem.OnScoreChanged += UpdateScoreText;</li><li>void UpdateScoreText(int s) { scoreText.text = "分数：" + s; }</li><li>【优点】只在数据变化时更新，性能好、解耦。</li><li>【方式3 数据变化手动刷新】调用公共方法 RefreshAllUI()。</li><li>【选择】高频变化（分数/血量）用事件；低频/简单用每帧刷新也无妨。</li><li>【注意】UI 刷新要防“空引用”（UI 未初始化时）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>专业做法：数据源发事件，UI 订阅刷新。数据与显示分离。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：分数与倒计时</h2>
+<p>做两个实时 UI。</p>
+<ol class="steps"><li>【分数 UI】Canvas 左上角 TMP “分数：0”。</li><li>ScoreManager 脚本（单例，第 86 课）：</li><li>public int score; public event System.Action&lt;int&gt; OnScoreChanged;</li><li>public void AddScore(int n) { score += n; OnScoreChanged?.Invoke(score); }</li><li>UIManager 订阅并刷新 scoreText。</li><li>【倒计时 UI】屏幕上方 TMP 显示剩余时间：</li><li>public TMP_Text timeText;</li><li>public float timeLeft = 60f;</li><li>void Update() { timeLeft -= Time.deltaTime; if (timeLeft &lt;= 0) { timeLeft = 0; /* 时间到 */ }</li><li>timeText.text = "时间：" + Mathf.CeilToInt(timeLeft);</li><li>}</li><li>【死亡/胜利时停表】timeLeft&lt;=0 触发结束（第 163 课）。</li><li>【组合】把分数/血量/时间都接进 UIManager，统一管理所有 UI 文本。</li><li>【注意】倒计时用 Time.deltaTime 会随暂停停（需要的话用 unscaledDeltaTime）。</li><li>【验证】游戏里加分/扣血/倒计时，UI 全部实时变化。</li><li>【完成】你的游戏有“仪表盘”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>UI 刷新心法：数据源头唯一 + 事件通知 + UI 只读显示。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>UI 文字不更新？<br><b>原因：</b>没订阅事件、或刷新时机不对<br><b>解决：</b>确认订阅了事件；数据变化调用了 Invoke；UI 组件引用正确。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现分数 UI 的事件刷新</li><li>实现倒计时 UI</li><li>把血量/分数统一管理刷新</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>UI 数据交互已掌握。下一课做小地图。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-166/index.html"><span class="dir">← 上一课</span><span class="t">UI 拖拽与排序</span></a><a class="nav-item next" href="../lesson-168/index.html"><span class="dir">下一课 →</span><span class="t">小地图制作（UI 层）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 239 课：3D 环境交互（物理环境） · Unity 星辰学院</title>
+<meta name="description" content="3D 环境交互（物理环境） · Unity 星辰学院第 239 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-239">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 239 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 239 · 3D 游戏进阶</span>
+    <h1>3D 环境交互（物理环境）</h1>
+    <p class="sub">环境交互完成。下一课做 3D 动画进阶。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 239 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:79.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">239 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">推箱子与可推动物</a>
+<a href="#sec-1">可破坏物与机关</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现推箱子</li><li>实现可破坏物</li><li>实现物理机关</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>箱子能推、花瓶能碎、桥能晃——物理环境交互让场景“可信”。本课实现。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>推箱子与可推动物</h2>
+<p>角色推得动。</p>
+<ol class="steps"><li>【推箱子】箱子加 Rigidbody（质量适中，如 2-5）+ BoxCollider。</li><li>角色用 CharacterController 推：物理自动处理（角色碰到箱子推动它）。</li><li>【问题】CharacterController 推刚体效果弱——需要专门处理：</li><li>用“推力”：角色移动时检测前方物体是“可推”，给物体施加力。</li><li>【简单方案】箱子质量小（1-2）+ 角色碰撞推动（自动有效）。</li><li>【物理材质】箱子材质 Friction 低（推得动）。</li><li>【可推动物】椅子、木桶：加刚体即可被推动。</li><li>【注意】大物体（保险箱）质量大推不动（合理的物理）。</li><li>【测试】角色推箱子移动、箱子撞墙停。</li><li>【完成】“推得动”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>推箱子 = 刚体 + 合适质量 + 低摩擦。物理自动处理。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>可破坏物与机关</h2>
+<p>打碎、踩下、吊起。</p>
+<ol class="steps"><li>【可破坏物】花瓶/箱子带 hp：</li><li>public int hp = 1;</li><li>public void TakeDamage(int dmg) {</li><li>hp -= dmg;</li><li>if (hp &lt;= 0) Break();</li><li>}</li><li>void Break() {</li><li>// 碎片特效+音效+掉落物</li><li>ObjectPool.Instance.GetDebris(transform.position);</li><li>AudioManager.Instance.PlaySFX(breakSound);</li><li>Instantiate(dropItem, transform.position, Quaternion.identity);</li><li>Destroy(gameObject);</li><li>}</li><li>【碎片】用粒子或几块小几何体模拟碎片。</li><li>【物理按键】压力板：触发器检测重量（玩家或箱子）：</li><li>void OnTriggerStay(Collider o) { if (o.CompareTag("Player") || o.CompareTag("Box")) activated = true; }</li><li>【吊桥】桥板用 HingeJoint 连接（第 233 课），踩上会晃/放平。</li><li>【联动】可破坏物触发机关（打碎罐子出钥匙）。</li><li>【测试】打碎花瓶、踩板开门、桥会晃。</li><li>【完成】场景“处处有戏”！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>环境交互 = 可破坏（hp+碎片）+ 物理机关（压力/铰链）+ 联动。组合无穷。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>箱子推不动？<br><b>原因：</b>质量太大或摩擦太大<br><b>解决：</b>箱子质量设小；物理材质 Friction 调低；角色速度够。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做可推箱子</li><li>做可破坏花瓶与掉落物</li><li>做压力板联动门</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>环境交互完成。下一课做 3D 动画进阶。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-238/index.html"><span class="dir">← 上一课</span><span class="t">3D 门与开关机制</span></a><a class="nav-item next" href="../lesson-240/index.html"><span class="dir">下一课 →</span><span class="t">3D 动画进阶（混合树与层）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

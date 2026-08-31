@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 101 课：射线检测进阶：图层过滤与命中信息 · Unity 星辰学院</title>
+<meta name="description" content="射线检测进阶：图层过滤与命中信息 · Unity 星辰学院第 101 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-101">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 101 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 101 · 物理系统</span>
+    <h1>射线检测进阶：图层过滤与命中信息</h1>
+    <p class="sub">射线进阶已掌握。下一课学物理查询与抛体运动。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 101 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:33.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">101 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Raycast 完整参数</a>
+<a href="#sec-1">RaycastHit 命中信息实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握 LayerMask 过滤</li><li>掌握 RaycastHit 详细信息</li><li>掌握多条射线与数组查询</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>上节课学会了基本射线，本课把它的“全身功能”挖掘出来：只打指定层、读取命中点与法线。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Raycast 完整参数</h2>
+<p>一行代码看全部能力。</p>
+<ol class="steps"><li>完整语法：Physics.Raycast(origin, direction, out hit, maxDistance, layerMask, queryTriggerInteraction);</li><li>参数逐一说明：</li><li>① origin 起点（Vector3）</li><li>② direction 方向（单位向量）</li><li>③ out hit 命中信息（RaycastHit）</li><li>④ maxDistance 最大检测距离</li><li>⑤ layerMask 只检测的层（位掩码，第 99 课）</li><li>⑥ queryTriggerInteraction：是否检测触发器（Ignore/Query/Collide）</li><li>【简写】多数情况只需前 4 个参数。</li><li>【返回多个】Physics.RaycastAll(ray, distance) 返回所有被射中的物体数组（穿过多个）。</li><li>【最近与最远】RaycastAll 后按 hit.distance 排序即可。</li><li>【球形射线】Physics.SphereCast：带“粗细”的射线（有半径），更真实。</li><li>【性能】每条射线是一次物理查询，避免每帧成千上万条。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>射线默认不检测触发器（勾了 Is Trigger 的），需要时用第 6 个参数开启。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>RaycastHit 命中信息实战</h2>
+<p>用命中点与法线做特效。</p>
+<ol class="steps"><li>新建脚本 RayAdvDemo：</li><li>if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 10f)) {</li><li>Debug.Log("名字：" + hit.collider.name);</li><li>Debug.Log("命中点：" + hit.point);</li><li>Debug.Log("法线：" + hit.normal);</li><li>Debug.Log("距离：" + hit.distance);</li><li>Debug.Log("刚体：" + hit.rigidbody);</li><li>Debug.DrawLine(transform.position, hit.point, Color.green); // 画线到命中点</li><li>}</li><li>【命中点 hit.point】在击中位置生成特效：Instantiate(effectPrefab, hit.point, Quaternion.LookRotation(hit.normal));</li><li>【法线 hit.normal】让特效“贴”在被击表面（垂直方向）。</li><li>【距离 hit.distance】判断远近做伤害衰减。</li><li>【刚体 hit.rigidbody】对被击中物体施加力：hit.rigidbody.AddForce(...)。</li><li>【常用组合】射击命中：命中点生成火花 + 对被击刚体加力 + 扣血。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>RaycastHit 三宝：hit.point（在哪）、hit.normal（朝向）、hit.rigidbody（打的是谁）。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>射线穿过物体却没检测到？<br><b>原因：</b>LayerMask 未包含该层，或对象是触发器<br><b>解决：</b>检查 LayerMask；用 queryTriggerInteraction 开启触发器检测。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 RaycastAll 返回所有命中物体</li><li>在命中点生成一个小特效</li><li>对被击中的刚体施加 Impulse 力</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>射线进阶已掌握。下一课学物理查询与抛体运动。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-100/index.html"><span class="dir">← 上一课</span><span class="t">射线检测 Raycast 入门</span></a><a class="nav-item next" href="../lesson-102/index.html"><span class="dir">下一课 →</span><span class="t">物理查询与抛体运动</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

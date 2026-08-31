@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 64 课：构造函数 Constructor · Unity 星辰学院</title>
+<meta name="description" content="构造函数 Constructor · Unity 星辰学院第 64 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-064">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 64 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 64 · C# 编程基础</span>
+    <h1>构造函数 Constructor</h1>
+    <p class="sub">构造函数已掌握。下一课学封装的访问修饰符与属性。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 64 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:21.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">64 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">构造函数基础</a>
+<a href="#sec-1">this 关键字与实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解构造函数的作用</li><li>掌握带参构造函数</li><li>掌握 this 关键字</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>每次 new 对象时，如果希望“一出生就带数据”，用构造函数。它是对象的“出生仪式”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>构造函数基础</h2>
+<p>对象创建时自动执行。</p>
+<ol class="steps"><li>构造函数是与类同名、没有返回类型的方法。</li><li>语法：public 类名() { 初始化代码 }</li><li>创建对象 new 类名() 时，构造函数自动执行一次。</li><li>例：public class Player { public int hp; public Player() { hp = 100; } }</li><li>这样 new Player() 时 hp 自动为 100。</li><li>如果类里没写构造函数，编译器会提供默认无参构造。</li><li>构造函数也可以有参数：public Player(int startHp) { hp = startHp; }</li><li>调用：Player p = new Player(200);</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>构造函数不能有返回类型（连 void 都不能写），名字必须与类名完全一致。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>this 关键字与实战</h2>
+<p>指代“当前对象”。</p>
+<ol class="steps"><li>【this】在方法/构造内指代“当前正在操作的这个对象”。</li><li>主要用于区分“参数名与字段名相同”的情况：</li><li>public Player(int hp) { this.hp = hp; } // this.hp 是字段，hp 是参数</li><li>【多个构造】重载：public Player() { hp = 100; } public Player(int hp) { this.hp = hp; }</li><li>两个都写，调用时可选无参或带参版本。</li><li>【构造链】一个构造调用另一个：public Player() : this(100) { }</li><li>【实战】在 PlayerData 类里加构造函数：</li><li>public PlayerData(string n, int h) { name = n; hp = h; }</li><li>然后：PlayerData p = new PlayerData("小明", 80); 一步完成创建+初始化。</li><li>体会构造函数让“创建即就绪”。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>带参构造 + 直接传值初始化，比“先 new 再逐个赋值”更优雅、更不易漏。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>报错：构造函数缺少参数？<br><b>原因：</b>写了带参构造后，无参调用失败<br><b>解决：</b>显式再加一个无参构造，或调用时传入参数。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>给 Enemy 类添加带参构造函数（名字+血量）</li><li>用一句 new Enemy("野猪", 50) 创建并初始化</li><li>用 this 区分字段与参数</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>构造函数已掌握。下一课学封装的访问修饰符与属性。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-063/index.html"><span class="dir">← 上一课</span><span class="t">类 Class 与对象</span></a><a class="nav-item next" href="../lesson-065/index.html"><span class="dir">下一课 →</span><span class="t">封装：public/private 与属性</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

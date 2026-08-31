@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 138 课：Avatar 与人形动画 · Unity 星辰学院</title>
+<meta name="description" content="Avatar 与人形动画 · Unity 星辰学院第 138 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-138">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 138 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 138 · 动画系统</span>
+    <h1>Avatar 与人形动画</h1>
+    <p class="sub">Avatar 与人形动画已掌握。下一课学动画重定向。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 138 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:46.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">138 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Avatar 与 Rig 设置</a>
+<a href="#sec-1">配置 Avatar 骨骼映射</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 Avatar 作用</li><li>掌握人形配置</li><li>正确设置模型 Rig</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>Unity 的“人形”能力：只要骨骼对齐标准模板，任何角色都能复用同一套人类动画（走路、跑步、挥手）。关键在 Avatar。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Avatar 与 Rig 设置</h2>
+<p>导入模型时先设对 Rig。</p>
+<ol class="steps"><li>选中模型文件，Inspector →【Rig】页签。</li><li>【Animation Type】选【Humanoid】（人形）。</li><li>下方出现【Avatar Definition】：选 Create From This Model（从此模型创建 Avatar）。</li><li>点右下角【Apply 应用】。</li><li>Unity 自动创建 Avatar（一个 .avatar 资产），并尝试自动匹配骨骼。</li><li>若骨骼命名标准，自动匹配成功（绿色对勾）；否则需手动配置（下一步）。</li><li>【Generic 通用】非人形模型用 Generic 动画类型（动物、机械）。</li><li>【None】不需要动画的静态模型。</li><li>【注意】人形动画（官方商店的动作资源）大多只兼容 Humanoid。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>想复用人形动画（走路/跑步/攻击），模型必须设成 Humanoid 并生成 Avatar。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>配置 Avatar 骨骼映射</h2>
+<p>自动匹配失败时手动指定。</p>
+<ol class="steps"><li>在 Rig 页签点【Configure Avatar… 配置】按钮，进入 Avatar 配置界面。</li><li>场景变灰，显示模型与骨骼系统（Mapping 映射面板）。</li><li>右侧列出“标准人形骨骼”（Hips、Spine、Head、Shoulder、Upper Arm 等）。</li><li>绿色对勾 = 已自动匹配；红色感叹号 = 未匹配。</li><li>【手动指定】点未匹配项（如 Left Upper Leg），再在场景中点击对应的骨骼对象（黄色高亮的可点），建立映射。</li><li>【一键自动】点击【Mapping】面板右上角的【Automap】按钮，尝试自动匹配。</li><li>【骨骼预览】点击骨骼项，场景中对应骨骼高亮。</li><li>【完成】配置完点【Done】，保存 Avatar。</li><li>【验证】配置成功后，动画可正常驱动；可导入官方“第三方动画”测试重定向。</li><li>【注意】映射错误会导致动画扭曲，务必保证四肢/头部对应。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>Avatar 配置 = 把“我的骨骼”翻译成“Unity 标准人形骨骼”，翻译对了动画就通用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>动画严重扭曲/错位？<br><b>原因：</b>Avatar 骨骼映射错误<br><b>解决：</b>重新 Configure Avatar，逐个修正映射；或换骨骼命名标准的模型。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把一个人形模型设为 Humanoid 并生成 Avatar</li><li>打开 Configure Avatar 查看映射状态</li><li>修正未匹配的骨骼映射</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Avatar 与人形动画已掌握。下一课学动画重定向。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-137/index.html"><span class="dir">← 上一课</span><span class="t">骨骼动画与骨骼绑定</span></a><a class="nav-item next" href="../lesson-139/index.html"><span class="dir">下一课 →</span><span class="t">动画重定向 Avatar Retargeting</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

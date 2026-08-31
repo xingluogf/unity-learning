@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 188 课：材质与 Shader 基础 · Unity 星辰学院</title>
+<meta name="description" content="材质与 Shader 基础 · Unity 星辰学院第 188 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-188">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 12 章 · 特效与粒子</a><span class="sep">/</span>
+    <span>第 188 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 188 · 特效与粒子</span>
+    <h1>材质与 Shader 基础</h1>
+    <p class="sub">材质与 Shader 基础已掌握。下一课学标准着色器。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 12 章 · 特效与粒子</span><span class="meta-item">📍 第 188 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:62.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">188 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">材质与 Shader 的关系</a>
+<a href="#sec-1">创建与设置材质</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解材质与 Shader</li><li>掌握创建材质</li><li>掌握常用属性</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>物体的“长相”（颜色、光泽、透明）由材质决定，材质由 Shader 决定。本课打下图形学基础。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>材质与 Shader 的关系</h2>
+<p>Shader=配方，Material=成品。</p>
+<ol class="steps"><li>【Shader 着色器】一段 GPU 程序，决定物体“怎么被画”：算法（光照、透明、金属感）。</li><li>【Material 材质】Shader 的“参数实例”：具体颜色、贴图、光滑度数值。</li><li>【关系】一个 Shader 可派生多个材质（同一算法不同参数）。</li><li>【常见 Shader】</li><li>Standard（标准 PBR）：通用、物理正确（金属/光滑）。</li><li>Unlit（无光照）：不受光、纯色（UI、发光）。</li><li>URP/Lit：新渲染管线的标准（第 260 课）。</li><li>【默认】新建物体自带 Default-Material（Standard 白）。</li><li>【材质位置】Project 里的 .mat 资产；多个物体可共享一个材质。</li><li>【示例】两个球用同一 Shader：一个红色金属、一个蓝色粗糙 = 两个材质。</li><li>【注意】Shader 写错/缺失会显示粉色（洋红）！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Shader=“做法”，Material=“这道菜”：做法定品类（红烧/清蒸），调料定口味。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>创建与设置材质</h2>
+<p>动手做材质。</p>
+<ol class="steps"><li>【创建】Project 右键 → Create → Material，命名 RedMetal。</li><li>【选择 Shader】选中材质 → Inspector 顶部的 Shader 下拉 → Standard（或 URP/Lit）。</li><li>【属性】</li><li>Albedo 反照率：基础颜色 + 可贴纹理（拖入贴图）。</li><li>Metallic 金属度：0=非金属、1=金属。</li><li>Smoothness 光滑度：0=粗糙、1=镜面光滑。</li><li>Normal Map 法线贴图：凹凸细节（第 184 课）。</li><li>Emission 自发光：自己发光（霓虹、灯牌）。</li><li>【应用】把材质拖到物体的 Mesh Renderer 的 Materials 槽（或直接拖到场景物体）。</li><li>【效果】金属度与光滑度组合出“金属/塑料/陶瓷”质感。</li><li>【复制修改】选中材质 Ctrl+D 复制出变体（别改共享材质影响所有物体）。</li><li>【完成】你的物体有了定制外观。</li><li>【注意】改共享材质会影响所有用它物体，需独立时先复制。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>材质三兄弟：Albedo 颜色、Metallic 金属、Smoothness 光滑。组合出一切质感。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>物体变粉色？<br><b>原因：</b>Shader 缺失或渲染管线不兼容<br><b>解决：</b>给材质指定存在的 Shader（如 Standard/URP-Lit）；确认管线匹配（第 260 课）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建 3 个不同质感材质（金属/塑料/发光）</li><li>理解 Shader 与材质关系</li><li>把材质应用到物体</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>材质与 Shader 基础已掌握。下一课学标准着色器。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-187/index.html"><span class="dir">← 上一课</span><span class="t">粒子系统模块详解</span></a><a class="nav-item next" href="../lesson-189/index.html"><span class="dir">下一课 →</span><span class="t">标准着色器与材质属性</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 211 课：2D 敌人 AI（巡逻与追击） · Unity 星辰学院</title>
+<meta name="description" content="2D 敌人 AI（巡逻与追击） · Unity 星辰学院第 211 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-211">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 211 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 211 · 2D 游戏开发</span>
+    <h1>2D 敌人 AI（巡逻与追击）</h1>
+    <p class="sub">2D 敌人 AI 完成。下一课做道具收集。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 211 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:70.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">211 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">巡逻 AI</a>
+<a href="#sec-1">追击与攻击</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现敌人巡逻</li><li>实现追击玩家</li><li>实现敌人攻击</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>敌人会来回走、看到你追你——最简单的 AI 也有“状态机”思维。本课实现经典敌人。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>巡逻 AI</h2>
+<p>来回走 + 悬崖转身。</p>
+<ol class="steps"><li>【敌人基础】精灵 + Rigidbody2D + BoxCollider2D + 脚本 EnemyPatrol。</li><li>【巡逻】来回移动并翻转：</li><li>public float speed = 2f;</li><li>public Transform groundCheck; public LayerMask groundLayer;</li><li>void Update() {</li><li>rb.velocity = new Vector2(speed * transform.localScale.x, rb.velocity.y);</li><li>// 悬崖检测：前方地面射线</li><li>bool groundedAhead = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.5f, groundLayer).collider != null;</li><li>if (!groundedAhead) Flip();</li><li>}</li><li>void Flip() { transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y); }</li><li>【说明】用 localScale.x 作为朝向（正=右）；碰悬崖翻转。</li><li>【或】撞墙检测：前方短射线/碰撞回调翻转。</li><li>【速度】rb.velocity 移动（第 206 课）。</li><li>【测试】敌人在平台上往返巡逻、悬崖边转身。</li><li>【注意】敌人朝向与射线方向一致（翻转后射线自动跟随 localScale）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>巡逻 = 恒速移动 + 悬崖/墙检测翻转。朝向用 localScale.x。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>追击与攻击</h2>
+<p>发现玩家就追。</p>
+<ol class="steps"><li>【追击】给敌人加视野：</li><li>public Transform player; public float sightRange = 6f;</li><li>public LayerMask playerLayer;</li><li>void Update() {</li><li>// 视野射线</li><li>RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(transform.localScale.x,0), sightRange, playerLayer);</li><li>if (hit.collider != null) Chase(); else Patrol();</li><li>}</li><li>void Chase() {</li><li>// 朝玩家移动</li><li>float dir = Mathf.Sign(player.position.x - transform.position.x);</li><li>rb.velocity = new Vector2(dir * chaseSpeed, rb.velocity.y);</li><li>if (dir != transform.localScale.x) Flip();</li><li>}</li><li>【状态】简单分支：发现→追、没发现→巡逻（就是“状态机”）。</li><li>【攻击】接触玩家：OnCollisionEnter2D 里对玩家扣血（或玩家脚本受伤）。</li><li>【受伤】给敌人加 hp：</li><li>public int hp = 3;</li><li>void TakeDamage(int dmg) { hp -= dmg; if (hp &lt;= 0) Destroy(gameObject); }</li><li>玩家攻击时调用 enemy.TakeDamage(1)。</li><li>【死亡】掉道具/特效（第 212 课）。</li><li>【进阶】完整状态机（第 131 课思维）+ 追击距离限制。</li><li>【注意】追击时也别冲出平台（同样做悬崖检测）。</li><li>【完成】敌人“活了”！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>敌人 AI = 状态分支（巡逻/追击）+ 视野射线 + 朝向处理。一套就够普通游戏用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>敌人卡在墙边抖？<br><b>原因：</b>朝向与速度方向不一致<br><b>解决：</b>移动方向始终用 localScale.x 或独立 facing 变量统一管理。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做来回巡逻的敌人</li><li>做视野发现玩家追击</li><li>实现敌人受伤与死亡</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>2D 敌人 AI 完成。下一课做道具收集。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-210/index.html"><span class="dir">← 上一课</span><span class="t">2D 平台游戏（跑跳完整版）</span></a><a class="nav-item next" href="../lesson-212/index.html"><span class="dir">下一课 →</span><span class="t">2D 道具与收集系统</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

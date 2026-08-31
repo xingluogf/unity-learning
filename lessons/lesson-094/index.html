@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 94 课：给物体施加力 AddForce · Unity 星辰学院</title>
+<meta name="description" content="给物体施加力 AddForce · Unity 星辰学院第 94 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-094">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 94 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 94 · 物理系统</span>
+    <h1>给物体施加力 AddForce</h1>
+    <p class="sub">AddForce 已掌握。下一课学扭矩与角速度。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 94 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:31.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">94 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">AddForce 基础</a>
+<a href="#sec-1">实战：跳跃与加农炮</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握 AddForce 语法</li><li>理解 ForceMode 四种模式</li><li>用受力实现推进/爆炸</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>AddForce 让刚体“被推一把”。理解四种力的模式，才能做出想要的物理效果。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>AddForce 基础</h2>
+<p>给刚体一个“推力”。</p>
+<ol class="steps"><li>语法：rb.AddForce(Vector3 方向 * 力度);</li><li>例：rb.AddForce(Vector3.up * 500f); 把物体向上推。</li><li>【执行位置】物理相关放 FixedUpdate 里（第 72 课）。</li><li>【四种模式 ForceMode】</li><li>ForceMode.Force（默认）：持续的力，随质量影响，适合推进、持续加速。</li><li>ForceMode.Acceleration：持续加速度（忽略质量），适合统一加速。</li><li>ForceMode.Impulse：瞬间冲量（一次性猛推），适合跳跃、爆炸、开枪后坐力。</li><li>ForceMode.VelocityChange：瞬间速度改变（忽略质量），适合直接设定速度变化。</li><li>【选择】一次性“撞飞”用 Impulse；持续“推走”用 Force。</li><li>【质量影响】Force 与 Impulse 受质量影响：质量大的物体被同样的力推动得慢。</li><li>【方向】可以是世界方向（Vector3.up）或自身方向（transform.forward）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>理解重点：Impulse 像“踢一脚”，Force 像“一直推”，二者手感完全不同。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：跳跃与加农炮</h2>
+<p>体验不同模式。</p>
+<ol class="steps"><li>【跳跃（Impulse）】在 Player 脚本里：if (Input.GetKeyDown(KeyCode.Space)) { GetComponent&lt;Rigidbody&gt;().AddForce(Vector3.up * 8f, ForceMode.Impulse); }</li><li>注意：跳跃力要能克服重力，8-10 较合适；落地后还要允许再跳（判断在地面）。</li><li>【持续推进（Force）】给火箭做推进：rb.AddForce(transform.up * 50f, ForceMode.Force); 放 FixedUpdate 里，火箭持续上升。</li><li>【爆炸（Impulse 方向）】给物体一个随机方向的爆炸力：rb.AddForce(dir * power, ForceMode.Impulse); dir 是“从爆炸点到物体”的方向。</li><li>【对比】同一力度分别用 Force 与 Impulse，观察物体被“持续推”与“瞬间撞飞”的差异。</li><li>【注意】力的方向尽量单位化再乘力度，避免斜向力过大。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>跳跃 = Impulse 一次性冲量；火箭 = Force 持续推力。牢记两种模式的差别。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>物体没被推动？<br><b>原因：</b>力太小或对象无刚体<br><b>解决：</b>确认有 Rigidbody；把力调大；确认在 FixedUpdate 里调用。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 Impulse 做一个能跳的方块</li><li>用 Force 做一个持续上升的火箭（可乘 Time.fixedDeltaTime）</li><li>对比四种 ForceMode 的效果差异</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>AddForce 已掌握。下一课学扭矩与角速度。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-093/index.html"><span class="dir">← 上一课</span><span class="t">物理材质 Physic Material</span></a><a class="nav-item next" href="../lesson-095/index.html"><span class="dir">下一课 →</span><span class="t">扭矩与角速度 Torque</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

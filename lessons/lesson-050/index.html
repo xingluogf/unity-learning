@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 50 课：运算符详解 · Unity 星辰学院</title>
+<meta name="description" content="运算符详解 · Unity 星辰学院第 50 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-050">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 50 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 50 · C# 编程基础</span>
+    <h1>运算符详解</h1>
+    <p class="sub">运算符已掌握，你已具备基本的“计算与判断”能力。下一课进入条件语句。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 50 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:16.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">50 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">算术运算符</a>
+<a href="#sec-1">比较与逻辑运算符</a>
+<a href="#sec-2">赋值运算符与自增</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握算术运算符</li><li>掌握比较与逻辑运算符</li><li>掌握赋值运算符与自增自减</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>运算符让数据产生变化与判断。它们是代码的“动作”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>算术运算符</h2>
+<p>做数学运算。</p>
+<ol class="steps"><li>【+ 加】【- 减】【* 乘】【/ 除】：int a = 10; int b = 3;</li><li>a / b 得 3（整数相除只保留整数部分），要得小数需 float 参与：10f / 3 得 3.33…。</li><li>【% 取余（求模）】：a % b 得 1（10 除以 3 余 1）。用于判断奇偶、循环动画等。</li><li>【+ 也可拼接字符串】："a" + "b" 得 "ab"。</li><li>【优先级】：先乘除后加减，括号 ( ) 最优先：2 + 3 * 4 = 14；(2 + 3) * 4 = 20。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>整数除法容易踩坑：两个 int 相除结果还是 int。需要小数时让其中一个数变成 float。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>比较与逻辑运算符</h2>
+<p>产生 true/false 判断。</p>
+<ol class="steps"><li>【比较运算符】：==（等于）、!=（不等于）、&gt;（大于）、&lt;（小于）、&gt;=（大于等于）、&lt;=（小于等于）。</li><li>比较结果是一个 bool：int a = 5; a &gt; 3 得 true；a == 3 得 false。</li><li>【注意】：判断相等用两个等号 ==，单个 = 是赋值！这是新手高频错误。</li><li>【逻辑运算符】：&amp;&amp;（并且）、||（或者）、!（取反）。</li><li>(a &gt; 3) &amp;&amp; (a &lt; 10)：a 大于 3 且小于 10，得 true。</li><li>(a &lt; 0) || (a &gt; 100)：a 小于 0 或大于 100 才 true。</li><li>!(a &gt; 3)：对结果取反，得 false。</li><li>短路特性：&amp;&amp; 左边为 false 就不看右边；|| 左边为 true 就不看右边。</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>一个等号 = 是赋值，两个等号 == 才是比较！写错会让逻辑永远“成立”，Debug 到怀疑人生。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>赋值运算符与自增</h2>
+<p>简化写法。</p>
+<ol class="steps"><li>【=】赋值：int x = 10;</li><li>【+=】【-=】【*=】【/=】：x += 5 等价于 x = x + 5；x -= 3 等价于 x = x - 3。</li><li>【++ 自增】【-- 自减】：x++ 等价于 x = x + 1；x-- 等价于 x = x - 1。</li><li>x++ 与 ++x 区别：x++ 先返回原值再加；++x 先加再返回（一般循环里用 x++ 即可）。</li><li>实战组合：int score = 0; score += 10; // 得 10；score++; // 得 11。</li><li>用于计分、生命值增减、循环计数等。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>score += 10 比 score = score + 10 更简洁，也更快，习惯用它。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>把 == 写成 = 导致逻辑永远正确？<br><b>原因：</b>赋值表达式返回 true<br><b>解决：</b>检查条件判断处是否用了双等号；编辑器/编译器也会给出建议。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>计算 17 % 5 的结果并验证</li><li>写一段判断：分数大于等于 60 且小于 90 输出"及格"</li><li>用 += 把分数累加 3 次</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>运算符已掌握，你已具备基本的“计算与判断”能力。下一课进入条件语句。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-049/index.html"><span class="dir">← 上一课</span><span class="t">常量与类型转换</span></a><a class="nav-item next" href="../lesson-051/index.html"><span class="dir">下一课 →</span><span class="t">条件语句 if / else if / else</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

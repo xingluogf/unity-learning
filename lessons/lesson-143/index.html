@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 143 课：IK 反向动力学 · Unity 星辰学院</title>
+<meta name="description" content="IK 反向动力学 · Unity 星辰学院第 143 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-143">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 143 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 143 · 动画系统</span>
+    <h1>IK 反向动力学</h1>
+    <p class="sub">IK 已掌握。下一课学布娃娃 Ragdoll。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 143 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:47.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">143 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">IK 概念</a>
+<a href="#sec-1">实现手抓取与脚踩地</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 IK 概念</li><li>掌握 OnAnimatorIK</li><li>实现手抓取/脚踩地</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“手要抓到门把手”“脚要踩在斜坡上”——正向动画做不到，靠 IK（反向动力学）根据目标反推骨骼姿态。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>IK 概念</h2>
+<p>“从结果反推姿势”。</p>
+<ol class="steps"><li>【正向动力学 FK】动画直接指定骨骼旋转，手就到哪算哪。</li><li>【反向动力学 IK】给定“手要到达的点”，系统反算肩肘手腕的旋转让手够到。</li><li>【典型应用】手抓物体、脚踩地形、视线看目标、头部跟随。</li><li>【人形 IK】Unity 人形模型内置 IK 支持（必须 Humanoid + Avatar）。</li><li>【触发时机】在 OnAnimatorIK(int layerIndex) 方法里写 IK 逻辑（每帧动画更新时调用）。</li><li>【前提】脚本挂角色上，且角色 Animator 是 Humanoid。</li><li>【层】OnAnimatorIK 的 layerIndex 参数对应当前动画层。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>IK = “目标点 → 反推姿势”。它让角色“够得着”“踩得稳”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实现手抓取与脚踩地</h2>
+<p>实战两例。</p>
+<ol class="steps"><li>【手抓取】在角色脚本里写：</li><li>public Transform handTarget; // 要抓的目标（如门把手）</li><li>public float handWeight = 1f;</li><li>void OnAnimatorIK(int layerIndex) {</li><li>Animator anim = GetComponent&lt;Animator&gt;();</li><li>if (handTarget != null) {</li><li>anim.SetIKPositionWeight(AvatarIKGoal.RightHand, handWeight);</li><li>anim.SetIKRotationWeight(AvatarIKGoal.RightHand, handWeight);</li><li>anim.SetIKPosition(AvatarIKGoal.RightHand, handTarget.position);</li><li>anim.SetIKRotation(AvatarIKGoal.RightHand, handTarget.rotation);</li><li>}</li><li>}</li><li>【脚踩地形】用射线检测脚下地面高度，设置双脚 IK：</li><li>anim.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1f);</li><li>anim.SetIKPosition(AvatarIKGoal.LeftFoot, footPos);</li><li>【权重】Weight 0-1 控制 IK 影响程度（可平滑过渡）。</li><li>【AvatarIKGoal】枚举：LeftHand/RightHand/LeftFoot/RightFoot/LeftShoulder 等。</li><li>【注意】IK 在动画之上叠加，权重 0=纯动画、1=完全 IK。</li><li>【调试】用 Debug.DrawRay 画出 IK 目标点。</li><li>【性能】IK 计算有成本，按需启用（近处才开）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>IK 公式：SetIKPositionWeight(目标, 权重) + SetIKPosition(目标, 点)。两行实现“够得到”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>IK 没效果？<br><b>原因：</b>模型不是 Humanoid、或权重为 0、或没在 OnAnimatorIK 里写<br><b>解决：</b>确认 Humanoid+Avatar；权重设 1；方法名写对 OnAnimatorIK。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现右手抓取一个目标点</li><li>用射线让脚贴合地面坡度</li><li>用权重做 IK 淡入淡出</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>IK 已掌握。下一课学布娃娃 Ragdoll。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-142/index.html"><span class="dir">← 上一课</span><span class="t">动画控制器脚本控制（SetTrigger 等）</span></a><a class="nav-item next" href="../lesson-144/index.html"><span class="dir">下一课 →</span><span class="t">布娃娃 Ragdoll</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

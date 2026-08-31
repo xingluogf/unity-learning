@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 140 课：Root Motion 根运动 · Unity 星辰学院</title>
+<meta name="description" content="Root Motion 根运动 · Unity 星辰学院第 140 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-140">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 140 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 140 · 动画系统</span>
+    <h1>Root Motion 根运动</h1>
+    <p class="sub">Root Motion 已掌握。下一课学 2D 动画。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 140 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:46.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">140 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">什么是 Root Motion</a>
+<a href="#sec-1">配置与选择</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 Root Motion 概念</li><li>掌握开启与关闭</li><li>理解与代码移动的关系</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>有的游戏角色移动全靠代码，有的靠“动画自带位移”（跑动画会带着角色前进）。后者就是 Root Motion。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>什么是 Root Motion</h2>
+<p>动画“拖着人走”。</p>
+<ol class="steps"><li>【普通方式】动画在原地播放，位移由代码控制（transform.position += ...）。</li><li>【Root Motion】动画片段本身记录了“根骨（Root）”的位移，播放时带动整个角色移动。</li><li>【效果】跑步动画自带前进，播放时角色自动向前跑。</li><li>【优点】动作与位移完美同步（尤其跳跃、翻滚这类“动作=位移”的）。</li><li>【缺点】位移速度由动画决定，代码控制自由度降低。</li><li>【开关】Animator 组件勾选/取消【Apply Root Motion】。</li><li>【注意】Root Motion 需要动画片段里有根骨骼运动数据（烘焙的位移）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>简单判断：走路/跑步若动画自带“身体前倾+位移”，就用 Root Motion；纯原地动画则用代码移动。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>配置与选择</h2>
+<p>何时用、怎么用。</p>
+<ol class="steps"><li>【启用】角色 Animator 勾选 Apply Root Motion，播放自带位移的动画，角色自动移动。</li><li>【代码移动二选一】用 Root Motion 后，别再用代码 transform 位移（会叠加冲突）。</li><li>【用 Root Motion 的方式】输入控制“动画状态”（走路/跑步），位移交给动画。</li><li>【混合方式】Root Motion 提供位移 + 代码只做转向/方向控制。</li><li>【关卡动画】过场动画/机关动画用 Root Motion 精确位移。</li><li>【禁用场景】走格子、精确操控（如小游戏）用代码位移更可控，取消 Apply Root Motion。</li><li>【根运动设置】动画片段的 Root Transform Rotation/Position 属性（第 129 课）控制根运动行为。</li><li>【验证】勾选后播放，观察角色是否随动画移动。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>判断标准：动作自带位移（跑跳翻滚）→ Root Motion；动作原地（待机、攻击）→ 代码位移。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>勾了 Root Motion 但角色不动？<br><b>原因：</b>动画片段没烘焙根位移<br><b>解决：</b>检查动画片段是否有根运动数据；或改用代码位移并取消 Root Motion。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>体验跑步动画开启/关闭 Root Motion 的差异</li><li>理解哪些动作适合 Root Motion</li><li>正确选择角色的移动方案</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Root Motion 已掌握。下一课学 2D 动画。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-139/index.html"><span class="dir">← 上一课</span><span class="t">动画重定向 Avatar Retargeting</span></a><a class="nav-item next" href="../lesson-141/index.html"><span class="dir">下一课 →</span><span class="t">2D 动画（Sprite Animation）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

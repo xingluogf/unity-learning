@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 234 课：3D 拾取与交互系统 · Unity 星辰学院</title>
+<meta name="description" content="3D 拾取与交互系统 · Unity 星辰学院第 234 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-234">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 234 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 234 · 3D 游戏进阶</span>
+    <h1>3D 拾取与交互系统</h1>
+    <p class="sub">3D 拾取交互完成。下一课做 3D 敌人 AI。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 234 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:78.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">234 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">准星射线交互</a>
+<a href="#sec-1">拾取与扔放</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现射线交互</li><li>实现拾取扔放</li><li>实现通用交互</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“按 E 拿起箱子”“照准门按 F 开”——3D 游戏交互的核心是“准星+射线+按键”。本课做通用交互系统。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>准星射线交互</h2>
+<p>看哪、指哪、按哪。</p>
+<ol class="steps"><li>【准星】UI 中心小点（Image，第 146 课）。</li><li>【射线】从相机中心发射：</li><li>public float range = 5f;</li><li>void Update() {</li><li>Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));</li><li>RaycastHit hit;</li><li>if (Physics.Raycast(ray, out hit, range)) {</li><li>if (hit.collider.CompareTag("Interactable")) {</li><li>// 显示提示、高亮</li><li>ShowPrompt(hit.collider.gameObject);</li><li>if (Input.GetKeyDown(KeyCode.E)) hit.collider.SendMessage("OnInteract", SendMessageOptions.DontRequireReceiver);</li><li>}</li><li>}</li><li>}</li><li>【高亮】命中物加轮廓/发光（用 Outline 组件或材质 Emission 变化）。</li><li>【提示】屏幕显示“按 E 开门”（第 169 课）。</li><li>【交互标记】可交互物体 Tag=Interactable + 脚本实现 OnInteract()。</li><li>【发送】SendMessage 或接口（IInteractable）。</li><li>【测试】准星对箱子按 E，触发交互。</li><li>【完成】“看哪按哪”的交互基础。</li><li>【注意】射线范围与 Tag 过滤。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>交互 = 准星射线（中心）→ 命中 Interactable → 提示+按键触发。通用套路。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>拾取与扔放</h2>
+<p>拿起来、扔出去。</p>
+<ol class="steps"><li>【拾取实现】把物体“吸”到相机前：</li><li>public Transform holdPoint; // 相机前方挂点</li><li>private GameObject heldObj;</li><li>void Update() {</li><li>if (Input.GetKeyDown(KeyCode.E)) {</li><li>if (heldObj == null) PickUp(); else Drop();</li><li>}</li><li>if (heldObj != null) {</li><li>heldObj.transform.position = Vector3.Lerp(heldObj.transform.position, holdPoint.position, Time.deltaTime * 10f);</li><li>}</li><li>}</li><li>void PickUp() {</li><li>// 射线命中可拾取物</li><li>heldObj = hit.collider.gameObject;</li><li>heldObj.GetComponent&lt;Rigidbody&gt;().isKinematic = true; // 关物理</li><li>heldObj.transform.SetParent(holdPoint);</li><li>}</li><li>void Drop() {</li><li>heldObj.GetComponent&lt;Rigidbody&gt;().isKinematic = false;</li><li>heldObj.transform.SetParent(null);</li><li>heldObj = null;</li><li>}</li><li>【说明】拾取=关刚体+挂到挂点；放下=开刚体+解除父子。</li><li>【扔】Drop 时 AddForce 往前扔。</li><li>【优化】挂点位置在相机前 1.5 米。</li><li>【注意】拾取物加可拾取 Tag/脚本标记。</li><li>【测试】E 拾起箱子、移动拿着、E 放下/扔出。</li><li>【完成】“拿得起放得下”！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>拾取 = isKinematic 关物理 + 挂父节点 + Lerp 吸过去。核心两步。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>拾起后物体乱飞？<br><b>原因：</b>isKinematic 没关或没解除父子<br><b>解决：</b>PickUp 设 isKinematic=true；Drop 设 false 并 SetParent(null)。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做准星射线交互提示</li><li>实现拾取/放下/扔出</li><li>做按 E 开门的通用交互</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 拾取交互完成。下一课做 3D 敌人 AI。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-233/index.html"><span class="dir">← 上一课</span><span class="t">3D 物理进阶（关节与力）</span></a><a class="nav-item next" href="../lesson-235/index.html"><span class="dir">下一课 →</span><span class="t">3D 敌人与 AI 导航</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 37 课：模型导入设置详解 · Unity 星辰学院</title>
+<meta name="description" content="模型导入设置详解 · Unity 星辰学院第 37 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-037">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 4 章 · 资源导入与管理</a><span class="sep">/</span>
+    <span>第 37 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 37 · 资源导入与管理</span>
+    <h1>模型导入设置详解</h1>
+    <p class="sub">模型导入设置已掌握。下一课导入贴图纹理。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 4 章 · 资源导入与管理</span><span class="meta-item">📍 第 37 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:12.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">37 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">模型 Model 页签</a>
+<a href="#sec-1">动画页签设置</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握模型导入面板核心项</li><li>学会调整缩放因子</li><li>了解动画导入选项</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>选中 Project 里的模型文件，Inspector 会出现“导入设置”面板。设置得当，模型才能正确显示与动画。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>模型 Model 页签</h2>
+<p>核心几何设置。</p>
+<ol class="steps"><li>在 Project 中选中 .fbx 文件，Inspector 顶部出现【模型 Model】【动画 Rig】【动画 Animation】三个页签。</li><li>先看【模型】页：【Scale Factor 缩放因子】默认 1，若模型过大/过小，调它（如 0.01 让 100 倍大的模型变小）。</li><li>【Convert Units】：把单位从厘米/英寸转成米，一般保持勾选。</li><li>【Read/Write Enabled】：勾选后可运行时读取网格数据（多数情况不用）。</li><li>【Mesh Compression】：网格压缩，可减小包体，非性能敏感时建议开启（Off/Low/High）。</li><li>【Generate Colliders】：勾选则自动生成碰撞体（模型能“被撞”），按需勾选。</li><li>点右下角【Apply 应用】保存设置。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>改完任何设置必须点【Apply】才生效，很多新手忘记这步。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>动画页签设置</h2>
+<p>模型带动画时在这设置。</p>
+<ol class="steps"><li>【Rig 页签】：Animation Type 选 Humanoid（人形，可用人形动画）或 Generic（通用，适合非人形）；None 则禁用动画。</li><li>【Animation Type】选 Humanoid 后，下方出现【Avatar Definition】等，保持默认即可。</li><li>【Animation 页签】：列出模型内包含的所有动画片段（Animation Clip）。</li><li>可勾选【Loop Time 循环】让动画循环播放（走路、待机）。</li><li>可把动画片段“剥离”成独立 .anim 文件方便管理（编辑 Animation 页签→右键动画→保存为外部文件）。</li><li>点击【Apply】应用全部设置。</li><li>完成设置后，把模型拖入场景，在动画窗口即可预览动画（第 9 章详讲）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>动画相关的高级设置在动画章节（第 9 章）会有更详细讲解，这里先会用导入选项。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>模型太大/太小？<br><b>原因：</b>建模时单位不同<br><b>解决：</b>调整 Import Settings 的 Scale Factor，直到在场景里看起来合适。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>导入一个模型，把 Scale Factor 调整为 0.5 看效果</li><li>查看该模型的 Rig 页签动画类型</li><li>给带动画的模型勾选 Loop Time</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>模型导入设置已掌握。下一课导入贴图纹理。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-036/index.html"><span class="dir">← 上一课</span><span class="t">导入模型资源（FBX / OBJ）</span></a><a class="nav-item next" href="../lesson-038/index.html"><span class="dir">下一课 →</span><span class="t">导入与使用贴图纹理</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

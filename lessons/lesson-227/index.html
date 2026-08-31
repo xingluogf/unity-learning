@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 227 课：第一人称控制器 FPS · Unity 星辰学院</title>
+<meta name="description" content="第一人称控制器 FPS · Unity 星辰学院第 227 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-227">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 227 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 227 · 3D 游戏进阶</span>
+    <h1>第一人称控制器 FPS</h1>
+    <p class="sub">第一人称控制器完成。下一课做第三人称控制器。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 227 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:75.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">227 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Character Controller</a>
+<a href="#sec-1">鼠标视角</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现鼠标视角</li><li>实现 WASD 移动</li><li>掌握 Character Controller</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“我是角色的眼睛”——第一人称是 3D 最经典视角。本课做完整 FPS 控制器。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Character Controller</h2>
+<p>3D 角色“胶囊”。</p>
+<ol class="steps"><li>【创建】空对象 Player → Add Component → Character Controller（角色控制器组件）。</li><li>【说明】CharacterController 是“简化角色”：自带碰撞、步进、爬坡，不用于物理刚体。</li><li>【参数】Radius（半径 0.5）、Height（高度 2）、Center（中心）。</li><li>【移动】controller.Move(move * speed * Time.deltaTime);</li><li>【重力】Move 需要手动重力：move.y -= gravity * Time.deltaTime;</li><li>【判断落地】controller.isGrounded。</li><li>【跳跃】if (controller.isGrounded &amp;&amp; Input.GetKeyDown(KeyCode.Space)) move.y = jumpSpeed;</li><li>【完整脚本】</li><li>public float speed = 6f, gravity = 20f, jumpSpeed = 8f;</li><li>CharacterController cc; Vector3 move;</li><li>void Update() {</li><li>if (cc.isGrounded) { move.x = Input.GetAxis("Horizontal") * speed; move.z = Input.GetAxis("Vertical") * speed;</li><li>if (Input.GetKeyDown(KeyCode.Space)) move.y = jumpSpeed;</li><li>}</li><li>move.y -= gravity * Time.deltaTime;</li><li>move = transform.TransformDirection(move); // 相对朝向</li><li>cc.Move(move * Time.deltaTime);</li><li>}</li><li>【注意】CharacterController 不与刚体混用（会冲突）。</li><li>【测试】WASD 移动、空格跳。</li><li>【完成】角色“能走能跳”。</li><li>【说明】TransformDirection 把局部方向转世界，让移动跟随朝向。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>CharacterController = 3D 角色的“胶囊体控制”：Move + isGrounded + 手动重力。FPS 标配。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>鼠标视角</h2>
+<p>“转头”看世界。</p>
+<ol class="steps"><li>【鼠标旋转】鼠标移动控制相机旋转：</li><li>public float mouseSensitivity = 2f;</li><li>public Transform cameraHolder; // 相机挂点</li><li>private float xRot = 0f;</li><li>void Update() {</li><li>float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;</li><li>float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;</li><li>// 左右旋转身体</li><li>transform.Rotate(Vector3.up * mouseX);</li><li>// 上下旋转相机（限制范围防后翻）</li><li>xRot -= mouseY; xRot = Mathf.Clamp(xRot, -90f, 90f);</li><li>cameraHolder.localRotation = Quaternion.Euler(xRot, 0, 0);</li><li>}</li><li>【结构】Player（身体，旋转 Y）下挂 CameraHolder（相机，旋转 X）。</li><li>【隐藏光标】锁鼠标：</li><li>Cursor.lockState = CursorLockMode.Locked;</li><li>Cursor.visible = false;</li><li>【取消锁定】Esc 打开菜单时解锁（第 162 课暂停）。</li><li>【灵敏度】鼠标灵敏度按手感调。</li><li>【测试】鼠标转头、身体转向，像 FPS。</li><li>【注意】CameraHolder 只在 X 轴旋转，身体在 Y 轴。</li><li>【完成】第一人称视角完整！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>第一人称 = 身体转 Y + 相机转 X（Clamp 防翻）+ 锁光标。三件套。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>鼠标转视角很怪/角色后翻？<br><b>原因：</b>旋转轴搞混或 Clamp 没做<br><b>解决：</b>身体 Rotate(Y)、相机 localRotation Euler(xRot,0,0) 且 Clamp(-90,90)。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 CharacterController 做移动跳跃</li><li>做鼠标视角控制</li><li>锁/解锁光标</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>第一人称控制器完成。下一课做第三人称控制器。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-226/index.html"><span class="dir">← 上一课</span><span class="t">3D 游戏进阶入门</span></a><a class="nav-item next" href="../lesson-228/index.html"><span class="dir">下一课 →</span><span class="t">第三人称控制器 TPS</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

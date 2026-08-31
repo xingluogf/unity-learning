@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 269 课：对象池实战（完整系统） · Unity 星辰学院</title>
+<meta name="description" content="对象池实战（完整系统） · Unity 星辰学院第 269 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-269">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 16 章 · 性能优化</a><span class="sep">/</span>
+    <span>第 269 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 269 · 性能优化</span>
+    <h1>对象池实战（完整系统）</h1>
+    <p class="sub">对象池系统完成。下一课做 LOD 与遮挡剔除实战。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 16 章 · 性能优化</span><span class="meta-item">📍 第 269 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:89.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">269 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">通用对象池设计</a>
+<a href="#sec-1">接入实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现通用对象池</li><li>实现自动扩容</li><li>接入游戏场景</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>第 198/215 课用了简单对象池，本课做一个“通用、可复用的对象池系统”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>通用对象池设计</h2>
+<p>一个池管所有。</p>
+<ol class="steps"><li>【设计】用 Dictionary 按预制体分池：</li><li>public class ObjectPool : MonoBehaviour {</li><li>public static ObjectPool Instance;</li><li>private Dictionary&lt;string, Queue&lt;GameObject&gt;&gt; pools = new Dictionary&lt;string, Queue&lt;GameObject&gt;&gt;();</li><li>void Awake() { Instance = this; }</li><li>public GameObject Get(GameObject prefab, Vector3 pos, Quaternion rot) {</li><li>string key = prefab.name;</li><li>GameObject obj;</li><li>if (pools.ContainsKey(key) &amp;&amp; pools[key].Count &gt; 0) {</li><li>obj = pools[key].Dequeue();</li><li>obj.transform.position = pos;</li><li>obj.transform.rotation = rot;</li><li>obj.SetActive(true);</li><li>} else {</li><li>obj = Instantiate(prefab, pos, rot);</li><li>}</li><li>return obj;</li><li>}</li><li>public void Release(GameObject obj, float delay = 0f) {</li><li>if (delay &lt;= 0f) { obj.SetActive(false); PoolIt(obj); }</li><li>else StartCoroutine(ReleaseLater(obj, delay));</li><li>}</li><li>IEnumerator ReleaseLater(GameObject obj, float d) { yield return new WaitForSeconds(d); obj.SetActive(false); PoolIt(obj); }</li><li>void PoolIt(GameObject obj) {</li><li>string key = obj.name.Replace(“”(Clone)“</li><li>”“”);</li><li>if (!pools.ContainsKey(key)) pools[key] = new Queue&lt;GameObject&gt;();</li><li>pools[key].Enqueue(obj);</li><li>}</li><li>}</li><li>【自动扩容】池空时自动 Instantiate（else 分支）。</li><li>【注意】Release 时先 SetActive(false) 再入池。</li><li>【完成】通用池“上线”！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>通用对象池 = Dictionary 分池 + Get 复用/新建 + Release 回收。一套管所有。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>接入实战</h2>
+<p>子弹、特效、敌人全走池。</p>
+<ol class="steps"><li>【子弹】发射时：</li><li>GameObject b = ObjectPool.Instance.Get(bulletPrefab, firePoint.position, firePoint.rotation);</li><li>b.GetComponent&lt;Bullet&gt;().Init(dir);</li><li>命中/超时：ObjectPool.Instance.Release(b);</li><li>【特效】爆炸：Get(explosionPrefab, pos, rot) → 播放 → Release(explosion, 2f)（延时回收）。</li><li>【敌人】死亡：Get(死亡特效) + Release(敌人)。</li><li>【Init 重置】复用对象要重置状态：子弹 Init 重置速度/伤害；敌人重置 hp。</li><li>【场景切换】池对象跨场景会丢：DontDestroyOnLoad 挂 ObjectPool 或场景内重建（第 172 课）。</li><li>【调试】Profiler 看 GC Alloc 是否大幅下降。</li><li>【完成】游戏“零 GC”体验！</li><li>【注意】入池对象要复位（位置/旋转/active/组件状态）。</li><li>【推荐】所有高频物（子弹/粒子/敌人/飘字）一律对象池。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>对象池接入 = Get（取）+ 初始化（重置）+ Release（还）。三行养成习惯。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>池化对象状态残留？<br><b>原因：</b>没重置<br><b>解决：</b>Get 时统一 Reset（位置/速度/hp/特效 Clear）；Release 前也清状态。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现通用对象池系统</li><li>子弹/特效全走池</li><li>验证 GC 大幅下降</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>对象池系统完成。下一课做 LOD 与遮挡剔除实战。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-268/index.html"><span class="dir">← 上一课</span><span class="t">场景加载优化（异步）</span></a><a class="nav-item next" href="../lesson-270/index.html"><span class="dir">下一课 →</span><span class="t">LOD 与遮挡剔除实战</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 95 课：扭矩与角速度 Torque · Unity 星辰学院</title>
+<meta name="description" content="扭矩与角速度 Torque · Unity 星辰学院第 95 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-095">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 95 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 95 · 物理系统</span>
+    <h1>扭矩与角速度 Torque</h1>
+    <p class="sub">扭矩与角速度已掌握。下一课学触发器 Trigger 与碰撞事件。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 95 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:31.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">95 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">扭矩基础</a>
+<a href="#sec-1">实战：旋转陀螺与翻滚</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解扭矩概念</li><li>掌握 AddTorque 用法</li><li>掌握角速度控制</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>AddForce 让物体“移动”，AddTorque 让物体“转动”。本课学习旋转类物理。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>扭矩基础</h2>
+<p>“旋转的力”。</p>
+<ol class="steps"><li>扭矩（Torque）= 让刚体绕轴旋转的“转动力”。</li><li>语法：rb.AddTorque(Vector3 轴 * 力度);</li><li>例：rb.AddTorque(Vector3.up * 10f); 让物体绕 Y 轴旋转。</li><li>【旋转轴】绕哪个轴转就用哪个轴的向量：Vector3.right（绕 X）、Vector3.up（绕 Y）、Vector3.forward（绕 Z）。</li><li>【Angular Velocity 角速度】物体当前的旋转速度：rb.angularVelocity 可读可设。</li><li>【直接设角速度】rb.angularVelocity = Vector3.up * 3f; 让物体以固定速度自转。</li><li>【Angular Drag 角阻尼】让旋转逐渐停止的参数（刚体属性）。</li><li>【ForceMode 同样适用】AddTorque 也有 ForceMode（Impulse 可瞬间给旋转冲量）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>需要“一直转”用角速度（angularVelocity），需要“被推转”用 AddTorque。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：旋转陀螺与翻滚</h2>
+<p>两个小练习。</p>
+<ol class="steps"><li>【自转陀螺】给圆柱（带刚体）写：void FixedUpdate() { rb.AddTorque(Vector3.up * 5f); } 播放：圆柱持续旋转。</li><li>【翻滚方块】给方块 AddTorque(Vector3.right * 30f, ForceMode.Impulse) 一次性翻出去。</li><li>【角速度设定】rb.angularVelocity = Vector3.up * 2f; 物体匀速自转，不受重力倾斜影响（配合 Is Kinematic 更稳）。</li><li>【让旋转减速】把 Angular Drag 调大，旋转逐渐停止。</li><li>【检测是否在旋转】rb.angularVelocity.magnitude &gt; 0.1f 判断。</li><li>【应用】齿轮转动、陀螺、翻滚的箱子、转动的风扇（风扇更推荐第 81 课 Rotate 或动画）。</li><li>【注意】纯视觉旋转（不参与物理）用 transform.Rotate 更省；物理旋转才用 Torque。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>刚体旋转与 transform.Rotate 混用会互相干扰，二选一：物理对象用 Torque/angularVelocity，普通对象用 Rotate。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>物体不转？<br><b>原因：</b>无刚体、扭矩太小或角阻尼过大<br><b>解决：</b>确认有 Rigidbody；调大扭矩；把 Angular Drag 调小。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>让一个圆柱持续绕 Y 轴旋转</li><li>用 Impulse 扭矩让方块翻滚</li><li>用 angularVelocity 设定固定旋转速度</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>扭矩与角速度已掌握。下一课学触发器 Trigger 与碰撞事件。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-094/index.html"><span class="dir">← 上一课</span><span class="t">给物体施加力 AddForce</span></a><a class="nav-item next" href="../lesson-096/index.html"><span class="dir">下一课 →</span><span class="t">触发器 Trigger 与碰撞事件</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

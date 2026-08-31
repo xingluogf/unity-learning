@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 217 课：Tilemap 瓦片地图 · Unity 星辰学院</title>
+<meta name="description" content="Tilemap 瓦片地图 · Unity 星辰学院第 217 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-217">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 217 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 217 · 2D 游戏开发</span>
+    <h1>Tilemap 瓦片地图</h1>
+    <p class="sub">Tilemap 已掌握。下一课做 2D 关卡设计。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 217 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:72.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">217 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">创建 Tilemap</a>
+<a href="#sec-1">绘制与碰撞</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 Tilemap</li><li>掌握绘制瓦片</li><li>掌握瓦片碰撞</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>关卡一堆方块手摆太慢——Tilemap 用“笔刷”画地形，快 10 倍。本课掌握。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>创建 Tilemap</h2>
+<p>画布 + 笔刷。</p>
+<ol class="steps"><li>【创建】Hierarchy 右键 → 2D Object → Tilemap → Rectangular，生成 Grid + Tilemap 对象。</li><li>【Grid】格子容器；【Tilemap】画布（可多层：Ground、Decoration）。</li><li>【准备瓦片】准备瓦片精灵图（如 16x16 的地块）。</li><li>【打开窗口】Window → 2D → Tile Palette 打开瓦片面板。</li><li>【建 Palette】Create New Palette，命名 Ground，保存。</li><li>【导入瓦片】把精灵图拖进 Palette 窗口（需 Texture Type=Sprite、PPU 匹配，第 202 课）。</li><li>【自动切片】若图是多帧，选 Sprite Mode=Multiple 用 Sprite Editor 切分（第 203 课）。</li><li>【完成】Palette 里有瓦片可刷了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Tilemap = 网格 + 笔刷：Palette 装瓦片，刷子画地形。搭关如“画图”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>绘制与碰撞</h2>
+<p>画出关卡并让它“可踩”。</p>
+<ol class="steps"><li>【绘制】选 Palette 里的瓦片（选单个或框选多个），在 Scene 里点击/拖动画地形。</li><li>【橡皮】Palette 工具选“擦除”工具抹掉。</li><li>【填充】填充工具刷一大片。</li><li>【多层】创建第二个 Tilemap（如 Decoration）画装饰，Sorting 在 Ground 上面。</li><li>【碰撞】给 Tilemap 加【Tilemap Collider 2D】组件：瓦片自动生成碰撞。</li><li>【优化】再加【Composite Collider 2D】+ 勾 Use By Composite：把相邻瓦片合并成一个碰撞体（性能更好、角色不卡缝）。</li><li>【层级】确认 Tilemap 的 Sorting Order 在背景之上、角色之下。</li><li>【测试】画好地面，角色能踩上去（碰撞生效）。</li><li>【注意】Composite 合并后碰撞是一整块，斜坡/台阶要单独处理。</li><li>【进阶】Rule Tile 规则瓦片自动适配相邻（自动地形）。</li><li>【完成】关卡“画”出来了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>Tilemap 三件套：Palette 装瓦片、笔刷画地形、TilemapCollider2D 做碰撞。效率翻倍。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>刷不上瓦片？<br><b>原因：</b>精灵没切片或 Palette 未建<br><b>解决：</b>确认瓦片精灵 Type=Sprite；Palette 已创建并拖入瓦片；选中瓦片工具再画。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建 Tilemap 并导入瓦片</li><li>用笔刷画一段关卡地形</li><li>加碰撞并测试角色可踩</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Tilemap 已掌握。下一课做 2D 关卡设计。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-216/index.html"><span class="dir">← 上一课</span><span class="t">2D 摄像机跟随</span></a><a class="nav-item next" href="../lesson-218/index.html"><span class="dir">下一课 →</span><span class="t">2D 关卡设计</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

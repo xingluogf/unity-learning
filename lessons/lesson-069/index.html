@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 69 课：命名空间与 using · Unity 星辰学院</title>
+<meta name="description" content="命名空间与 using · Unity 星辰学院第 69 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-069">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 69 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 69 · C# 编程基础</span>
+    <h1>命名空间与 using</h1>
+    <p class="sub">命名空间已掌握。下一课学枚举与结构体。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 11 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 69 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:23.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">69 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">命名空间是什么</a>
+<a href="#sec-1">自定义命名空间与实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解命名空间作用</li><li>掌握 using 引用</li><li>了解自定义命名空间</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>脚本顶部的 using System.Collections.Generic; 是干嘛的？本课讲清楚命名空间与 using，以及代码“找得着东西”的机制。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>命名空间是什么</h2>
+<p>代码的“抽屉分类”。</p>
+<ol class="steps"><li>命名空间（namespace）用于把相关类归组，避免不同库里的同名类冲突。</li><li>例：UnityEngine 命名空间里有 Transform、Vector3 等；System 命名空间里有 Console 等。</li><li>全名写法：UnityEngine.Debug.Log(...) 才是完整路径。</li><li>【using 指令】把命名空间“引入”，之后就能直接用短名：using UnityEngine; 之后直接写 Debug.Log(...)。</li><li>Unity 脚本自动带 using System; using System.Collections; using System.Collections.Generic; using UnityEngine;</li><li>【冲突】两个命名空间都有同名类时，用全名区分：System.Console 与 UnityEngine.Debug 不冲突。</li><li>UnityEngine.Debug.Log 与 Debug 有歧义时会报错，用全名解决。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>using 只是“省打字”，不是把代码复制进来。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>自定义命名空间与实战</h2>
+<p>组织你自己的代码。</p>
+<ol class="steps"><li>自定义命名空间：在类外面包一层 namespace MyGame { public class Player { } }</li><li>使用时：用 using MyGame; 或写全名 MyGame.Player。</li><li>【实战】打开你的 PlayerData 脚本，在其顶部加：namespace MyGame { ... 把类包进去 ... }</li><li>保存编译。</li><li>在 PlayerTest 脚本顶部加 using MyGame;</li><li>这样 PlayerTest 里 new PlayerData() 依然可用（通过 using）。</li><li>若不加 using，就得写 new MyGame.PlayerData()。</li><li>体会命名空间对大型项目的组织价值：不同模块（战斗、UI）放不同命名空间。</li><li>【规范】项目常用命名空间：游戏名 + 模块名，如 MyGame.Combat。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>给类加命名空间后，若其他脚本没 using 也没写全名，会报“找不到类型”——记得引用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>报错：找不到类型或命名空间？<br><b>原因：</b>缺少 using 或写错命名空间<br><b>解决：</b>检查类所在的命名空间，在引用处加 using 或用全名。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>说出 3 个 Unity 自动带的 using 是干什么的</li><li>给自己的类加一个自定义命名空间并引用它</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>命名空间已掌握。下一课学枚举与结构体。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-068/index.html"><span class="dir">← 上一课</span><span class="t">接口 Interface</span></a><a class="nav-item next" href="../lesson-070/index.html"><span class="dir">下一课 →</span><span class="t">枚举 enum 与结构体 struct</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 72 课：Update 与 FixedUpdate 的区别 · Unity 星辰学院</title>
+<meta name="description" content="Update 与 FixedUpdate 的区别 · Unity 星辰学院第 72 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-072">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 72 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 72 · C# 编程基础</span>
+    <h1>Update 与 FixedUpdate 的区别</h1>
+    <p class="sub">Update 与 FixedUpdate 已掌握。下一课系统学习调试神器 Debug.Log。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 72 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:24.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">72 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Update：每帧一次</a>
+<a href="#sec-1">FixedUpdate：固定时间步长</a>
+<a href="#sec-2">实战验证</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解两者调用频率差异</li><li>知道物理放 FixedUpdate</li><li>理解时间步长概念</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>为什么物体移动的代码放 Update，而物理（力、碰撞）放 FixedUpdate？本课讲透两者背后的原理。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Update：每帧一次</h2>
+<p>跟“帧”走，帧率波动。</p>
+<ol class="steps"><li>Update 每一帧调用一次。</li><li>调用频率 = 帧率（FPS）：60 FPS 时每秒 60 次，30 FPS 时每秒 30 次。</li><li>所以 Update 的执行次数“不固定”——取决于电脑性能。</li><li>适合：几乎所有的“非物理”游戏逻辑（输入响应、UI、动画、移动计算）。</li><li>由于频率不固定，Update 里做移动时必须乘以 Time.deltaTime（第 74 课），否则速度随帧率变化。</li><li>Update 里不适合直接施加物理力（会受帧率影响）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Update 的频率 = 看设备脸色；FixedUpdate 的频率 = 恒定。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>FixedUpdate：固定时间步长</h2>
+<p>跟“时间”走，恒定节奏。</p>
+<ol class="steps"><li>FixedUpdate 以【固定时间间隔】调用，默认每 0.02 秒一次（每秒 50 次）。</li><li>这个间隔由 Project Settings→Time→Fixed Timestep 控制，与帧率无关。</li><li>即使游戏掉帧，FixedUpdate 依然按固定节奏推进。</li><li>【物理系统】刚体（Rigidbody）的运动、力、碰撞检测都在 FixedUpdate 阶段计算。</li><li>因此：对刚体施加力、改变速度应放在 FixedUpdate 里（或刚体相关代码），保证物理稳定。</li><li>【注意】FixedUpdate 可能一帧内调用多次（掉帧时补算），也可能 0 次。</li><li>Debug.Log 在 FixedUpdate 里会“一坨一坨”输出，属正常。</li><li>【小结】移动物体（不涉及刚体力）用 Update；物理力与刚体操作用 FixedUpdate。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>在 FixedUpdate 里操作普通 Transform 移动也应乘 Time.fixedDeltaTime（第 74 课会统一讲时间增量）。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战验证</h2>
+<p>观察调用次数。</p>
+<ol class="steps"><li>新建脚本 TimeDemo，挂到空对象。</li><li>声明两个计数变量：int u=0, f=0;</li><li>Update 里 u++；FixedUpdate 里 f++。</li><li>每隔一秒打印一次（用 Time.time 判断）：if (Time.time &gt; last + 1f) { Debug.Log($"Update:{u} FixedUpdate:{f}"); last = Time.time; u = 0; f = 0; }</li><li>播放观察：一秒钟里 FixedUpdate 约 50 次，Update 次数取决于你的帧率。</li><li>在 Project Settings→Time 里把 Fixed Timestep 改成 0.05，再观察 FixedUpdate 次数减半。</li><li>体会两者的节奏差异。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>改回默认 0.02，避免影响后续物理实验。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>物体在 Update 里受力后表现不稳定？<br><b>原因：</b>物理计算应放 FixedUpdate<br><b>解决：</b>把 AddForce 等刚体操作移到 FixedUpdate。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用计数器对比每秒 Update 与 FixedUpdate 次数</li><li>把 Fixed Timestep 改为 0.05 观察变化</li><li>总结两者的适用场景</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Update 与 FixedUpdate 已掌握。下一课系统学习调试神器 Debug.Log。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-071/index.html"><span class="dir">← 上一课</span><span class="t">Unity 脚本生命周期（Awake/Start/Update）</span></a><a class="nav-item next" href="../lesson-073/index.html"><span class="dir">下一课 →</span><span class="t">Debug.Log 调试输出</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

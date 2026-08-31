@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 296 课：项目实战：策划与立项 · Unity 星辰学院</title>
+<meta name="description" content="项目实战：策划与立项 · Unity 星辰学院第 296 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-296">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 18 章 · 项目实战</a><span class="sep">/</span>
+    <span>第 296 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 296 · 项目实战</span>
+    <h1>项目实战：策划与立项</h1>
+    <p class="sub">策划立项完成！下一课做核心玩法原型。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 20 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 18 章 · 项目实战</span><span class="meta-item">📍 第 296 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:98.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">296 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">确定主题与玩法</a>
+<a href="#sec-1">设计文档与任务拆分</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>确定游戏主题</li><li>编写设计文档</li><li>拆分开发任务</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>最后 5 课，用全部所学做一个完整游戏。本课从“想法”到“计划”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>确定主题与玩法</h2>
+<p>“做什么游戏”。</p>
+<ol class="steps"><li>【目标】做一个“小而完整”的游戏（3-6 周可完成）。</li><li>【选题原则】</li><li>玩法明确（一个核心机制）。</li><li>利用已有技能（本系列学的）。</li><li>范围可控（别贪大）。</li><li>【推荐选题】</li><li>2D 平台跳跃 + 收集。</li><li>3D 密室逃脱。</li><li>2D 跑酷。</li><li>【本实战假设】做“2D 平台收集游戏”（用 2D 章+UI+音频+存档全部技能）。</li><li>【核心玩法】跳平台、收集金币、躲避敌人、到达终点。</li><li>【一页设计】写清：名字/玩法/操作/目标/风格。</li><li>【完成】主题“定了”。</li><li>【注意】核心机制一句话能说清=好选题。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>好项目 = 一个核心机制 + 能做完的范围 + 会用到的技能。三合一。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>设计文档与任务拆分</h2>
+<p>“计划”先行。</p>
+<ol class="steps"><li>【设计文档 GDD】（简化版）</li><li>玩法、操作、UI、关卡、音效、美术风格。</li><li>【功能清单】</li><li>核心：移动/跳跃、平台、金币、敌人、终点。</li><li>增强：检查点、存档、暂停、设置。</li><li>【里程碑】</li><li>M1：可玩原型（1 周）——角色能跑跳、能收集。</li><li>M2：内容完善（1 周）——关卡、敌人、UI。</li><li>M3：打磨发布（1 周）——音效、特效、测试、发布。</li><li>【任务拆分】把功能拆成小任务（每任务半天-1 天）：</li><li>如“金币系统=金币预制体+拾取脚本+计分”。</li><li>【进度跟踪】用清单/看板跟踪每个任务。</li><li>【完成】计划“在手”。</li><li>【注意】里程碑要“可验收”（有明确成果）。</li><li>【推荐】先用纸笔写文档再开 Unity。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>立项三件：选题（一句话玩法）+ GDD（一页设计）+ 里程碑（可验收）。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>项目越做越大失控？<br><b>原因：</b>没定范围<br><b>解决：</b>锁定核心玩法；新想法记“待办”不立刻加；控制范围。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>确定游戏主题与核心玩法</li><li>写一页设计文档</li><li>拆 3 个里程碑与任务清单</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>策划立项完成！下一课做核心玩法原型。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-295/index.html"><span class="dir">← 上一课</span><span class="t">进阶修炼：学习路线与职业规划</span></a><a class="nav-item next" href="../lesson-297/index.html"><span class="dir">下一课 →</span><span class="t">项目实战：核心玩法原型</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

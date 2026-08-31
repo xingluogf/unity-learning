@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 15 课：Project 项目窗口详解 · Unity 星辰学院</title>
+<meta name="description" content="Project 项目窗口详解 · Unity 星辰学院第 15 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-015">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 2 章 · Unity 界面初探</a><span class="sep">/</span>
+    <span>第 15 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 15 · Unity 界面初探</span>
+    <h1>Project 项目窗口详解</h1>
+    <p class="sub">Project 资源管理已掌握。下一课看“报错窗口”Console。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 2 章 · Unity 界面初探</span><span class="meta-item">📍 第 15 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:5.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">15 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Project 窗口基础</a>
+<a href="#sec-1">资源筛选与收藏</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>熟练浏览项目资源</li><li>学会创建文件夹与资源</li><li>掌握资源搜索与过滤</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>Project 窗口管理项目所有文件，是你的“资源仓库”。本课带你把仓库整理得井井有条。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Project 窗口基础</h2>
+<p>找到它，认识它的两栏布局。</p>
+<ol class="steps"><li>Project 窗口默认在编辑器底部，与 Console 并列；点击【Project】标签切换。</li><li>左侧是【文件夹树】：Assets、Packages 等；右侧显示当前文件夹内容。</li><li>【创建资源】：在右侧空白处或文件夹上右键 →【创建 Create】→ 可选脚本（C# Script）、材质（Material）、文件夹（Folder）、场景（Scene）、预制体（Prefab）等。</li><li>【导入资源】：直接把电脑上的图片、模型、音频文件拖进 Project 窗口即可（或菜单【资源 Assets】→【导入新资源】）。</li><li>【双击资源】打开查看：双击材质可预览，双击脚本用代码编辑器打开，双击场景切换到该场景。</li><li>【搜索】：Project 顶部搜索框输入名字过滤；点搜索框左侧可按类型（模型/材质/脚本）过滤，右侧可按标签过滤。</li><li>【定位】：选中某资源按右键 →【在资源管理器中显示】可打开系统文件夹对应位置。</li><li>【拖拽使用】：把材质/脚本/预制体直接拖到 Hierarchy 对象或 Inspector 属性上即可应用。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Resources 文件夹与 Packages 文件夹在左侧会显示；点击 Assets 就能看到你的全部内容。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>资源筛选与收藏</h2>
+<p>让找资源更快。</p>
+<ol class="steps"><li>搜索框右侧点击【类型 Type】下拉：选择“脚本”“材质”“预制体”等可精确过滤。</li><li>在资源上右键 →【收藏 Favorite】可加入顶部收藏列表，常用资源一键直达。</li><li>按住 Ctrl 多选资源可批量移动/删除/复制。</li><li>文件夹内右键可新建子文件夹，保持层级清晰（第 8 课已讲分目录规范）。</li><li>拖拽资源到 Hierarchy 会直接在场景中创建该资源实例。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>Project 里的删除请选中后按 Delete 或右键删除，让 Unity 统一处理引用，不要用系统资源管理器删。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>导入的图片在场景里看不见？<br><b>原因：</b>图片需要做成材质或精灵才能显示<br><b>解决：</b>图片作为贴图使用时，先创建材质并把贴图赋给材质的 Albedo，再拖材质到物体。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>在 Assets 下创建 Scenes / Scripts / Materials 文件夹</li><li>把一张图片拖进 Project 窗口（可以从电脑上随便找一张）</li><li>用类型过滤只看材质</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Project 资源管理已掌握。下一课看“报错窗口”Console。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-014/index.html"><span class="dir">← 上一课</span><span class="t">Inspector 检查器窗口详解</span></a><a class="nav-item next" href="../lesson-016/index.html"><span class="dir">下一课 →</span><span class="t">Console 控制台与报错处理</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

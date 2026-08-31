@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 166 课：UI 拖拽与排序 · Unity 星辰学院</title>
+<meta name="description" content="UI 拖拽与排序 · Unity 星辰学院第 166 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-166">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 166 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 166 · UI 界面系统</span>
+    <h1>UI 拖拽与排序</h1>
+    <p class="sub">UI 拖拽已掌握。下一课学 UI 与代码交互。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 166 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:55.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">166 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">拖拽基础接口</a>
+<a href="#sec-1">拖放交换物品</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握拖拽接口</li><li>实现拖放交换</li><li>实现拖动面板</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“把物品拖进格子”“拖动画板位置”——UI 拖拽用事件系统接口实现。本课掌握。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>拖拽基础接口</h2>
+<p>四个接口搞定拖放。</p>
+<ol class="steps"><li>实现以下接口（using UnityEngine.EventSystems;）：</li><li>【IBeginDragHandler】开始拖：OnBeginDrag(PointerEventData)</li><li>【IDragHandler】拖动中：OnDrag(PointerEventData)</li><li>【IEndDragHandler】结束拖：OnEndDrag(PointerEventData)</li><li>【IDropHandler】被放上：OnDrop(PointerEventData)（目标格子实现）</li><li>【坐标】eventData.position 鼠标位置；拖动物体跟随：</li><li>public class DragUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {</li><li>private RectTransform rt;</li><li>private Canvas canvas;</li><li>void Start() { rt = GetComponent&lt;RectTransform&gt;(); canvas = GetComponentInParent&lt;Canvas&gt;(); }</li><li>public void OnDrag(PointerEventData e) {</li><li>Vector2 pos;</li><li>RectTransformUtility.ScreenPointToLocalPointInRectangle(</li><li>canvas.transform as RectTransform, e.position, canvas.worldCamera, out pos);</li><li>rt.anchoredPosition = pos;</li><li>}</li><li>}</li><li>【注意】Canvas 的 Render Mode 会影响坐标转换（Overlay 时 worldCamera 为 null）。</li><li>【拖拽中的图片】拖拽时设置 canvasGroup.blocksRaycasts=false 防止自己挡住目标。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>UI 拖拽 = 实现接口 + 坐标转换 + 拖动/放下回调。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>拖放交换物品</h2>
+<p>把物品拖到另一格。</p>
+<ol class="steps"><li>在物品格子脚本 Slot 上实现 IBeginDragHandler/IDragHandler/IEndDragHandler（拖起自己）+ IDropHandler（被放下）。</li><li>【拖起】OnBeginDrag 记录源格子索引，设置跟随（第 166 课基础）。</li><li>【放下】目标格子的 OnDrop 里读取拖拽中的“源索引”（用一个静态变量传递），交换两个格子的物品数据。</li><li>【静态传递】public static int dragFromIndex = -1; 拖起时设源索引，放下时读取。</li><li>【交换逻辑】</li><li>void OnDrop(PointerEventData e) {</li><li>if (DragUI.dragFromIndex &gt;= 0 &amp;&amp; DragUI.dragFromIndex != myIndex) {</li><li>(inventory[myIndex], inventory[DragUI.dragFromIndex]) = (inventory[DragUI.dragFromIndex], inventory[myIndex]);</li><li>inventorySystem.RefreshUI();</li><li>}</li><li>DragUI.dragFromIndex = -1;</li><li>}</li><li>【拖拽可视化】拖起时把图标放到一个“临时拖拽层”并跟随鼠标，放下时归位。</li><li>【完成】物品可拖拽交换位置。</li><li>【进阶】拖到“丢弃区”删除物品；拖到“装备格”穿戴。</li><li>【注意】坐标转换与层级（拖拽层在最上层）是细节重点。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>拖放交换 = 拖起记录索引 + 放下交换数据 + 刷新 UI。数据与 UI 分离。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>拖拽时图标不跟随鼠标？<br><b>原因：</b>坐标转换错误或 Canvas 模式问题<br><b>解决：</b>用 RectTransformUtility.ScreenPointToLocalPointInRectangle 转换；Overlay 模式 worldCamera 传 null。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现 UI 元素拖拽跟随鼠标</li><li>实现两个格子间的拖放交换</li><li>（进阶）实现拖拽到丢弃区</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>UI 拖拽已掌握。下一课学 UI 与代码交互。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-165/index.html"><span class="dir">← 上一课</span><span class="t">背包与物品栏 UI</span></a><a class="nav-item next" href="../lesson-167/index.html"><span class="dir">下一课 →</span><span class="t">UI 与代码交互（显示数据）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 103 课：拖拽物体（鼠标拖拽 3D 物体） · Unity 星辰学院</title>
+<meta name="description" content="拖拽物体（鼠标拖拽 3D 物体） · Unity 星辰学院第 103 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-103">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 103 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 103 · 物理系统</span>
+    <h1>拖拽物体（鼠标拖拽 3D 物体）</h1>
+    <p class="sub">拖拽已实现。下一课学爆炸与冲击力。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 103 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:34.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">103 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">拖拽原理</a>
+<a href="#sec-1">实现拖拽</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现射线拾取</li><li>实现拖拽移动</li><li>实现放下物体</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“把箱子拖到机关上”是很多解谜/建造游戏的玩法。本课用射线 + 物理实现完整拖拽。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>拖拽原理</h2>
+<p>三步走。</p>
+<ol class="steps"><li>【拾取】鼠标按下时，从屏幕发射射线（第 100 课），命中带“可拖拽”标签/脚本的对象。</li><li>【拖起】让对象跟随鼠标移动（射线打在某个平面上，对象移动到命中点）。</li><li>【放下】鼠标松开时，停止跟随并保持物理状态。</li><li>【关键点】射线要打在“拖拽平面”（如地面 Plane）或使用“深度固定”。</li><li>【坐标转换】把鼠标屏幕坐标转成世界坐标。</li><li>【实现选择】简单版用直接改 Transform；物理版用刚体 velocity 或 MovePosition 更真实。</li><li>【标签】给可拖拽物体加 Tag “Draggable” 或专用脚本标记。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>本课是“射线 + 坐标转换 + 物理”的综合运用，逻辑简单但细节多。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实现拖拽</h2>
+<p>完整代码。</p>
+<ol class="steps"><li>新建脚本 DragObject 挂到可拖拽物体上：</li><li>private bool isDragging = false;</li><li>private float distance = 5f;</li><li>void OnMouseDown() { isDragging = true; }</li><li>void OnMouseUp() { isDragging = false; }</li><li>void Update() { if (isDragging) { Vector3 mouse = Input.mousePosition; mouse.z = distance; // 到相机的深度</li><li>Vector3 worldPos = Camera.main.ScreenToWorldPoint(mouse);</li><li>transform.position = Vector3.Lerp(transform.position, worldPos, 0.3f); // 平滑跟随 } }</li><li>【说明】OnMouseDown/Up 是 Unity 内置的“鼠标点中本物体”回调，前提：对象有碰撞体 + 有相机脚本。</li><li>保存播放：鼠标按住物体拖动，松开放下。</li><li>【物理版】给物体加刚体，改用 rb.MovePosition(worldPos) 更平滑。</li><li>【限制】一次拖一个：拖起时禁用其他物体拖拽（管理器控制）。</li><li>【放置判断】放下时检测是否在“目标区域”（触发器）内，触发机关。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>OnMouseDown/Up 是最简单的拖拽入口；复杂需求再用射线+UI 事件（第 166 课）。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>OnMouseDown 不触发？<br><b>原因：</b>对象无碰撞体，或相机没有挂可执行脚本，或物体被 UI 遮挡<br><b>解决：</b>确认有碰撞体；确认 Main Camera 存在；UI 遮挡时改用射线方案。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现基本拖拽（Transform 跟随）</li><li>给物体加刚体实现物理拖拽</li><li>拖到指定触发器区域触发事件</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>拖拽已实现。下一课学爆炸与冲击力。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-102/index.html"><span class="dir">← 上一课</span><span class="t">物理查询与抛体运动</span></a><a class="nav-item next" href="../lesson-104/index.html"><span class="dir">下一课 →</span><span class="t">爆炸与冲击力</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

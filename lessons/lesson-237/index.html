@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 237 课：3D 投掷物（手雷/弓箭） · Unity 星辰学院</title>
+<meta name="description" content="3D 投掷物（手雷/弓箭） · Unity 星辰学院第 237 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-237">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 237 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 237 · 3D 游戏进阶</span>
+    <h1>3D 投掷物（手雷/弓箭）</h1>
+    <p class="sub">投掷物完成。下一课做 3D 门与开关机制。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 237 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:79.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">237 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">手雷投掷</a>
+<a href="#sec-1">弓箭与追踪弹</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现抛物线投掷</li><li>实现引爆伤害</li><li>实现弓箭飞行</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“丢手雷”“射箭”——抛物线物理投掷。本课做投掷物系统。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>手雷投掷</h2>
+<p>抛物线 + 引爆。</p>
+<ol class="steps"><li>【投掷】给手雷初始速度（刚体+Impulse）：</li><li>public GameObject grenadePrefab; public Transform throwPoint;</li><li>public float throwForce = 10f;</li><li>void Throw() {</li><li>GameObject g = Instantiate(grenadePrefab, throwPoint.position, throwPoint.rotation);</li><li>Rigidbody rb = g.GetComponent&lt;Rigidbody&gt;();</li><li>rb.AddForce(throwPoint.forward * throwForce, ForceMode.Impulse);</li><li>}</li><li>【抛物线】重力自动让手雷走抛物线（第 233 课 AddForce+gravity）。</li><li>【引信】Grenade 脚本：</li><li>public float fuse = 2.5f;</li><li>void Update() { fuse -= Time.deltaTime; if (fuse &lt;= 0) Explode(); }</li><li>【引爆】Explode()：</li><li>// 特效音效（第 200 课）</li><li>ObjectPool.Instance.GetExplosion(transform.position);</li><li>AudioManager.Instance.PlaySFX(boom);</li><li>// 范围伤害</li><li>Collider[] hits = Physics.OverlapSphere(transform.position, blastRadius);</li><li>foreach (var c in hits) {</li><li>Enemy e = c.GetComponent&lt;Enemy&gt;(); if (e != null) e.TakeDamage(50);</li><li>}</li><li>Destroy(gameObject);</li><li>【说明】OverlapSphere 范围内取碰撞体。</li><li>【测试】丢雷抛物线飞行、落地爆炸范围伤害。</li><li>【注意】别丢到自己（跳过玩家 tag）。</li><li>【完成】手雷“会炸”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>投掷 = 初始速度（抛物线）+ 引信计时 + OverlapSphere 范围伤害。三步。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>弓箭与追踪弹</h2>
+<p>飞行的两种玩法。</p>
+<ol class="steps"><li>【弓箭】箭矢有速度+碰撞：箭是刚体飞行物，命中时插在目标上：</li><li>箭脚本：rb.AddForce(forward * speed, Impulse)；碰撞时（OnCollisionEnter）停住（isKinematic）+ 插在命中点。</li><li>【命中】射中敌人扣血+音效。</li><li>【追踪弹】导弹自动锁定目标：每帧朝目标转向：</li><li>Vector3 dir = (target.position - transform.position).normalized;</li><li>rb.velocity = dir * speed;</li><li>【锁定】目标为空时直线飞行（第 215 课追踪弹）。</li><li>【爆炸】追踪弹命中时范围爆炸（同手雷）。</li><li>【选择】即时命中（射线）vs 物理投射（投掷物）两种风格。</li><li>【适用】狙击=射线、手雷/弓箭=物理、导弹=追踪。</li><li>【测试】射箭插墙、导弹追目标。</li><li>【注意】高速投掷物 Collision Detection 设 Continuous（第 93 课）。</li><li>【完成】投掷物体系完整！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>投掷物三型：抛物线（重力）、直飞（速度+碰撞）、追踪（每帧转向）。按需选用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>手雷穿地？<br><b>原因：</b>速度太快没开 Continuous 检测<br><b>解决：</b>手雷 Rigidbody 的 Collision Detection 设 Continuous Dynamic。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现手雷抛物线+范围伤害</li><li>实现弓箭插墙</li><li>实现追踪导弹</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>投掷物完成。下一课做 3D 门与开关机制。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-236/index.html"><span class="dir">← 上一课</span><span class="t">3D 射击系统</span></a><a class="nav-item next" href="../lesson-238/index.html"><span class="dir">下一课 →</span><span class="t">3D 门与开关机制</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 232 课：ProBuilder 快速建模 · Unity 星辰学院</title>
+<meta name="description" content="ProBuilder 快速建模 · Unity 星辰学院第 232 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-232">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 232 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 232 · 3D 游戏进阶</span>
+    <h1>ProBuilder 快速建模</h1>
+    <p class="sub">ProBuilder 建模完成。下一课学 3D 物理进阶。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 232 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:77.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">232 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">安装与基础</a>
+<a href="#sec-1">搭建墙体与家具</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>安装 ProBuilder</li><li>掌握基础建模</li><li>搭建自定义物体</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>不用 Blender 也能在 Unity 里“捏”模型——ProBuilder 编辑器内置建模工具。本课掌握。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>安装与基础</h2>
+<p>建模工具包。</p>
+<ol class="steps"><li>【安装】Window → Package Manager → 搜 ProBuilder → Install。</li><li>【窗口】Tools → ProBuilder → ProBuilder Window 打开工具栏。</li><li>【创建】在 ProBuilder 面板点 New Shape → 选择体（Cube/圆柱/门/楼梯等）。</li><li>【编辑】选中物体，用 Select/Vertex/Edge/Face 模式编辑。</li><li>【选择模式】工具栏：Object（整体）/ Vertex（顶点）/ Edge（边）/ Face（面）模式。</li><li>【挤出】选面 → 点 Extrude（挤出）拉高/拉出墙体。</li><li>【切割】Cut Tool 切面分割。</li><li>【合并】多物体用 Merge/Boolean 合并。</li><li>【注意】ProBuilder 生成的物体是“ProBuilder Mesh”，可 Convert to Mesh 转普通。</li><li>【完成】建模工具“上手”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>ProBuilder = Unity 内置“建模笔”：挤出/切割/编辑面，做原型与简单模型。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>搭建墙体与家具</h2>
+<p>直接做房间内容。</p>
+<ol class="steps"><li>【墙体】用 Cube 拉长拉高做墙；用 Extrude 从地板“长出”墙（选顶面挤出）。</li><li>【门窗】在墙上用 Cut 或布尔挖出洞。</li><li>【楼梯】用 ProBuilder 的 Stairs 形状一键生成楼梯。</li><li>【家具】Cube 组合：桌子（面板+4 腿）、椅子（座+背+腿）。</li><li>【桌椅】用基础体拼装成“能坐的椅子”。</li><li>【材质】给每个面/物体上材质（第 188 课）。</li><li>【碰撞】ProBuilder 物体加 Collider（Convex Mesh Collider 或组合 Box）。</li><li>【优化】Convert to Mesh + 加 Collider 用于正式场景。</li><li>【测试】场景里放上自建物体，角色可互动。</li><li>【完成】你“造”出了自己的 3D 内容！</li><li>【注意】复杂模型（角色/高面数）用外部软件，ProBuilder 做场景道具。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>ProBuilder 日常三件：Extrude 挤出、Stairs 楼梯、Cube 拼家具。场景道具全能造。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>ProBuilder 物体不能碰撞？<br><b>原因：</b>没加 Collider<br><b>解决：</b>给 ProBuilder 物体加 Mesh Collider（勾 Convex 或组合 BoxCollider）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 ProBuilder 做一面带窗的墙</li><li>做一张桌子和椅子</li><li>生成楼梯</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>ProBuilder 建模完成。下一课学 3D 物理进阶。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-231/index.html"><span class="dir">← 上一课</span><span class="t">3D 场景搭建（原型制作）</span></a><a class="nav-item next" href="../lesson-233/index.html"><span class="dir">下一课 →</span><span class="t">3D 物理进阶（关节与力）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 96 课：触发器 Trigger 与碰撞事件 · Unity 星辰学院</title>
+<meta name="description" content="触发器 Trigger 与碰撞事件 · Unity 星辰学院第 96 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-096">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 96 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 96 · 物理系统</span>
+    <h1>触发器 Trigger 与碰撞事件</h1>
+    <p class="sub">触发与碰撞事件已掌握。下一课学刚体的 Sleep 与约束。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 96 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:32.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">96 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">碰撞与触发的区别</a>
+<a href="#sec-1">实战：金币收集与陷阱</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解触发与碰撞的区别</li><li>掌握两个事件系列</li><li>实现进入区域检测</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“玩家踩到金币”“敌人碰到玩家扣血”“走进区域触发剧情”——全靠触发与碰撞事件。这是游戏交互的核心。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>碰撞与触发的区别</h2>
+<p>“挡”与“穿”。</p>
+<ol class="steps"><li>【碰撞 Collision】碰撞体未勾 Is Trigger：物理阻挡，物体撞上会停下/反弹。回调方法：OnCollisionEnter / Stay / Exit。</li><li>【触发 Trigger】碰撞体勾选 Is Trigger：不阻挡、穿透，只“报告”进入了区域。回调方法：OnTriggerEnter / Stay / Exit。</li><li>【触发要求】触发双方至少一方带刚体（通常动态物体带刚体，触发区不带）。</li><li>【事件参数】OnTriggerEnter(Collider other)：other 是“进入者”的碰撞体；通过 other.gameObject 拿对象、other.tag 判断身份。</li><li>【碰撞事件】OnCollisionEnter(Collision collision)：collision 有 contact 点、相对速度等详细信息。</li><li>【命名】OnCollisionEnter/Stay/Exit 与 OnTriggerEnter/Stay/Exit，别写错（Collision vs Trigger）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>判断“是否碰到了”用碰撞；判断“是否进入了区域/道具范围”用触发。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：金币收集与陷阱</h2>
+<p>用触发实现金币与伤害。</p>
+<ol class="steps"><li>【金币】创建 Sphere 命名为 Coin，缩小、加金色材质，勾选 Sphere Collider 的 Is Trigger，旋转让金字样自然。</li><li>给 Coin 加脚本：</li><li>void OnTriggerEnter(Collider other) { if (other.CompareTag("Player")) { Debug.Log("金币+1"); Destroy(gameObject); } }</li><li>给玩家 Cube 加 Tag “Player”（第 78 课）。</li><li>播放：控制玩家靠近金币，进入区域即触发，金币消失！</li><li>【陷阱区域】创建一个 Cube 拉大压扁，勾选 Is Trigger，挂脚本：OnTriggerEnter 时 other 是玩家则扣血。</li><li>【持续伤害】用 OnTriggerStay（每帧都触发）实现“站在火里持续掉血”，注意用时间间隔控制。</li><li>【离开区域】OnTriggerExit 实现“离开安全区”。</li><li>【碰撞销毁】子弹用 OnCollisionEnter 撞到墙就 Destroy（第 77 课）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>触发事件三件套：Enter 进入、Stay 停留、Exit 离开；配合 Tag 判断对象身份。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>OnTriggerEnter 没触发？<br><b>原因：</b>双方都没刚体，或触发器没勾 Is Trigger<br><b>解决：</b>确认动态对象有 Rigidbody；触发器勾选 Is Trigger；检查方法名拼写。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做一个金币收集系统（触发）</li><li>做一个持续伤害的陷阱区域（OnTriggerStay）</li><li>用 OnCollisionEnter 让子弹撞墙销毁</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>触发与碰撞事件已掌握。下一课学刚体的 Sleep 与约束。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-095/index.html"><span class="dir">← 上一课</span><span class="t">扭矩与角速度 Torque</span></a><a class="nav-item next" href="../lesson-097/index.html"><span class="dir">下一课 →</span><span class="t">刚体约束与 Sleep、碰撞检测模式</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

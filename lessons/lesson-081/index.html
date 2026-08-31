@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 81 课：Transform 常用 API · Unity 星辰学院</title>
+<meta name="description" content="Transform 常用 API · Unity 星辰学院第 81 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-081">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 6 章 · 游戏对象与组件交互</a><span class="sep">/</span>
+    <span>第 81 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 81 · 游戏对象与组件交互</span>
+    <h1>Transform 常用 API</h1>
+    <p class="sub">Transform API 已掌握。下一课学协程 Coroutine。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 6 章 · 游戏对象与组件交互</span><span class="meta-item">📍 第 81 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:27.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">81 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">移动与位置</a>
+<a href="#sec-1">旋转与朝向</a>
+<a href="#sec-2">父子操作</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握移动类 API</li><li>掌握旋转与朝向</li><li>掌握坐标转换</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>transform 是每个对象都有的组件，操控它的位置/旋转是写游戏逻辑的第一步。本课汇总最常用的 API。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>移动与位置</h2>
+<p>让对象“动起来”。</p>
+<ol class="steps"><li>【直接改位置】transform.position = new Vector3(1, 2, 3);（世界坐标瞬移）。</li><li>【相对自身移动】transform.Translate(Vector3.forward * speed * Time.deltaTime); 沿自身前方移动，配合旋转可实现“朝哪走哪”。</li><li>【Translate 方向参数】transform.Translate(dir, Space.Self)（自身空间，默认）或 Space.World（世界空间）。</li><li>【取位置】transform.position（世界）、transform.localPosition（局部）。</li><li>【取朝向】transform.forward（前方单位向量）、transform.right、transform.up。</li><li>【插值移动】transform.position = Vector3.MoveTowards(current, target, speed * Time.deltaTime); 匀速靠近目标，好用。</li><li>【平滑移动】Vector3.Lerp（线性插值）：transform.position = Vector3.Lerp(a, b, t); t 是 0-1 的比例。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>MoveTowards 匀速、Lerp 渐进，是两个高频移动方案，务必掌握。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>旋转与朝向</h2>
+<p>让对象“转起来”。</p>
+<ol class="steps"><li>【直接设旋转】transform.rotation = Quaternion.Euler(0, 90, 0); 用欧拉角转 90 度（Quaternion 四元数，避免直接设角度）。</li><li>【旋转增量】transform.Rotate(0, 90, 0); 绕 Y 轴转 90 度；transform.Rotate(Vector3.up, 90f); 等价。</li><li>【旋转速度】transform.Rotate(Vector3.up * rotateSpeed * Time.deltaTime); 持续旋转。</li><li>【看向目标】transform.LookAt(target); 让对象正面朝向目标位置（自动旋转 Z 轴对齐）。</li><li>【获取角度】transform.eulerAngles 返回 (x,y,z) 角度。</li><li>【朝向目标方向移动】dir = (target - transform.position).normalized; transform.Translate(dir * speed * Time.deltaTime, Space.World);</li><li>【Quaternion 要点】rotation 是四元数，不能直接改 x/y/z，用 eulerAngles 或 Rotate。</li><li>【平滑旋转】Quaternion.Slerp（球面插值）：transform.rotation = Quaternion.Slerp(a, b, t);</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>永远不要直接改 transform.rotation.x/y/z！用 Quaternion.Euler 或 Rotate。四元数第 2 课会深讲。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>父子操作</h2>
+<p>管理层级。</p>
+<ol class="steps"><li>【取父对象】transform.parent 或 transform.root（最顶层）。</li><li>【设父对象】transform.SetParent(newParent, true); 第二个参数 true=保持世界坐标。</li><li>【子对象数量】transform.childCount。</li><li>【取第几个子对象】transform.GetChild(0)。</li><li>【遍历子对象】foreach (Transform child in transform) { ... }。</li><li>【查找子对象】transform.Find("名字") 按名字找子对象（比 Find 快）。</li><li>【销毁所有子对象】在子对象列表里逐个 Destroy。</li><li>【本地与世界坐标转换】transform.InverseTransformDirection(dir) 把世界方向转成自身方向；TransformPoint 等。</li><li>【实用组合】把武器挂到手上：weapon.SetParent(hand, false);</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>Transform API 是 3D 编程的基本功：translate 移动、rotate 旋转、lookAt 朝向、setParent 挂载。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>旋转数值莫名“跳变”？<br><b>原因：</b>直接改了 Quaternion 的 x/y/z<br><b>解决：</b>使用 Quaternion.Euler 赋值或用 eulerAngles。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 Translate 让物体沿自身前方移动并旋转</li><li>用 LookAt 让物体始终看向目标</li><li>用 SetParent 把子弹挂到枪口上</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Transform API 已掌握。下一课学协程 Coroutine。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-080/index.html"><span class="dir">← 上一课</span><span class="t">组件访问 GetComponent</span></a><a class="nav-item next" href="../lesson-082/index.html"><span class="dir">下一课 →</span><span class="t">协程 Coroutine</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

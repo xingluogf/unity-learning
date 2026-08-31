@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 48 课：变量与数据类型 · Unity 星辰学院</title>
+<meta name="description" content="变量与数据类型 · Unity 星辰学院第 48 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-048">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 48 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 48 · C# 编程基础</span>
+    <h1>变量与数据类型</h1>
+    <p class="sub">变量与基本类型已掌握。下一课学常量与类型转换。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 48 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:16.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">48 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">什么是变量</a>
+<a href="#sec-1">常用数据类型</a>
+<a href="#sec-2">在 Unity 中实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解变量的概念</li><li>掌握声明与赋值语法</li><li>熟悉常用数据类型</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>游戏里到处是数据：血量、分数、名字、开关状态。变量就是“存数据的小盒子”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>什么是变量</h2>
+<p>变量 = 有名字的“存储盒”。</p>
+<ol class="steps"><li>变量用来保存一个值，并给这个值起个名字，方便后面使用。</li><li>比如 int score = 0; 表示“我有一个叫 score 的盒子，里面存整数 0”。</li><li>声明变量语法：数据类型 变量名 = 初始值;</li><li>变量名规范：小驼峰（第 45 课），如 playerHealth、score。</li><li>声明后可以在后续代码中读取或修改它。</li><li>先声明再使用，用前要有值。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>把变量想象成带标签的抽屉：标签是变量名，抽屉里是数据。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>常用数据类型</h2>
+<p>记住这五个最常用的。</p>
+<ol class="steps"><li>【int】：整数，如 0、-5、100。适合计数、分数、生命值次数。例：int score = 100;</li><li>【float】：小数，如 3.14f、0.5f（注意：float 字面量要加 f 后缀）。适合速度、位置、时间。例：float speed = 5.5f;</li><li>【bool】：布尔，只有 true（真）和 false（假）。适合开关、状态标记。例：bool isDead = false;</li><li>【string】：字符串（文本），用双引号。适合名字、消息。例：string playerName = "英雄";</li><li>【char】：单个字符，用单引号，如 'A'（较少用）。</li><li>【Unity 特有类型】（后续课程）：Vector3（三维向量）、Color（颜色）、GameObject 等。</li><li>声明后可重新赋值：score = 200;（变量可改，常量不行）。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>float 的数值必须带 f 或 F 后缀，否则编译器报错（如 3.14f）。这是新手最常见报错之一。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>在 Unity 中实战</h2>
+<p>把变量写进脚本跑起来。</p>
+<ol class="steps"><li>新建脚本 VariablesDemo，挂到空对象上。</li><li>在 Start 里写：</li><li>int score = 100; float speed = 5.5f; bool isDead = false; string name = "英雄";</li><li>分别用 Debug.Log 打印它们：Debug.Log(score); Debug.Log(speed); 等。</li><li>保存、播放，看 Console 输出。</li><li>修改 speed 的值：speed = 10f; 再打印一次，观察变化。</li><li>把变量声明写在类的最上面（方法外），它们会成为“字段”，后续课讲它的意义。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>在方法里声明的变量叫“局部变量”，只能在该方法内使用；在类里声明的叫“字段”，整个类可用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>报错：Cannot implicitly convert type 'double' to 'float'？<br><b>原因：</b>3.14 默认是 double 类型，赋给 float 报错<br><b>解决：</b>在数字后加 f：float x = 3.14f;</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>声明 int/float/bool/string 各一个并赋值</li><li>把它们打印到 Console</li><li>改变其中一个值再打印，观察变化</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>变量与基本类型已掌握。下一课学常量与类型转换。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-047/index.html"><span class="dir">← 上一课</span><span class="t">创建第一个 C# 脚本</span></a><a class="nav-item next" href="../lesson-049/index.html"><span class="dir">下一课 →</span><span class="t">常量与类型转换</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

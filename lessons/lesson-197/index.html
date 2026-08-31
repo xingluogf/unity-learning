@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 197 课：综合特效制作：技能特效 · Unity 星辰学院</title>
+<meta name="description" content="综合特效制作：技能特效 · Unity 星辰学院第 197 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-197">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 12 章 · 特效与粒子</a><span class="sep">/</span>
+    <span>第 197 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 197 · 特效与粒子</span>
+    <h1>综合特效制作：技能特效</h1>
+    <p class="sub">技能特效完成！下一课学特效性能优化。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 20 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 12 章 · 特效与粒子</span><span class="meta-item">📍 第 197 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:65.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">197 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">火球术特效设计</a>
+<a href="#sec-1">爆炸与反馈</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>设计技能特效</li><li>整合粒子与灯光</li><li>实现技能触发</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>把特效章所有能力整合成一个“火球术”技能：发射、爆炸、光效、屏幕反馈。特效综合练习！</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>火球术特效设计</h2>
+<p>三阶段特效。</p>
+<ol class="steps"><li>【阶段规划】火球技能 = 发射（飞行火球）→ 命中（爆炸）→ 反馈（光效+屏幕闪）。</li><li>【火球本体】球体 + 发光材质（Emission 橙红）+ 点光（跟随移动）。</li><li>【拖尾】火球挂一个 Trail Renderer 或粒子拖尾（Trails 模块，第 187 课）。</li><li>【飞行粒子】火球上加“小火花粒子”（圆锥小喷，朝后）。</li><li>【挂预制体】把火球+光+粒子打包成预制体 Fireball（第 76 课）。</li><li>【注意】火球是“抛射物”，用刚体+速度推进（第 91-93 课）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>技能特效规划：发射态（飞行火花）+ 命中态（爆炸）+ 反馈态（光/屏闪）。三段式设计。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>爆炸与反馈</h2>
+<p>命中的“高潮”。</p>
+<ol class="steps"><li>【爆炸粒子】预制体 Explosion：一次性爆发粒子（Burst 100、速度向外、橙黄→红→灰）、Size 从小爆大、Noise 扭曲。</li><li>【冲击波】环形粒子（Circle 发射、径向向外）+ 光晕贴图扩散。</li><li>【灯光脉冲】命中处 Point Light 高亮→快速衰减：</li><li>IEnumerator LightPulse() { light.intensity = 5f; while (light.intensity &gt; 0.2f) { light.intensity -= Time.deltaTime * 8f; yield return null; } }</li><li>【地面烟尘】命中点烟雾粒子（灰、慢速、大寿命）。</li><li>【屏幕反馈】命中时调用 DamageFlash 闪白 + 相机震动（第 198 课）+ 爆炸音效（第 173 课）。</li><li>【触发实现】火球命中碰撞体时：实例化 Explosion 预制体 → 播放爆炸音效 → 闪屏 → 销毁火球。</li><li>【销毁】命中后 Destroy(fireball)；爆炸粒子可延迟销毁。</li><li>【注意】爆炸粒子若持续存在会占资源，延时销毁（Destroy(explosion, 3f)）。</li><li>【完成】你的“火球术”完整出炉！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>爆炸 = 爆发粒子 + 冲击环 + 光脉冲 + 烟尘 + 屏幕反馈。多感官同时爆发。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>爆炸粒子一直存在？<br><b>原因：</b>没销毁或没设生命周期<br><b>解决：</b>爆炸预制体用一次性（不循环）并 Destroy(explosion, 3f)。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>制作火球飞行特效（发光+拖尾）</li><li>制作爆炸粒子与冲击波</li><li>命中时触发屏幕闪与音效</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>技能特效完成！下一课学特效性能优化。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-196/index.html"><span class="dir">← 上一课</span><span class="t">屏幕空间特效（特效进阶）</span></a><a class="nav-item next" href="../lesson-198/index.html"><span class="dir">下一课 →</span><span class="t">特效性能优化</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 65 课：封装：public/private 与属性 · Unity 星辰学院</title>
+<meta name="description" content="封装：public/private 与属性 · Unity 星辰学院第 65 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-065">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 65 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 65 · C# 编程基础</span>
+    <h1>封装：public/private 与属性</h1>
+    <p class="sub">封装已掌握。下一课学面向对象的第二个特性：继承。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 65 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:21.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">65 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">访问修饰符</a>
+<a href="#sec-1">属性 Property</a>
+<a href="#sec-2">Unity 实战</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 public/private</li><li>掌握属性的 get/set</li><li>养成封装习惯</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>类的字段应该“谁能看、谁能改”要有规矩，这就是封装。它是面向对象的三大特性之一（封装、继承、多态）。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>访问修饰符</h2>
+<p>控制“谁能访问”。</p>
+<ol class="steps"><li>【public 公有】：任何地方都能访问（类外也能读写字段）。</li><li>【private 私有】：只有类内部能访问（类外不可见），默认权限。</li><li>【protected 受保护】：本类及子类可访问（继承时用，第 66 课）。</li><li>【internal】等：较少用，先忽略。</li><li>例：public int hp; // 外部可直接改；private int secret; // 外部不可见。</li><li>字段默认是 private（若没写修饰符，实际是 private）。</li><li>直接 public 字段的缺点：外部可以随意改成非法值（如血量负数）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>原则：数据尽量 private，通过方法/属性提供受控访问，这叫“数据封装”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>属性 Property</h2>
+<p>“受控的门卫”。</p>
+<ol class="steps"><li>属性用 get（取值）/ set（赋值）控制字段的访问逻辑。</li><li>语法：public int Hp { get { return hp; } set { hp = value; } }</li><li>【value】是 set 里系统给的“要赋的新值”。</li><li>只读属性：只写 get 不写 set（外部不能改）。</li><li>自动属性：public int Score { get; set; } 编译器自动生成隐藏字段。</li><li>【逻辑校验】：public int Hp { get { return hp; } set { hp = value &lt; 0 ? 0 : value; } } // 防止负数</li><li>在 set 里可加限制、通知等逻辑，这是 public 字段做不到的。</li><li>使用：player.Hp = 50; int h = player.Hp; 用法与字段一样。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>字段私有 + 属性公开 = 既安全又好用，是专业代码的标准写法。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Unity 实战</h2>
+<p>在脚本里运用封装。</p>
+<ol class="steps"><li>新建脚本 EncapsulationDemo，定义：</li><li>private int hp = 100;</li><li>public int Hp { get { return hp; } set { hp = Mathf.Clamp(value, 0, 200); } }</li><li>public bool IsDead { get { return hp &lt;= 0; } } // 只读属性</li><li>在 Start 里测试：Hp = 500; Debug.Log(Hp); // 被限制为 200</li><li>Hp = -50; Debug.Log(Hp); // 被限制为 0</li><li>Debug.Log(IsDead); // True</li><li>播放观察：属性把值限制在合法范围。</li><li>体会封装的价值：外部无法破坏数据规则。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Mathf.Clamp(value, min, max) 是 Unity 提供的“夹取”函数，把值限制在区间内，非常好用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>类外访问 private 字段报错？<br><b>原因：</b>私有字段外部不可见<br><b>解决：</b>把字段改为 public 或通过 public 属性/方法访问。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把字段设为 private，用属性控制读写</li><li>给属性加一个值范围限制</li><li>写一个只读属性（如 IsDead）</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>封装已掌握。下一课学面向对象的第二个特性：继承。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-064/index.html"><span class="dir">← 上一课</span><span class="t">构造函数 Constructor</span></a><a class="nav-item next" href="../lesson-066/index.html"><span class="dir">下一课 →</span><span class="t">继承 Inheritance</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

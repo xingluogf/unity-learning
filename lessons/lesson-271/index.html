@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 271 课：移动端性能优化 · Unity 星辰学院</title>
+<meta name="description" content="移动端性能优化 · Unity 星辰学院第 271 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-271">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 16 章 · 性能优化</a><span class="sep">/</span>
+    <span>第 271 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 271 · 性能优化</span>
+    <h1>移动端性能优化</h1>
+    <p class="sub">移动端优化完成。下一课做性能分析实战。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 16 章 · 性能优化</span><span class="meta-item">📍 第 271 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:90.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">271 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">移动端限制</a>
+<a href="#sec-1">画质分级与节能</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>了解设备限制</li><li>掌握画质分级</li><li>控制发热</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“手机”设备五花八门。本课针对移动端做专项优化。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>移动端限制</h2>
+<p>“小屏幕大限制”。</p>
+<ol class="steps"><li>【设备差异】从低端安卓到高端 iPhone 性能差 5-10 倍。</li><li>【限制】发热降频、内存小、续航、无独显。</li><li>【目标】低端保 30fps、中端 60、高端全开。</li><li>【GPU 限制】Draw Call/粒子/后处理都要克制。</li><li>【内存】安卓可用内存小：纹理压缩、资源精简（第 266-267 课）。</li><li>【存储】包体尽量 &lt; 500MB（渠道限制）。</li><li>【发热】长时间全开会发热降频卡顿。</li><li>【测试】真机多档位测试（别只在高端机测）。</li><li>【完成】“知道敌人”。</li><li>【设备分级】按 GPU 型号/内存分级（进阶）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>移动端三限制：性能（设备差异）、内存（小）、发热（降频）。都避开才能稳。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>画质分级与节能</h2>
+<p>“按设备开特效”。</p>
+<ol class="steps"><li>【画质分级】QualitySettings 定义多档（Low/Medium/High/Ultra）。</li><li>【档位差异】</li><li>Low：关后处理、无阴影/低阴影、低分辨率、关粒子。</li><li>Medium：简单后处理、软阴影低。</li><li>High：Bloom、高阴影、特效全开。</li><li>【启动选档】首次运行按设备：</li><li>if (SystemInfo.graphicsMemorySize &gt; 2000) QualitySettings.SetQualityLevel(3); else ...</li><li>【动态调整】帧率低自动降档（第 262 课）。</li><li>【节能】targetFrameRate=30 低档省电；空闲暂停渲染（进阶）。</li><li>【电池】屏幕亮度/粒子/后处理影响电量。</li><li>【按场景】菜单低档、关卡高档（进阶）。</li><li>【测试】每档位真机验证帧率与发热。</li><li>【完成】“会分级”的移动端。</li><li>【推荐】发布至少 3 档画质。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>移动端画质 = 多档 QualitySettings + 启动按设备选档 + 动态降档。三级保障。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>高端机也卡？<br><b>原因：</b>没分级或优化没做<br><b>解决：</b>先做资源/渲染/GC 基础优化（第 263-267 课）；再分级；真机验证。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>配置多档画质</li><li>启动按设备选档</li><li>真机验证帧率与发热</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>移动端优化完成。下一课做性能分析实战。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-270/index.html"><span class="dir">← 上一课</span><span class="t">LOD 与遮挡剔除实战</span></a><a class="nav-item next" href="../lesson-272/index.html"><span class="dir">下一课 →</span><span class="t">性能分析实战（综合排障）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

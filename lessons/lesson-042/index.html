@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 42 课：Asset Store 资源商店 · Unity 星辰学院</title>
+<meta name="description" content="Asset Store 资源商店 · Unity 星辰学院第 42 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-042">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 4 章 · 资源导入与管理</a><span class="sep">/</span>
+    <span>第 42 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 42 · 资源导入与管理</span>
+    <h1>Asset Store 资源商店</h1>
+    <p class="sub">资源商店已掌握。下一课学包管理器 Package Manager。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 4 章 · 资源导入与管理</span><span class="meta-item">📍 第 42 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:14.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">42 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">打开与浏览资源商店</a>
+<a href="#sec-1">获取并导入资源</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>打开资源商店</li><li>搜索并获取免费资源</li><li>把资源导入项目</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>Asset Store 是 Unity 官方资源市场，海量免费模型/贴图/脚本/插件。学会用它，开发效率飞起。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>打开与浏览资源商店</h2>
+<p>找到入口。</p>
+<ol class="steps"><li>【方式1】在 Unity 编辑器顶部菜单：【窗口 Window】→【通用 General】→【资源商店 Asset Store】，打开商店窗口。</li><li>【方式2】直接浏览器访问 assetstore.unity.com（需登录账号）。</li><li>在商店里按分类浏览：3D 模型、2D、音频、材质、工具等。</li><li>顶部搜索框可搜索关键词，如输入“free rock”找免费岩石模型。</li><li>结果中可勾选【Free 免费】过滤，只显示免费资源。</li><li>【注意】：新版 Unity（2022+）商店已并入 Package Manager 的“我的资源”页签，但仍可通过浏览器访问并“Add to My Assets”。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>新手阶段先下载“免费”资源练手，避免误买。下载前看评分和图片预览。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>获取并导入资源</h2>
+<p>下载到导入全流程。</p>
+<ol class="steps"><li>在资源详情页点击【Add to My Assets 添加到我的资源】。</li><li>【下载】后，回到 Unity：菜单【窗口】→【包管理器 Package Manager】。</li><li>在 Package Manager 窗口点击左侧【我的资源 My Assets】。</li><li>列表里找到刚添加的资源，点击右侧【下载 Download】→ 下载完成后点【导入 Import】。</li><li>弹出导入选择框，保持全选，点【Import】。</li><li>导入完成后，Project 里出现该资源的文件夹，可正常使用了。</li><li>若资源是 .unitypackage 文件：双击它，或菜单【资源】→【导入包】→【自定义包】选择文件导入。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>导入第三方资源前先看描述：是否需要特定版本、是否有依赖，避免冲突报错。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>Package Manager 里找不到“我的资源”？<br><b>原因：</b>未登录或版本差异<br><b>解决：</b>确认 Package Manager 右上角已登录账号；新版入口在“我的资源 My Assets”页签。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>在资源商店找一个免费模型资源</li><li>添加后通过 Package Manager 导入</li><li>把导入的模型放进场景查看</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>资源商店已掌握。下一课学包管理器 Package Manager。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-041/index.html"><span class="dir">← 上一课</span><span class="t">导入字体与 UI 文字设置</span></a><a class="nav-item next" href="../lesson-043/index.html"><span class="dir">下一课 →</span><span class="t">Package Manager 包管理器</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

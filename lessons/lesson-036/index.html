@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 36 课：导入模型资源（FBX / OBJ） · Unity 星辰学院</title>
+<meta name="description" content="导入模型资源（FBX / OBJ） · Unity 星辰学院第 36 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-036">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 4 章 · 资源导入与管理</a><span class="sep">/</span>
+    <span>第 36 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 36 · 资源导入与管理</span>
+    <h1>导入模型资源（FBX / OBJ）</h1>
+    <p class="sub">模型导入已掌握。下一课深入模型导入设置。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 4 章 · 资源导入与管理</span><span class="meta-item">📍 第 36 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:12.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">36 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">支持的格式与准备</a>
+<a href="#sec-1">导入模型</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>了解常见模型格式</li><li>掌握导入模型的方法</li><li>知道导入后模型在哪里</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>很多美术资源需要外部制作后导入。本课教你正确地把 3D 模型请进 Unity。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>支持的格式与准备</h2>
+<p>先认识格式。</p>
+<ol class="steps"><li>Unity 最推荐的模型格式：【FBX】（.fbx），兼容性最好，支持动画、材质、骨骼。</li><li>其次是【OBJ】（.obj）：只含几何信息，无动画、无骨骼，适合静态物件。</li><li>其他如 .3ds、.dae、.blend 也可（需开启对应支持）。</li><li>获取模型：美术用 Blender/Maya/3ds Max 导出 FBX；或从 Asset Store / 网络免费模型库下载。</li><li>【注意事项】：模型命名用英文；导出前把模型“归零”（位于原点、尺寸适中）；单位保持一致。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>不会建模也能学：先下载免费 FBX 模型练手，动手最重要。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>导入模型</h2>
+<p>把文件拖进 Unity。</p>
+<ol class="steps"><li>在 Project 窗口的 Models 文件夹（先建好）空白处，把 .fbx 文件直接拖进去。</li><li>或菜单【资源 Assets】→【导入新资源 Import New Asset】→ 选择文件。</li><li>Unity 自动导入，右下角出现导入进度。</li><li>导入完成后，Project 里出现模型文件（显示为立体预览图标）。</li><li>把它从 Project 拖到场景里即可使用。</li><li>选中场景中的模型，检查 Mesh Filter（网格）与 Mesh Renderer（渲染）是否正常。</li><li>模型可能自带一个“默认材质”（灰白色），正式外观需上材质（第 37-38 课）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>导入后有报错先看 Console：多数是材质引用或格式问题，按提示解决。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>模型导入后是“问号/紫色”？<br><b>原因：</b>Shader 或材质丢失<br><b>解决：</b>模型自带的 Shader 可能与内置不同，重新创建 Standard 材质赋上即可。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>下载一个免费 FBX 模型（或自建）导入项目</li><li>把模型拖进场景并旋转查看全角度</li><li>为模型创建并赋上一个简单材质</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>模型导入已掌握。下一课深入模型导入设置。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-035/index.html"><span class="dir">← 上一课</span><span class="t">综合练习：搭建一个 3D 小房间</span></a><a class="nav-item next" href="../lesson-037/index.html"><span class="dir">下一课 →</span><span class="t">模型导入设置详解</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 51 课：条件语句 if / else if / else · Unity 星辰学院</title>
+<meta name="description" content="条件语句 if / else if / else · Unity 星辰学院第 51 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-051">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 51 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 51 · C# 编程基础</span>
+    <h1>条件语句 if / else if / else</h1>
+    <p class="sub">if / else / else if 已掌握。下一课学另一种分支 switch。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 51 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:17.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">51 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">if / else 基础语法</a>
+<a href="#sec-1">else if 多分支</a>
+<a href="#sec-2">Unity 实战：状态判断</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握 if / else 语法</li><li>掌握 else if 多分支</li><li>会用条件做游戏逻辑</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>程序最强大的能力之一就是“看情况办事”：血量为 0 就死亡、按下按键才移动。这一切靠条件语句。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>if / else 基础语法</h2>
+<p>最简单的判断。</p>
+<ol class="steps"><li>语法：if (条件) { 条件成立执行的代码 }</li><li>条件是一个 bool 表达式（第 50 课的比较/逻辑运算结果）。</li><li>例：if (hp &lt;= 0) { Debug.Log("角色死亡"); }</li><li>加 else：if (条件) { 成立时 } else { 不成立时 }</li><li>例：if (hp &gt; 0) { Debug.Log("存活"); } else { Debug.Log("死亡"); }</li><li>else 也可以没有（只关心成立的情况）。</li><li>注意：条件一定要写在圆括号 () 里，代码块用花括号 {}。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>单行代码可以不写花括号，但强烈建议都写，避免逻辑混乱。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>else if 多分支</h2>
+<p>多个条件依次判断。</p>
+<ol class="steps"><li>语法：if (条件1) { } else if (条件2) { } else if (条件3) { } else { 都不满足时 }</li><li>从上到下依次判断，满足一个就执行并“跳过”后续所有分支。</li><li>例：if (score &gt;= 90) { Debug.Log("S 级"); } else if (score &gt;= 80) { Debug.Log("A 级"); } else if (score &gt;= 60) { Debug.Log("B 级"); } else { Debug.Log("不及格"); }</li><li>顺序很重要：必须先写 90 再写 80，否则 95 会被 80 分支提前接住。</li><li>else 分支可省略：都不满足时什么都不做。</li></ol>
+<div class="tip tip-warn"><span class="t-ic">⚠️</span><div>else if 的顺序错了逻辑就全错：范围条件要“从大到小”或“从小到大”严格排列。</div></div>
+</div></div>
+<div id="sec-2" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Unity 实战：状态判断</h2>
+<p>用 if 控制一个物体的行为。</p>
+<ol class="steps"><li>新建脚本 ConditionDemo，挂到 Cube 上。</li><li>在 Update 里写：if (transform.position.y &lt; -5f) { Debug.Log("掉下去了！"); }</li><li>加一个开关变量：bool isDead = false; 在 Update 里 if (isDead) { return; }（死亡后停止执行）。</li><li>结合比较：if (Input.GetKeyDown(KeyCode.Space)) { Debug.Log("按下了空格"); }（输入第 8 章详讲）。</li><li>播放测试：按空格触发输出；修改 isDead 看 return 效果。</li><li>【嵌套】if 里套 if：先判断是否死亡，再判断是否按了键，体会分支结构。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>条件语句是游戏逻辑的骨架：几乎所有“该不该做”都由它决定。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>if 里写 x = 5 而不是 x == 5？<br><b>原因：</b>把赋值当成了比较<br><b>解决：</b>条件里一律用 == 比较；= 是赋值。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>写一个判断等级的多分支 if</li><li>在 Update 里用 if 判断物体位置，低于阈值就打印</li><li>用 bool 开关 + if 控制是否执行某段代码</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>if / else / else if 已掌握。下一课学另一种分支 switch。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-050/index.html"><span class="dir">← 上一课</span><span class="t">运算符详解</span></a><a class="nav-item next" href="../lesson-052/index.html"><span class="dir">下一课 →</span><span class="t">switch 语句</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

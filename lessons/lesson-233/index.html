@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 233 课：3D 物理进阶（关节与力） · Unity 星辰学院</title>
+<meta name="description" content="3D 物理进阶（关节与力） · Unity 星辰学院第 233 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-233">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 233 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 233 · 3D 游戏进阶</span>
+    <h1>3D 物理进阶（关节与力）</h1>
+    <p class="sub">3D 物理进阶完成。下一课学 3D 拾取与交互。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 233 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:77.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">233 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">力与扭矩</a>
+<a href="#sec-1">关节 Joint</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握力与扭矩</li><li>掌握关节</li><li>实现物理互动</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>门能开、秋千能晃、爆炸能掀飞箱子——3D 物理让场景“可交互”。本课进阶物理。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>力与扭矩</h2>
+<p>让物体“受力”。</p>
+<ol class="steps"><li>【AddForce】加力：rb.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);</li><li>【ForceMode】</li><li>Force（持续力，每秒）／Acceleration（加速度）／Impulse（瞬间冲量）／VelocityChange（速度变化）。</li><li>【AddTorque】扭矩（旋转力）：rb.AddTorque(new Vector3(0, 50, 0));</li><li>【AddExplosionForce】爆炸力（3D 特有）：</li><li>rb.AddExplosionForce(power, center, radius, 3f, ForceMode.Impulse);</li><li>把角色周围物体炸飞。</li><li>【Drag 阻尼】Linear Drag 限速、Angular Drag 限转。</li><li>【应用】武器击退、爆炸、推箱、风。</li><li>【注意】在 FixedUpdate 里施力（第 91 课）。</li><li>【测试】给箱子 AddExplosionForce 炸飞。</li><li>【完成】物体“有反应”。</li><li>【说明】扭矩常用于转轮、翻转敌人。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>物理力四兄弟：Force 持续、Impulse 冲量、Torque 旋转、ExplosionForce 爆炸。按场景选。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>关节 Joint</h2>
+<p>让物体“连起来”。</p>
+<ol class="steps"><li>【HingeJoint 铰链】门、吊桥：物体绕轴旋转。</li><li>给门加 HingeJoint：把门放墙边、连到墙（Connected Body）、设置轴（Y 轴）。</li><li>【SpringJoint 弹簧】秋千、悬挂：带弹力的连接。</li><li>【FixedJoint 固定】把两物体焊死（桌子腿）。</li><li>【CharacterJoint 角色关节】骨骼连接（第 144 课布娃娃用）。</li><li>【用法】选中物体 → Add Component → 搜 Joint 类型。</li><li>【Connected Body】连接的另一物体（或不填=连到世界）。</li><li>【Anchor 锚点】关节旋转点位置。</li><li>【Axis】旋转轴。</li><li>【测试】做一扇能开的门（HingeJoint）。</li><li>【注意】被连接物体要有 Rigidbody。</li><li>【完成】物理“组装”完成！</li><li>【实践】秋千（SpringJoint）+ 门（HingeJoint）+ 炸飞箱子（ExplosionForce）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>关节四兄弟：Hinge 开门、Spring 弹、Fixed 焊、Character 连骨骼。加关节=加玩法。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>门不转？<br><b>原因：</b>HingeJoint 锚点/轴不对或没刚体<br><b>解决：</b>门有 Rigidbody；HingeJoint 轴设 Y 或 Z；锚点在门轴位置。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用 AddExplosionForce 炸飞箱子</li><li>做一扇能开的门</li><li>做一个晃动的秋千</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 物理进阶完成。下一课学 3D 拾取与交互。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-232/index.html"><span class="dir">← 上一课</span><span class="t">ProBuilder 快速建模</span></a><a class="nav-item next" href="../lesson-234/index.html"><span class="dir">下一课 →</span><span class="t">3D 拾取与交互系统</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

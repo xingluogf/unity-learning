@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 185 课：音频章总结与最佳实践 · Unity 星辰学院</title>
+<meta name="description" content="音频章总结与最佳实践 · Unity 星辰学院第 185 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-185">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 185 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 185 · 音频系统</span>
+    <h1>音频章总结与最佳实践</h1>
+    <p class="sub">音频章全部完成！下一章进入“特效与粒子”，让游戏画面炫起来。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 185 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:61.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">185 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">音频最佳实践清单</a>
+<a href="#sec-1">常见坑与总结</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>总结音频知识</li><li>掌握最佳实践</li><li>避免常见坑</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>音频章收官：把 15 课知识沉淀成“最佳实践清单”，以后做游戏直接照做。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>音频最佳实践清单</h2>
+<p>“照做”清单。</p>
+<ol class="steps"><li>【架构】</li><li>AudioManager 单例（BGM+SFX）+ DontDestroyOnLoad。</li><li>SoundLibrary 名字调用音效。</li><li>AudioMixer 分组（Music/SFX/Ambient）。</li><li>【素材】</li><li>短音效 Decompress、BGM Streaming。</li><li>Vorbis 压缩 + 44.1kHz。</li><li>【用法】</li><li>BGM 循环、SFX 一次性。</li><li>随机 Pitch/变体防呆板。</li><li>3D 音效 Spatial=1、2D 音效 Spatial=0。</li><li>动画事件精确同步。</li><li>环境音分层（底噪+区域+事件）。</li><li>【设置】</li><li>音量面板 + PlayerPrefs 保存。</li><li>对话闪避 BGM。</li><li>【优化】</li><li>控制同时播放音效数（&gt;32 会丢）。</li><li>检查音频内存。</li><li>【完成】“心法”在手。</li><li>【推荐】新项目直接按这个清单搭。</li><li>【注意】清单随经验更新（每次项目复盘补充）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>最佳实践 = 架构（管理器+库+混音器）+ 素材（压缩+加载）+ 用法（随机+3D+同步）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>常见坑与总结</h2>
+<p>别“踩雷”。</p>
+<ol class="steps"><li>【坑1】多个 AudioListener：场景里有多个会警告（保留一个）。</li><li>【坑2】没 AudioSource 播不出：PlayClipAtPoint 免 Source，但频繁用耗性能。</li><li>【坑3】音量 0 无声：检查 Volume/混音器推子。</li><li>【坑4】循环没勾：BGM 播一遍就停。</li><li>【坑5】音频内存爆：长音频用了 Decompress（第 179 课）。</li><li>【坑6】事件没触发：动画事件方法名拼错（第 135 课）。</li><li>【坑7】切场景 BGM 断：没 DontDestroyOnLoad（第 172 课）。</li><li>【总结】音频系统 = 播放（Source/Clip/Listener）+ 管理（单例/库/Mixer）+ 同步（动画事件）+ 优化（压缩/内存）。</li><li>【下一步】进入第 12 章“特效与粒子”：让画面也“有声有色”。</li><li>【完成】音频章毕业！</li><li>【推荐】把清单和坑写进你的开发笔记。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>音频七坑记住：Listener 唯一、Source 存在、音量&gt;0、BGM 勾 Loop、内存选加载、事件名对、切场景保单例。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>音频系统总出问题？<br><b>原因：</b>没按架构搭建<br><b>解决：</b>按最佳实践清单重建：管理器+库+混音器，一次搭好长期省心。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>整理音频最佳实践笔记</li><li>检查项目音频是否踩坑</li><li>把音频系统复用到新项目</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>音频章全部完成！下一章进入“特效与粒子”，让游戏画面炫起来。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-184/index.html"><span class="dir">← 上一课</span><span class="t">音频进阶：动态混音与空间感</span></a><a class="nav-item next" href="../lesson-186/index.html"><span class="dir">下一课 →</span><span class="t">粒子系统入门</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

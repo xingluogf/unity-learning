@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 236 课：3D 射击系统 · Unity 星辰学院</title>
+<meta name="description" content="3D 射击系统 · Unity 星辰学院第 236 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-236">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 236 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 236 · 3D 游戏进阶</span>
+    <h1>3D 射击系统</h1>
+    <p class="sub">3D 射击完成。下一课做投掷物。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 236 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:78.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">236 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">射线射击（Raycast）</a>
+<a href="#sec-1">伤害与反馈</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现射线射击</li><li>实现伤害判定</li><li>实现命中反馈</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>3D 射击的“打没打中”用射线判定（即时命中）。本课做完整的射击与反馈。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>射线射击（Raycast）</h2>
+<p>准星到命中点。</p>
+<ol class="steps"><li>【思路】从准星发一条射线，命中的地方=着弹点（即时命中，无需子弹）。</li><li>【脚本 Gun】</li><li>public float range = 100f; public LayerMask hitMask;</li><li>public Transform firePoint;</li><li>void Update() {</li><li>if (Input.GetMouseButtonDown(0)) Fire();</li><li>}</li><li>void Fire() {</li><li>Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));</li><li>RaycastHit hit;</li><li>if (Physics.Raycast(ray, out hit, range, hitMask)) {</li><li>// 命中伤害</li><li>Enemy enemy = hit.collider.GetComponent&lt;Enemy&gt;();</li><li>if (enemy != null) enemy.TakeDamage(20);</li><li>// 弹孔/火花特效</li><li>Instantiate(bulletHole, hit.point, Quaternion.LookRotation(hit.normal));</li><li>}</li><li>// 枪口火光+音效</li><li>muzzleFlash.Play(); AudioManager.Instance.PlaySFX(shootSound);</li><li>}</li><li>【命中】hit.point 着弹点、hit.normal 法线（弹孔贴墙方向）。</li><li>【射速】冷却控制（第 214 课）。</li><li>【散射】（进阶）命中点加随机偏移模拟后坐力。</li><li>【测试】准星射敌人扣血、墙上留弹孔。</li><li>【注意】hitMask 过滤只打敌人/墙壁。</li><li>【完成】“能打中”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>3D 射击 = 准星射线 + 命中伤害 + 弹孔特效。一套三样。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>伤害与反馈</h2>
+<p>让“打中”有反馈。</p>
+<ol class="steps"><li>【伤害接口】Enemy 脚本：</li><li>public int hp = 100;</li><li>public void TakeDamage(int dmg) {</li><li>hp -= dmg;</li><li>// 受击反馈：闪红/粒子/音效</li><li>StartCoroutine(FlashRed());</li><li>if (hp &lt;= 0) Die();</li><li>}</li><li>【受击闪红】材质变色 0.1s 恢复（协程）。</li><li>【死亡】Die()：播死亡动画/特效、加分数、销毁。</li><li>【命中 UI】准星变红/命中标记（可选）。</li><li>【音效】命中 vs 未命中不同音效。</li><li>【击退】命中间歇 AddForce（物理反馈）。</li><li>【伤害数值】（进阶）飘字“20”（世界空间 TextMesh 弹出上升）。</li><li>【头部判定】（进阶）多层碰撞区分部位伤害。</li><li>【测试】打敌人有反馈、死亡正常。</li><li>【注意】死亡后防止重复受伤（isDead 标记）。</li><li>【完成】射击“手感”出来了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>命中反馈五件套：闪红、粒子、音效、飘字、击退。反馈齐手感妙。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>打不中敌人？<br><b>原因：</b>LayerMask 过滤或敌人没碰撞体<br><b>解决：</b>确认敌人有 Collider 且在 hitMask 层；射线从相机中心出。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现射线射击与伤害</li><li>加弹孔与受击反馈</li><li>实现死亡与计分</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 射击完成。下一课做投掷物。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-235/index.html"><span class="dir">← 上一课</span><span class="t">3D 敌人与 AI 导航</span></a><a class="nav-item next" href="../lesson-237/index.html"><span class="dir">下一课 →</span><span class="t">3D 投掷物（手雷/弓箭）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

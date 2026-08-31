@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 258 课：导航与动画整合 · Unity 星辰学院</title>
+<meta name="description" content="导航与动画整合 · Unity 星辰学院第 258 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-258">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 15 章 · 寻路与导航</a><span class="sep">/</span>
+    <span>第 258 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 258 · 寻路与导航</span>
+    <h1>导航与动画整合</h1>
+    <p class="sub">导航动画整合完成。下一课做玩家跟随。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 15 章 · 寻路与导航</span><span class="meta-item">📍 第 258 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:86.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">258 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">速度驱动动画</a>
+<a href="#sec-1">攻击与战斗状态</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>整合速度动画</li><li>实现攻击停顿</li><li>实现战斗状态</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“AI 走路时有走路动画、停下攻击”——把导航与动画状态机打通。本课整合。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>速度驱动动画</h2>
+<p>走/跑/停自动切换。</p>
+<ol class="steps"><li>【准备】敌人 Animator（第 130 课）状态：Idle、Walk、Run、Attack、Death。</li><li>【参数】Speed（Float）。</li><li>【代码】</li><li>public NavMeshAgent agent; public Animator anim;</li><li>void Update() {</li><li>float speed = agent.velocity.magnitude;</li><li>anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);</li><li>}</li><li>【效果】agent 走→Walk 动画；停→Idle。</li><li>【阈值】Blend Tree 把 Idle(0)/Walk(1)/Run(2) 按速度融合（第 134 课）。</li><li>【朝向】agent 转向由它自己处理（Angular Speed），动画跟朝向即可。</li><li>【到达停顿】agent 停在攻击距离时自动转 Idle（速度 0）。</li><li>【测试】敌人走近/停下，动画跟着切换。</li><li>【完成】AI“会表演”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>导航动画 = agent.velocity 大小 → SetFloat(Speed) → 混合树。一行打通。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>攻击与战斗状态</h2>
+<p>打到你了。</p>
+<ol class="steps"><li>【攻击触发】到达攻击距离：</li><li>void Update() {</li><li>if (agent.remainingDistance &lt;= agent.stoppingDistance &amp;&amp; !agent.pathPending) {</li><li>Attack();</li><li>}</li><li>}</li><li>void Attack() {</li><li>agent.isStopped = true; // 停下</li><li>anim.SetTrigger("Attack");</li><li>// 攻击动画事件里判定伤害（第 135/240 课）</li><li>}</li><li>【恢复追击】攻击结束（动画事件/协程）后：</li><li>agent.isStopped = false;</li><li>agent.SetDestination(player.position);</li><li>【攻击冷却】定时攻击（别连发）：</li><li>public float attackCooldown = 1.5f;</li><li>private float lastAttack;</li><li>if (Time.time - lastAttack &gt; attackCooldown) { lastAttack = Time.time; Attack(); }</li><li>【死亡】hp&lt;=0：anim.SetTrigger("Death") + 停 agent + 布娃娃（第 242 课）。</li><li>【完整循环】追击（走）→ 停下（攻）→ 追击…</li><li>【测试】敌人追、停、攻击、死亡全流程动画正确。</li><li>【完成】敌人“有血有肉”了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>战斗循环 = 追击（SetDestination）→ 停下（isStopped）→ 攻击（Trigger+冷却）→ 恢复。四步。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>攻击时角色还在走？<br><b>原因：</b>没停 agent 或没设 StoppingDistance<br><b>解决：</b>攻击时 agent.isStopped=true；Agent 的 StoppingDistance 设成攻击距离。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用速度驱动敌人走/停动画</li><li>实现攻击停顿与冷却</li><li>整合死亡动画</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>导航动画整合完成。下一课做玩家跟随。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-257/index.html"><span class="dir">← 上一课</span><span class="t">群组 AI 与避让</span></a><a class="nav-item next" href="../lesson-259/index.html"><span class="dir">下一课 →</span><span class="t">玩家跟随与 AI 伙伴</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

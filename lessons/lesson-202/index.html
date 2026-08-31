@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 202 课：Sprite 精灵与 SpriteRenderer · Unity 星辰学院</title>
+<meta name="description" content="Sprite 精灵与 SpriteRenderer · Unity 星辰学院第 202 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-202">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 202 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 202 · 2D 游戏开发</span>
+    <h1>Sprite 精灵与 SpriteRenderer</h1>
+    <p class="sub">Sprite 精灵已掌握。下一课学图集。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 202 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:67.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">202 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">导入精灵</a>
+<a href="#sec-1">SpriteRenderer 组件</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握精灵导入</li><li>掌握 SpriteRenderer</li><li>掌握换图</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>2D 游戏里的角色、背景、道具都是 Sprite。本课把精灵从导入到使用讲透。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>导入精灵</h2>
+<p>图片变成“游戏素材”。</p>
+<ol class="steps"><li>【导入】把 .png/.jpg 拖进 Project 的 Sprites 文件夹。</li><li>【设为精灵】选中图片 → Inspector → Texture Type 选【Sprite (2D and UI)】→ Apply。</li><li>【PPU（Pixels Per Unit）】每单位包含多少像素：PPU=100 → 100 像素的图=1 单位大小。</li><li>【调 PPU】想让角色大一点就调小 PPU（如 64）；统一风格建议全项目同一 PPU。</li><li>【Filter Mode】Bilinear 平滑 / Point 像素风（复古游戏用 Point）。</li><li>【Compression】压缩：UI 用 None、精灵用压缩（可选）。</li><li>【多图】图集 Sprite Mode=Multiple（第 203 课切分多张）。</li><li>【完成】图片成为可用精灵。</li><li>【注意】透明图用 PNG（带 Alpha）；JPG 无透明。</li><li>【资源检查】确认导入无误后再使用。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>精灵导入三设置：Texture Type=Sprite、PPU 定大小、Filter Mode 定风格。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>SpriteRenderer 组件</h2>
+<p>把精灵放进场景。</p>
+<ol class="steps"><li>【创建】把精灵图直接拖进场景（或建空对象+Add Component → Sprite Renderer）。</li><li>【组件】SpriteRenderer：Sprite（精灵图）、Color（染色）、Flip（翻转）、Sorting Layer/Order（层级）。</li><li>【Color 染色】白色方块技巧：给精灵染色（幽灵半透明、变红受伤提示）。</li><li>【Flip】Flip X/Y 水平/垂直翻转（角色朝左朝右）。</li><li>【Sorting Layer 排序层】控制“谁盖在谁上面”：</li><li>Edit → Project Settings → Tags and Layers → Sorting Layers 添加层（Background、Default、Player、Foreground）。</li><li>【Order in Layer】同层内的排序（数字大的在上）。</li><li>【优先级】背景层在最底、角色在中间、UI 特效在最顶。</li><li>【换图】代码：spriteRenderer.sprite = newSprite;</li><li>【颜色】spriteRenderer.color = new Color(1,1,1,0.5f); // 半透明</li><li>【注意】2D 物体的前后关系看 Sorting，不是 Z 坐标（相机正交）。</li><li>【完成】精灵能在场景正确显示了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>SpriteRenderer 三兄弟：Sprite 图、Sorting 层级、Flip 翻转。2D 显示全靠它。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>精灵图拖不进场景/不显示？<br><b>原因：</b>Texture Type 不是 Sprite<br><b>解决：</b>选中图片设 Texture Type=Sprite 并 Apply。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>导入精灵并设置 PPU/Filter</li><li>用 SpriteRenderer 放到场景并染色</li><li>实现代码换图与翻转</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Sprite 精灵已掌握。下一课学图集。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-201/index.html"><span class="dir">← 上一课</span><span class="t">2D 游戏开发入门</span></a><a class="nav-item next" href="../lesson-203/index.html"><span class="dir">下一课 →</span><span class="t">Sprite Atlas 图集</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

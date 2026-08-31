@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 289 课：游戏上线与运营基础 · Unity 星辰学院</title>
+<meta name="description" content="游戏上线与运营基础 · Unity 星辰学院第 289 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-289">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 17 章 · 发布与进阶修炼</a><span class="sep">/</span>
+    <span>第 289 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 289 · 发布与进阶修炼</span>
+    <h1>游戏上线与运营基础</h1>
+    <p class="sub">上线运营基础完成。下一课进阶修炼：面向对象。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 17 章 · 发布与进阶修炼</span><span class="meta-item">📍 第 289 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:96.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">289 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">分发渠道</a>
+<a href="#sec-1">版本更新与数据</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>了解分发渠道</li><li>了解版本更新</li><li>了解数据统计</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>游戏做完了，上线只是开始。本课了解上线与运营的基础。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>分发渠道</h2>
+<p>“在哪发布”。</p>
+<ol class="steps"><li>【PC】itch.io、Steam（Steamworks 上架）、独立站。</li><li>【网页】itch.io、GitHub Pages、自己的服务器（第 283 课）。</li><li>【安卓】Google Play、国内应用商店（TapTap/华为/小米…）。</li><li>【iOS】App Store。</li><li>【渠道差异】分成比例、审核要求、用户群体不同。</li><li>【独立开发者】先小渠道试水（itch.io/WebGL），再考虑大渠道。</li><li>【宣传】社交媒体（B站/抖音/小红书）预热（第 294 课内容运营）。</li><li>【注意】国内安卓需要“版号”（合规，进阶）。</li><li>【完成】渠道“有数”。</li><li>【推荐】独立游戏从 itch.io + WebGL 起步最省心。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>发布渠道：先小渠道验证、再大渠道。国内平台注意合规（版号）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>版本更新与数据</h2>
+<p>“持续经营”。</p>
+<ol class="steps"><li>【版本更新】迭代：修 bug、加内容，重新构建发布。</li><li>【版本号】语义化：1.0.0（主.次.修），更新日志记录。</li><li>【数据统计】埋点：DAU（日活）、留存、关卡通过率、卡点。</li><li>【工具】第三方统计（GameAnalytics 等，进阶）。</li><li>【玩家反馈】商店评论、社群、游戏内反馈渠道。</li><li>【迭代闭环】数据 → 发现卡点 → 优化 → 更新 → 再测。</li><li>【活动】（进阶）限时活动、奖励拉留存。</li><li>【注意】别“一次做完”：运营是长期过程。</li><li>【完成】运营“心里有数”。</li><li>【推荐】上线第一天就开始收集数据。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>运营闭环 = 上线（渠道）→ 数据（埋点）→ 反馈（社群）→ 迭代（更新）。循环。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>上线没人玩？<br><b>原因：</b>没宣传/渠道少<br><b>解决：</b>多渠道分发 + 社交媒体宣传 + 听取反馈迭代。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>规划游戏分发渠道</li><li>设计版本更新流程</li><li>了解数据埋点</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>上线运营基础完成。下一课进阶修炼：面向对象。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-288/index.html"><span class="dir">← 上一课</span><span class="t">错误处理与崩溃报告</span></a><a class="nav-item next" href="../lesson-290/index.html"><span class="dir">下一课 →</span><span class="t">进阶修炼：面向对象编程</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 229 课：3D 角色移动与动画整合 · Unity 星辰学院</title>
+<meta name="description" content="3D 角色移动与动画整合 · Unity 星辰学院第 229 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-229">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 14 章 · 3D 游戏进阶</a><span class="sep">/</span>
+    <span>第 229 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 229 · 3D 游戏进阶</span>
+    <h1>3D 角色移动与动画整合</h1>
+    <p class="sub">3D 角色动画整合完成。下一课做 3D 相机旋转控制。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 14 章 · 3D 游戏进阶</span><span class="meta-item">📍 第 229 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:76.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">229 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">整合移动与动画</a>
+<a href="#sec-1">Root Motion 与方向</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>整合控制与动画</li><li>用参数驱动动画</li><li>处理跳跃动画</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>3D 角色“会走”还要“会表演”：速度参数驱动走路/跑步，跳跃对应动画。本课整合。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>整合移动与动画</h2>
+<p>速度参数驱动。</p>
+<ol class="steps"><li>【准备】角色模型（Humanoid + 动画，第 138 课）+ Animator 控制器（第 130-133 课）。</li><li>【控制器】状态：Idle、Move（Blend Tree，第 134 课）、Jump、Fall。</li><li>【参数】Speed（Float）、IsGrounded（Bool）。</li><li>【代码整合】在移动脚本里：</li><li>float speed = new Vector3(cc.velocity.x, 0, cc.velocity.z).magnitude;</li><li>anim.SetFloat("Speed", speed, 0.1f, Time.deltaTime);</li><li>anim.SetBool("IsGrounded", cc.isGrounded);</li><li>【动画参数】Speed&gt;0.1 → Move 状态（Blend Tree 里速度 0-1 融合待机/走路/跑步）。</li><li>【跳跃动画】isGrounded=false 时切 Jump。</li><li>【说明】velocity 取水平分量计算速度。</li><li>【注意】动画参数名与控制器一致（第 132 课坑）。</li><li>【测试】移动时角色走路/跑步，停下待机。</li><li>【完成】角色“表演”跟上操作了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>动画整合 = SetFloat(Speed) + SetBool(IsGrounded)。两个参数驱动一切。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Root Motion 与方向</h2>
+<p>动作“带着走”。</p>
+<ol class="steps"><li>【Root Motion】部分动画自带位移（跑步）：勾选 Animator 的 Apply Root Motion 时，位移由动画驱动（第 140 课）。</li><li>【选择】</li><li>代码移动：不勾 Root Motion（角色位置完全代码控制）。</li><li>动画移动：勾 Root Motion（配合 Blend Tree 速度）。</li><li>【混合】常用：移动代码控制 + 动画播放走路，两者一致即可。</li><li>【角色朝向】移动时旋转朝向（第 228 课 Slerp）。</li><li>【跳跃物理】跳跃用 y 速度（第 227 课），动画只管姿势。</li><li>【落地过渡】落地动画切回 Idle（第 133 课 Has Exit Time）。</li><li>【测试】走/跑/跳全程动画自然、位置正确。</li><li>【注意】Root Motion 与代码位移二选一，别叠加。</li><li>【完成】3D 角色“人模人样”了！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>决定“谁动角色”：Root Motion 动画动 or 代码动。选一个，别混。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>动画与移动脱节（滑步）？<br><b>原因：</b>速度参数与真实移动速度不匹配<br><b>解决：</b>Blend Tree 的阈值对应真实速度；或调 moveSpeed 匹配动画节奏。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>整合速度参数驱动走路/跑步</li><li>实现跳跃动画切换</li><li>处理 Root Motion 与代码位移</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 角色动画整合完成。下一课做 3D 相机旋转控制。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-228/index.html"><span class="dir">← 上一课</span><span class="t">第三人称控制器 TPS</span></a><a class="nav-item next" href="../lesson-230/index.html"><span class="dir">下一课 →</span><span class="t">3D 相机控制（旋转与缩放）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

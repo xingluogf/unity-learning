@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 46 课：为什么需要编程？C# 语言入门 · Unity 星辰学院</title>
+<meta name="description" content="为什么需要编程？C# 语言入门 · Unity 星辰学院第 46 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-046">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 5 章 · C# 编程基础</a><span class="sep">/</span>
+    <span>第 46 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 46 · C# 编程基础</span>
+    <h1>为什么需要编程？C# 语言入门</h1>
+    <p class="sub">编程的意义与 C# 语言已有认识。下一课创建你的第一个脚本文件。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 5 章 · C# 编程基础</span><span class="meta-item">📍 第 46 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:15.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">46 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">脚本在游戏里做什么</a>
+<a href="#sec-1">C# 是什么</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解脚本的作用</li><li>了解 C# 语言特点</li><li>建立初步编程思维</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>前面你已能用编辑器搭场景，但“动起来”的逻辑（按 A 键前进、碰到敌人掉血）必须靠代码。本课开启编程大门。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>脚本在游戏里做什么</h2>
+<p>脚本 = 给对象写的“行为说明书”。</p>
+<ol class="steps"><li>没有脚本：场景是静止的“模型展”；有脚本：物体能响应输入、计算、变化。</li><li>脚本（C#）附加到 GameObject 上，作为组件运行，每一帧执行我们写的逻辑。</li><li>常见任务：让角色移动、检测碰撞、控制 UI、管理游戏流程、计算分数……全是代码。</li><li>Unity 里一个“脚本”通常对应一个类（Class），写好后像其他组件一样拖到对象上。</li><li>【学习路线】：先学 C# 语法（本章 30 课），再学 Unity API（如何让语法操控场景对象），循序渐进。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>编程 = 把人类逻辑翻译成电脑能执行的精确指令。别怕，语法很简单。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>C# 是什么</h2>
+<p>认识这门语言。</p>
+<ol class="steps"><li>C#（读“C Sharp”）是微软开发的一门现代化编程语言，语法清晰、功能强大。</li><li>Unity 使用 C# 作为官方脚本语言（也可用少量其他语言，但主推 C#）。</li><li>C# 是“面向对象”语言：一切围绕“类与对象”组织（第 63-68 课讲）。</li><li>它与 Java 相似、比 C++ 简单安全（自动内存管理）。</li><li>学会 C# 后，也能用于开发 .NET 应用，技能通用。</li><li>【工具】：Unity 自带 Visual Studio 编辑器（代码智能提示、调试），或 VS Code。</li><li>本章将一步步从变量学到类与继承，全部基于 Unity 环境实战。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>建议本阶段每学一课语法，就在 Unity 里新建脚本跑一遍，动手最重要。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>我数学/英语不好能学编程吗？<br><b>原因：</b>心理障碍<br><b>解决：</b>完全可以。游戏编程用到的数学就初中水平，英语只需认识几十个关键字。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>说出脚本在 Unity 中的两个作用</li><li>写出 C# 的一个特点</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>编程的意义与 C# 语言已有认识。下一课创建你的第一个脚本文件。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-045/index.html"><span class="dir">← 上一课</span><span class="t">资源命名与目录规范</span></a><a class="nav-item next" href="../lesson-047/index.html"><span class="dir">下一课 →</span><span class="t">创建第一个 C# 脚本</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

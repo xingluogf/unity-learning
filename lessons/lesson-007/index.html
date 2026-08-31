@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 7 课：认识 Unity 编辑器主界面（全景总览） · Unity 星辰学院</title>
+<meta name="description" content="认识 Unity 编辑器主界面（全景总览） · Unity 星辰学院第 7 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-007">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 1 章 · 认识 Unity 与准备</a><span class="sep">/</span>
+    <span>第 7 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 7 · 认识 Unity 与准备</span>
+    <h1>认识 Unity 编辑器主界面（全景总览）</h1>
+    <p class="sub">你已经认识了编辑器这张“地图”。下一课我们钻进最常用的【场景视图】细看。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 1 章 · 认识 Unity 与准备</span><span class="meta-item">📍 第 7 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:2.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">7 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">六大核心区域</a>
+<a href="#sec-1">它们如何协作</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>说出编辑器六大核心区域的名字</li><li>知道每个区域的用途</li><li>理解它们之间如何协作</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>Unity 编辑器像一间装修好的房子，本课带你把每个房间都转一遍。不用记细节，先建立“地图”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>六大核心区域</h2>
+<p>Unity 编辑器主要由 6 个面板组成，它们的布局如图（各版本大致相同）。</p>
+<ol class="steps"><li>【工具栏 Toolbar】位于最顶部：包含播放/暂停/停止按钮、撤销重做、场景/游戏视图切换、图层选择等，是“遥控器”。</li><li>【层级 Hierarchy】位于左上：列出当前场景里所有对象，相当于“目录”。点击对象，右侧会显示它的属性。</li><li>【场景视图 Scene View】位于中间偏左：3D 编辑空间，在这里摆放、旋转、缩放对象，是“工作台”。</li><li>【游戏视图 Game View】在场景视图旁边（点击标签可切换）：运行时玩家看到的效果，是“成品预览”。</li><li>【检查器 Inspector】位于最右侧：显示选中对象的所有组件与属性，是“属性面板”。</li><li>【项目窗口 Project】位于底部：管理项目所有资源文件（脚本、模型、贴图、场景等），是“仓库”。</li><li>【控制台 Console】常与项目窗口并列：显示运行日志、警告、报错，是“体检报告”。</li><li>主视图顶部还有一个搜索栏和标签页系统，可自由拖动面板改变布局。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>大胆拖动面板：Unity 布局可随意自定义，别怕弄乱，第 19 课教你一键恢复布局。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>它们如何协作</h2>
+<p>用一个例子串起来：我要把方块变成红色。</p>
+<ol class="steps"><li>在【Hierarchy】里点击选中 Cube 对象。</li><li>右侧【Inspector】立即显示该对象的组件，找到【Mesh Renderer】组件的 Material 属性。</li><li>在【Project】窗口里创建一个材质，改颜色为红色。</li><li>把红色材质拖到 Inspector 的 Material 槽里。</li><li>【Scene】视图里方块立即变红，点工具栏【▶ 播放】后【Game】视图里同样变红。</li><li>体验一次完整流程，你会发现所有操作都在这几个面板间来回切换。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>记住口诀：Hierarchy 选对象 → Inspector 改属性 → Project 找资源 → Scene 摆位置 → Game 看结果。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>我的某个面板不见了？<br><b>原因：</b>不小心关掉了<br><b>解决：</b>菜单栏 Window（窗口）菜单里可以重新打开任意面板，例如 Window→General→Hierarchy。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>不看教程，指认六大区域的位置</li><li>把 Scene 和 Game 两个标签来回切换，观察区别</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>你已经认识了编辑器这张“地图”。下一课我们钻进最常用的【场景视图】细看。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-006/index.html"><span class="dir">← 上一课</span><span class="t">新建你的第一个 Unity 项目（3D Core 模板）</span></a><a class="nav-item next" href="../lesson-008/index.html"><span class="dir">下一课 →</span><span class="t">项目文件结构详解（Assets 与各文件夹）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

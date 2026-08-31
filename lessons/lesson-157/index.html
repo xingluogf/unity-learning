@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 157 课：锚点 Anchor 与 Rect Transform · Unity 星辰学院</title>
+<meta name="description" content="锚点 Anchor 与 Rect Transform · Unity 星辰学院第 157 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-157">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 157 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 157 · UI 界面系统</span>
+    <h1>锚点 Anchor 与 Rect Transform</h1>
+    <p class="sub">锚点与 RectTransform 已掌握。下一课系统讲 UI 自适应屏幕。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 157 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:52.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">157 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">锚点 Anchor</a>
+<a href="#sec-1">RectTransform 与 Pivot</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解锚点概念</li><li>掌握锚点设置</li><li>掌握 RectTransform 定位</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>UI 元素“贴屏幕哪个位置”由锚点决定：左上角、右上角、居中、拉伸全屏。本课把 UI 定位彻底讲懂。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>锚点 Anchor</h2>
+<p>UI 的“挂钩”。</p>
+<ol class="steps"><li>【RectTransform】UI 元素都有 RectTransform（代替 Transform），包含 Position、Size、Anchor、Pivot。</li><li>【锚点 Anchor】决定 UI 相对父对象（通常是 Canvas）的“挂钩位置”。</li><li>选中 UI 元素，Inspector 的 RectTransform 左上角有一个【Anchor Preset】九宫格图标。</li><li>点击它弹出预设：左上、右上、左下、右下、居中、拉伸等。</li><li>【效果】锚点=左上时，UI 固定在屏幕左上角，屏幕变大它跟着左上走。</li><li>【拉伸】选择“拉伸”预设（四条线撑满），UI 随屏幕缩放填满。</li><li>【锚点中心】点 Preset 右下角小图标可同时设置 Pivot。</li><li>【实战】把“开始按钮”锚点设为“中下”，让它在屏幕底部居中。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>锚点九宫格：四角=贴角，中心=居中，拉伸=随屏缩放。做自适应 UI 的钥匙。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>RectTransform 与 Pivot</h2>
+<p>定位与缩放的基准点。</p>
+<ol class="steps"><li>【Pos X/Y】相对锚点的位置（如中下锚点+PosY=50 → 底部上方 50）。</li><li>【Width/Height】UI 的宽高。</li><li>【Pivot 轴心】旋转/缩放的基准点（0,0=左下，0.5,0.5=中心，1,1=右上）。</li><li>改 Pivot 影响位置显示与缩放行为（如血条从左边涨就设 Pivot.x=0）。</li><li>【常用】文本/血条 Pivot.x=0（从左开始）、按钮中心 0.5。</li><li>【对齐】锚点+位置组合实现“屏幕角落”“居中”等。</li><li>【工具】Inspector 的 Rect 工具（工具栏 T 键）可在场景里拖动调整 UI 大小。</li><li>【全屏】锚点拉伸预设 + 四角 0 → UI 铺满屏幕。</li><li>【注意】Canvas 的 RectTransform 决定“参考区域”，子 UI 锚点相对它。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>血条从左边扣 → Pivot.x=0 + 锚点底部；居中按钮 → 锚点中心 + Pivot 中心。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>UI 在某种分辨率下飞出屏幕？<br><b>原因：</b>锚点/位置没配合好<br><b>解决：</b>把锚点设为“拉伸”或按四角对齐；用 Canvas Scaler（第 146 课）自适应。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把按钮锚点设为屏幕四角各看一次</li><li>做一个锚点拉伸的全屏背景</li><li>调整血条 Pivot 实现从左伸缩</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>锚点与 RectTransform 已掌握。下一课系统讲 UI 自适应屏幕。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-156/index.html"><span class="dir">← 上一课</span><span class="t">布局组件 Layout Group</span></a><a class="nav-item next" href="../lesson-158/index.html"><span class="dir">下一课 →</span><span class="t">UI 自适应屏幕</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

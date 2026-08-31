@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 151 课：Slider 滑动条 · Unity 星辰学院</title>
+<meta name="description" content="Slider 滑动条 · Unity 星辰学院第 151 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-151">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 10 章 · UI 界面系统</a><span class="sep">/</span>
+    <span>第 151 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 151 · UI 界面系统</span>
+    <h1>Slider 滑动条</h1>
+    <p class="sub">Slider 已掌握。下一课学 InputField 输入框。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 10 章 · UI 界面系统</span><span class="meta-item">📍 第 151 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:50.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">151 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Slider 组件</a>
+<a href="#sec-1">实战：音量设置</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握 Slider 创建</li><li>掌握读取数值</li><li>掌握数值变化事件</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>音量滑块、难度条、加载进度条都是 Slider。本课掌握滑动条。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Slider 组件</h2>
+<p>拖一个滑动条。</p>
+<ol class="steps"><li>Hierarchy 右键 → UI → Slider，创建滑动条。</li><li>结构：Slider（根）→ Background（背景条）→ Fill Area → Fill（填充）+ Handle Slide Area → Handle（滑块）。</li><li>【组件属性】</li><li>Min Value / Max Value：最小值/最大值。</li><li>Value：当前值。</li><li>Direction：方向（左到右/右到左/上到下…）。</li><li>Whole Numbers：只取整数。</li><li>【读取】slider.value 返回当前值。</li><li>【设置】slider.value = 50;</li><li>【事件 On Value Changed】值变化时调用方法（音量实时调整）。</li><li>【注意】Fill 填充条需要 Image Type 设为 Filled 或 Sliced（第 149 课）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Slider 本体“长相”由子物体决定：Fill 是填充、Handle 是滑块。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：音量设置</h2>
+<p>拖动调节音量。</p>
+<ol class="steps"><li>在场景放一个 AudioSource（第 172 课），准备一首背景音乐。</li><li>创建脚本 AudioSettings：</li><li>public Slider volumeSlider;</li><li>public AudioSource bgm;</li><li>void Start() { volumeSlider.value = 1f; volumeSlider.onValueChanged.AddListener(SetVolume); }</li><li>void SetVolume(float v) { bgm.volume = v; Debug.Log("音量：" + v); }</li><li>把 Slider 与 AudioSource 拖到对应槽。</li><li>播放：拖动滑块，背景音乐音量实时变化。</li><li>【自动朗读】把 Slider 的 Min 0 / Max 1 / Value 1，配合音量天然 0-1。</li><li>【其他用途】难度滑块（1-5）、敏感度滑块、加载进度条（配合协程更新 value）。</li><li>【禁用】slider.interactable = false 时不可拖。</li><li>【事件参数】onValueChanged 的回调会自动传入新值（float）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>音量调节 = Slider 值 → AudioSource.volume。两行代码打通。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>滑动条拖动没反应？<br><b>原因：</b>Handle 的 Image 缺 Raycast Target，或 Slider 被遮挡<br><b>解决：</b>确认 Handle Slide Area 可点击；检查是否有 UI 遮挡。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做一个音量滑块实时调音量</li><li>做一个 0-100 的难度滑块</li><li>用 onValueChanged 打印数值变化</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Slider 已掌握。下一课学 InputField 输入框。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-150/index.html"><span class="dir">← 上一课</span><span class="t">Button 按钮详解</span></a><a class="nav-item next" href="../lesson-152/index.html"><span class="dir">下一课 →</span><span class="t">InputField 输入框</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

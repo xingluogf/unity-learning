@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 8 课：项目文件结构详解（Assets 与各文件夹） · Unity 星辰学院</title>
+<meta name="description" content="项目文件结构详解（Assets 与各文件夹） · Unity 星辰学院第 8 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-008">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 1 章 · 认识 Unity 与准备</a><span class="sep">/</span>
+    <span>第 8 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 8 · 认识 Unity 与准备</span>
+    <h1>项目文件结构详解（Assets 与各文件夹）</h1>
+    <p class="sub">项目结构一目了然了。记住：一切在 Assets 内部、尽量在 Unity 编辑器里操作。下一课设置编辑器语言与偏好。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 1 章 · 认识 Unity 与准备</span><span class="meta-item">📍 第 8 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:2.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">8 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">项目文件夹里的内容</a>
+<a href="#sec-1">Assets 内部建议的分目录习惯</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>认识项目文件夹结构</li><li>理解 Assets 文件夹的重要性</li><li>知道哪些文件不能手动删除</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>在电脑上打开你的项目文件夹，会看到一堆东西。别慌，本课把它们一个个讲明白。学会管理项目文件，是专业开发的第一步。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>项目文件夹里的内容</h2>
+<p>先用文件资源管理器打开项目所在目录（即你创建项目时选的 Location 下的项目名文件夹）。</p>
+<ol class="steps"><li>【Assets】文件夹：最核心！你的所有资源（模型、贴图、脚本、场景、预制体）都放这里，几乎所有操作都在它内部完成。</li><li>【Packages】文件夹：Unity 管理插件包（Package）的地方，一般不用手动动它。</li><li>【ProjectSettings】文件夹：项目设置，如画质、输入、平台设置都存这里，自动生成。</li><li>【Library】文件夹：Unity 的“缓存库”，保存导入缓存、编译结果，可以随时删除（下次打开会自动重建），但不要手动改它。</li><li>【Temp】文件夹：临时文件，同样自动生成可删除。</li><li>【Logs】文件夹：运行日志，排查崩溃时有用。</li><li>【.gitignore】等隐藏文件：配合 Git 版本管理使用（第 278 课讲）。</li><li>总结：你 99% 的时间都在 Assets 文件夹里工作。</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>绝对不要手动删除或重命名 Assets 里的文件！在 Unity 里删资源应选中后按 Delete 键（会同步处理引用）。直接改文件名会让场景/脚本引用断裂。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Assets 内部建议的分目录习惯</h2>
+<p>从一开始就养成好习惯，项目大起来不混乱。</p>
+<ol class="steps"><li>在 Project 窗口里右键 →【创建 Create】→【文件夹 Folder】，创建一个叫 Scenes 的文件夹，用来放场景文件。</li><li>再创建 Scripts 文件夹：放 C# 脚本。</li><li>再创建 Materials（材质）、Textures（贴图）、Models（模型）、Audio（音频）、Prefabs（预制体）、UI 等文件夹。</li><li>规则：一个资源类型一个文件夹，名称用英文小写复数，层次别超过 3 层。</li><li>把默认场景 SampleScene 拖到 Scenes 文件夹里（直接拖动即可，Unity 会自动更新引用）。</li><li>这样你的项目从一开始就井井有条。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Resources 文件夹比较特殊（代码可按名加载），新手阶段先不用管，后面讲到再提。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>不小心在电脑上删了 Assets 里的文件，Unity 报一堆错？<br><b>原因：</b>外部删除导致引用断裂<br><b>解决：</b>如果还没删，赶紧在系统回收站还原；已删且无备份，只能重建引用。所以务必在 Unity 内部管理文件！</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>打开你的项目文件夹，说出每个文件夹的用途</li><li>在 Assets 里创建 Scenes / Scripts / Materials 三个文件夹</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>项目结构一目了然了。记住：一切在 Assets 内部、尽量在 Unity 编辑器里操作。下一课设置编辑器语言与偏好。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-007/index.html"><span class="dir">← 上一课</span><span class="t">认识 Unity 编辑器主界面（全景总览）</span></a><a class="nav-item next" href="../lesson-009/index.html"><span class="dir">下一课 →</span><span class="t">编辑器语言设置与偏好设置</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

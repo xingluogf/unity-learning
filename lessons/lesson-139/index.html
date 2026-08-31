@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 139 课：动画重定向 Avatar Retargeting · Unity 星辰学院</title>
+<meta name="description" content="动画重定向 Avatar Retargeting · Unity 星辰学院第 139 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-139">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 9 章 · 动画系统</a><span class="sep">/</span>
+    <span>第 139 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 139 · 动画系统</span>
+    <h1>动画重定向 Avatar Retargeting</h1>
+    <p class="sub">动画重定向已掌握。下一课学 Root Motion 根运动。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 13 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 9 章 · 动画系统</span><span class="meta-item">📍 第 139 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:46.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">139 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">重定向原理</a>
+<a href="#sec-1">实战：复用动画</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解重定向原理</li><li>掌握复用动画</li><li>实现不同角色共用动作</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>你有 3 个不同体型/骨架的 NPC，只想做一套走路动画给它们共用——靠“动画重定向”。这是人形系统的王牌功能。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>重定向原理</h2>
+<p>标准骨架做“翻译”。</p>
+<ol class="steps"><li>【原理】Humanoid 动画记录的是“标准人形骨骼”的运动。</li><li>播放时，Unity 把标准骨骼运动“翻译”到目标模型的 Avatar 映射上。</li><li>所以只要两个模型都成功配置了 Humanoid Avatar，就能共用同一套动画。</li><li>【示例】把“英雄”的走路动画给“矮人”“精灵”用，动作自动适配各自的体型。</li><li>【前提】两个模型都要：Rig 设 Humanoid + Avatar 映射正确。</li><li>【关键词】Retargeting（重定向）、Humanoid 动画库。</li><li>【注意】体型差异过大（人 vs 四足）不能重定向，需要 Generic。</li><li>【优势】动画资产一次制作、全局复用，极大省工作量。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>重定向 = 标准骨架做中间翻译：只要“会翻译”，谁都能穿同一件“动作外衣”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：复用动画</h2>
+<p>把动画给另一个角色用。</p>
+<ol class="steps"><li>【准备】导入两个 Humanoid 模型：ModelA（带动画）、ModelB（无动画）。</li><li>确认 ModelA 的动画片段已在 Rig/Animation 页签导入（第 37 课）。</li><li>【把动画给 ModelB】在 Project 选中 ModelB 的模型，双击进入其 Animator Controller（或新建控制器）。</li><li>在控制器的状态 Motion 槽里，拖入 ModelA 的动画片段（.anim 或模型自带的 clip）。</li><li>【拖模型动画】展开 ModelA 的 .fbx，把里面的动画拖到 ModelB 控制器的状态里。</li><li>【播放】ModelB 播放 ModelA 的动画，自动适配 ModelB 的骨骼！</li><li>【注意】动画片段的“人类动作”会按 ModelB 的 Avatar 重新解释。</li><li>【第三方动画】官方商店/资源库的 Humanoid 动画都可如此复用。</li><li>【Avatar Mask】配合第 136 课做局部复用（只走路不挥手）。</li><li>【验证】对比两个角色动作是否一致自然。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>一劳永逸：做一套“人类动作库”，所有角色共用。这也是多数动作游戏的资源策略。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>重定向后动画扭曲？<br><b>原因：</b>其中一个模型 Avatar 映射错误<br><b>解决：</b>重新 Configure Avatar 修正；确认两者都是 Humanoid。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>导入两个不同模型并都设为 Humanoid</li><li>把 A 的动画给 B 用并验证</li><li>说出重定向的三个前提</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>动画重定向已掌握。下一课学 Root Motion 根运动。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-138/index.html"><span class="dir">← 上一课</span><span class="t">Avatar 与人形动画</span></a><a class="nav-item next" href="../lesson-140/index.html"><span class="dir">下一课 →</span><span class="t">Root Motion 根运动</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

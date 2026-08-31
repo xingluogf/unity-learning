@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 274 课：项目架构（单例/事件/对象池） · Unity 星辰学院</title>
+<meta name="description" content="项目架构（单例/事件/对象池） · Unity 星辰学院第 274 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-274">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 16 章 · 性能优化</a><span class="sep">/</span>
+    <span>第 274 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 274 · 性能优化</span>
+    <h1>项目架构（单例/事件/对象池）</h1>
+    <p class="sub">项目架构完成。下一课做代码规范。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 16 章 · 性能优化</span><span class="meta-item">📍 第 274 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:91.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">274 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">架构思想</a>
+<a href="#sec-1">事件系统实现</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握架构思想</li><li>实现事件系统</li><li>实现管理器模式</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“项目一大了就乱”——架构是“不乱”的关键。本课搭一套可扩展架构。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>架构思想</h2>
+<p>分层与职责。</p>
+<ol class="steps"><li>【分层】游戏代码分层：</li><li>管理层（GameManager/AudioManager/UIManager）</li><li>数据层（SaveSystem/PlayerStats/Config）</li><li>逻辑层（角色/敌人/技能组件）</li><li>表现层（动画/特效/UI 表现）</li><li>【职责单一】每个脚本只干一件事（PlayerStats 管数值、PlayerMove 管移动）。</li><li>【通信】管理层用单例、对象间用事件、配置用数据。</li><li>【单例】全局唯一管理器（第 86 课）：GameManager/AudioManager/UIManager。</li><li>【事件】解耦对象通信（第 167 课）。</li><li>【数据驱动】配置用 ScriptableObject/JSON（第 85 课）。</li><li>【好处】改一处不影响全局、新功能易加、别人易看懂。</li><li>【注意】别“上帝脚本”（一个脚本管所有）。</li><li>【完成】架构思想“有了”。</li><li>【推荐】小项目也按“管理/逻辑/表现”分层。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>架构三原则：分层（管理/逻辑/表现）、单一职责、解耦（事件/数据）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>事件系统实现</h2>
+<p>“谁出事通知谁”。</p>
+<ol class="steps"><li>【简单事件】每个系统自己声明事件（第 167 课）：</li><li>public event System.Action&lt;int&gt; OnScoreChanged;</li><li>【全局事件系统】跨系统解耦：</li><li>public static class GameEvents {</li><li>public static event System.Action&lt;int&gt; OnScoreChanged;</li><li>public static event System.Action OnPlayerDied;</li><li>public static void ScoreChanged(int s) =&gt; OnScoreChanged?.Invoke(s);</li><li>public static void PlayerDied() =&gt; OnPlayerDied?.Invoke();</li><li>}</li><li>【发布】加金币：GameEvents.ScoreChanged(newScore);</li><li>【订阅】UI：GameEvents.OnScoreChanged += UpdateScore;</li><li>【取消订阅】OnDestroy 时 -=（防泄漏，重要！）。</li><li>【好处】金币系统不需要“知道”UI 存在（解耦）。</li><li>【注意】订阅不取消 = 内存泄漏（重要坑）。</li><li>【实战】把项目的分数/死亡通知改用事件。</li><li>【完成】事件系统“通了”。</li><li>【进阶】UnityEvent/委托参数化（进阶）。</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>订阅事件必须 OnDestroy 取消订阅（-=），否则对象销毁后仍被调用=泄漏/报错。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>事件重复触发？<br><b>原因：</b>重复订阅没取消<br><b>解决：</b>订阅时先 -= 再 +=（防重复）；OnDestroy 统一 -=。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>用单例管理核心系统</li><li>实现全局事件系统</li><li>重构一个模块用事件解耦</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>项目架构完成。下一课做代码规范。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-273/index.html"><span class="dir">← 上一课</span><span class="t">优化综合练习：性能达标</span></a><a class="nav-item next" href="../lesson-275/index.html"><span class="dir">下一课 →</span><span class="t">代码规范与项目管理</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

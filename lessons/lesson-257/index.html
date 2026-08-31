@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 257 课：群组 AI 与避让 · Unity 星辰学院</title>
+<meta name="description" content="群组 AI 与避让 · Unity 星辰学院第 257 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-257">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 15 章 · 寻路与导航</a><span class="sep">/</span>
+    <span>第 257 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 257 · 寻路与导航</span>
+    <h1>群组 AI 与避让</h1>
+    <p class="sub">群组 AI 完成。下一课整合导航与动画。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 15 章 · 寻路与导航</span><span class="meta-item">📍 第 257 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:85.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">257 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">Agent 互相避让</a>
+<a href="#sec-1">目标分配与队形</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现互相避让</li><li>实现目标分配</li><li>实现队形</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“一群敌人一起追你”——多个 Agent 要互相避让、目标分配。本课让 AI“成群”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>Agent 互相避让</h2>
+<p>不“叠罗汉”。</p>
+<ol class="steps"><li>【默认避让】NavMeshAgent 自带避让：多个 agent 接近时自动绕开（基于 avoidancePriority 与半径）。</li><li>【属性】Agent 的 Radius 影响避让距离；Avoidance Priority 越小越优先（别人让 TA）。</li><li>【效果】两个 Agent 相向而行会互相让路。</li><li>【说明】避让是局部行为（本地决策），不与寻路冲突。</li><li>【调优】Radius 大→让得早但可能“堵路”；调整速度/优先级让队伍顺。</li><li>【观察】放 5 个 Agent 一起追目标，看避让是否自然。</li><li>【注意】避让不是万能的：狭窄通道会拥堵（用 RVO 或加大间隔，进阶）。</li><li>【完成】AI 会“让路”了！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>Agent 避让自带：Radius 定“让多早”、Priority 定“谁优先”。放一群就自动排队。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>目标分配与队形</h2>
+<p>分工与合作。</p>
+<ol class="steps"><li>【目标分配】一群敌人不都追同一个点（会挤）：</li><li>给每个敌人偏移目标：</li><li>Vector3 offset = Random.insideUnitCircle * 2f;</li><li>agent.SetDestination(player.position + new Vector3(offset.x, 0, offset.y));</li><li>【按队列分配】玩家有几个队友，各分配一个（寻最近的）。</li><li>【队形】跟随者保持相对偏移（围绕队长）：</li><li>agent.SetDestination(leader.position + formationOffset);</li><li>【实现】给每个成员设自己的 formationOffset（菱形/直线/包围）。</li><li>【包围圈】敌人散开包围玩家（进阶：占位点系统）。</li><li>【简单可用】随机偏移 + 队形偏移即可做出“成群的 AI”。</li><li>【测试】5 个敌人不挤在一起、有散开感。</li><li>【完成】AI“成群结队”了！</li><li>【注意】目标偏移别太大（否则“不追玩家”的错觉）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>群组 AI = 默认避让 + 目标偏移（散开）+ 队形偏移（合作）。组合成“军团”。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>AI 挤成一团？<br><b>原因：</b>没偏移或避让半径太小<br><b>解决：</b>给目标加随机偏移；调大 Agent Radius；检查避让优先级。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>观察多个 Agent 自动避让</li><li>给敌人目标加偏移散开</li><li>实现跟随队形</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>群组 AI 完成。下一课整合导航与动画。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-256/index.html"><span class="dir">← 上一课</span><span class="t">AI 巡逻路径系统（Waypoint）</span></a><a class="nav-item next" href="../lesson-258/index.html"><span class="dir">下一课 →</span><span class="t">导航与动画整合</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

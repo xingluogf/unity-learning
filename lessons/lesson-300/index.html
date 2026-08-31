@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 300 课：项目实战：发布与总结 · Unity 星辰学院</title>
+<meta name="description" content="项目实战：发布与总结 · Unity 星辰学院第 300 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-300">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 18 章 · 项目实战</a><span class="sep">/</span>
+    <span>第 300 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 300 · 项目实战</span>
+    <h1>项目实战：发布与总结</h1>
+    <p class="sub">300 课全部完成！你已从“零基础”成长为能独立发布游戏的开发者。星辰学院，毕业快乐！</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 25 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 18 章 · 项目实战</span><span class="meta-item">📍 第 300 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:100.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">300 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">正式发布</a>
+<a href="#sec-1">总结与展望</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>正式发布游戏</li><li>整理归档项目</li><li>复盘全旅程</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>300 课的终点：把游戏正式发布出去，回望来路，展望新程。这是毕业礼！</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>正式发布</h2>
+<p>“给别人玩”。</p>
+<ol class="steps"><li>【最终检查】第 287 课清单：脚本/资源/Console/性能全过。</li><li>【正式构建】Build 目标平台正式版（第 281-285 课）。</li><li>【全流程验证】正式包再玩一遍（发布版≠编辑器）。</li><li>【上传】发布到 itch.io/WebGL 或发给朋友（第 283 课）。</li><li>【写介绍】游戏页面：截图、玩法说明、操作。</li><li>【分享】社交媒体发游戏（B站视频/知乎/朋友群）。</li><li>【收集反馈】看玩家反应，记录改进点。</li><li>【庆祝】你完成并发布了一款游戏！</li><li>【备份】项目与构建产物归档（Git + 云盘）。</li><li>【完成】“发布成功”！</li><li>【注意】“发布”比“完美”重要：先发出来再迭代。</li><li>【推荐】独立开发的第一款游戏“发出去”就是胜利。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>发布 = 正式包 + 上传 + 分享 + 收反馈。发出去，游戏才“活”。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>总结与展望</h2>
+<p>“300 课，你毕业了”。</p>
+<ol class="steps"><li>【回顾】这 300 课你走过的路：</li><li>下载安装 → 界面 → 场景 → 资源 → C# → 组件 → 物理 → 输入 → 动画 → UI → 音频 → 特效 → 2D → 3D → 寻路 → 优化 → 发布 → 实战。</li><li>【能力清单】</li><li>能独立开发 2D/3D 游戏。</li><li>懂 C#、物理、动画、UI、音频、特效。</li><li>会优化性能、管理项目、发布到多平台。</li><li>【你的作品】这款游戏就是最好的毕业证书。</li><li>【继续方向】</li><li>做第二款（把第一款的经验用上）。</li><li>深耕一个方向（Shader/网络/独立游戏）。</li><li>参与 Game Jam / 开源项目 / 求职。</li><li>【心态】做游戏是“长跑”：持续做、持续发、持续学。</li><li>【最后的话】感谢你坚持到这里。从“Unity 是什么”到“发布自己的游戏”，你已经是一名游戏开发者了！</li><li>【行动】现在就去做你的下一款游戏吧！</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>毕业寄语：能力已备齐，作品已发布，方向已清晰——剩下的就是“去做”。前方星辰大海！</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>发布后没人玩？<br><b>原因：</b>正常现象<br><b>解决：</b>多渠道宣传、持续更新、听取反馈。第一款的意义是“完成”。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>正式发布你的游戏</li><li>整理归档项目</li><li>制定下一款游戏计划</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>300 课全部完成！你已从“零基础”成长为能独立发布游戏的开发者。星辰学院，毕业快乐！</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-299/index.html"><span class="dir">← 上一课</span><span class="t">项目实战：打磨与测试</span></a><div class="nav-item next" style="opacity:.35;pointer-events:none"><span class="dir">恭喜完成全部课程</span><span class="t">回到主站</span></div></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

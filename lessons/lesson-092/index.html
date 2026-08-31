@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 92 课：碰撞体 Collider 类型 · Unity 星辰学院</title>
+<meta name="description" content="碰撞体 Collider 类型 · Unity 星辰学院第 92 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-092">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 7 章 · 物理系统</a><span class="sep">/</span>
+    <span>第 92 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 92 · 物理系统</span>
+    <h1>碰撞体 Collider 类型</h1>
+    <p class="sub">碰撞体已掌握。下一课学物理材质 Physic Material。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 7 章 · 物理系统</span><span class="meta-item">📍 第 92 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:30.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">92 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">常见碰撞体类型</a>
+<a href="#sec-1">碰撞体与刚体的配合</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>认识常见碰撞体类型</li><li>掌握碰撞体配置</li><li>会用复合碰撞体</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>碰撞体决定“物体哪里可以被撞、撞到的范围是什么形状”。选对碰撞体，物理才准确又高效。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>常见碰撞体类型</h2>
+<p>按形状选。</p>
+<ol class="steps"><li>【Box Collider 盒体】：长方体碰撞，适合盒子、墙、箱子，性能好、最常用。</li><li>【Sphere Collider 球体】：球形碰撞，适合球、圆角物体。</li><li>【Capsule Collider 胶囊】：圆柱+半球，适合角色（人形、柱子）。</li><li>【Mesh Collider 网格】：用模型的实际网格做碰撞，最精确但最耗性能（静态环境可用）。</li><li>【其他】Terrain Collider（地形）、2D 系列（第 204 课）。</li><li>【添加】Add Component → 搜 Collider；Unity 给基本几何体自动加对应碰撞体。</li><li>【Is Trigger 触发器】：勾选后不再“阻挡”，而是触发事件（第 96 课）。</li><li>【Center/Size】：调整碰撞体的位置与大小。</li><li>【注意】带刚体的物体必须有碰撞体才能被撞；静态物体（无刚体）有碰撞体即可阻挡。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>性能优先级：Box/Sphere/Capsule 简单碰撞 &gt;&gt; Mesh 精确碰撞。能用简单的绝不用网格。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>碰撞体与刚体的配合</h2>
+<p>正确组合。</p>
+<ol class="steps"><li>【静态障碍】无刚体 + 有碰撞体：不可移动，能阻挡其他物体（墙、地面）。</li><li>【动态物体】有刚体 + 有碰撞体：受重力、可被推（箱子、球）。</li><li>【触发区域】有刚体（或脚本） + Is Trigger 碰撞体：不阻挡，只触发事件（检测进入区域）。</li><li>【复合碰撞体】一个对象挂多个碰撞体：如“人形”用多个胶囊/球拼出身体形状（比单个大盒子更贴合）。</li><li>【子对象碰撞体】碰撞体也可挂在子对象上，组成复杂结构（每个子碰撞体独立）。</li><li>【实战】给一个“茶壶”模型（复杂形状）添加多个 Box Collider 组合出近似碰撞。</li><li>【Mesh Collider 优化】静态场景用 Convex 勾选可移动但成本高；一般只用于静态。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>碰撞体选择口诀：方盒子用 Box、圆的用 Sphere、人形用 Capsule、复杂静态才用 Mesh。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>物体穿过地面掉下去？<br><b>原因：</b>地面无碰撞体，或刚体速度过快<br><b>解决：</b>确认地面有碰撞体；速度过快可开启刚体 Collision Detection 的 Continuous（第 97 课）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>给三个不同形状物体配置合适碰撞体</li><li>用复合碰撞体拼出一个简单人形</li><li>对比 Box 与 Mesh 碰撞体的性能差异</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>碰撞体已掌握。下一课学物理材质 Physic Material。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-091/index.html"><span class="dir">← 上一课</span><span class="t">刚体 Rigidbody 详解</span></a><a class="nav-item next" href="../lesson-093/index.html"><span class="dir">下一课 →</span><span class="t">物理材质 Physic Material</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 222 课：2D 对话与剧情系统 · Unity 星辰学院</title>
+<meta name="description" content="2D 对话与剧情系统 · Unity 星辰学院第 222 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-222">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 222 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 222 · 2D 游戏开发</span>
+    <h1>2D 对话与剧情系统</h1>
+    <p class="sub">对话剧情完成。下一课做 2D 完整小游戏（跑酷）。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 222 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:74.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">222 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">对话框 UI</a>
+<a href="#sec-1">触发对话</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>搭建对话框</li><li>实现对话推进</li><li>实现触发对话</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>2D 游戏讲故事靠对话。本课实现可复用的对话系统（复用于 NPC/过场）。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>对话框 UI</h2>
+<p>底部对话窗。</p>
+<ol class="steps"><li>【UI】Canvas 底部 Panel（半透明）+ 名字 TMP + 内容 TMP + “按 E 继续”提示。</li><li>【锚点】底部居中、宽 80%（第 157 课）。</li><li>【默认隐藏】对话框初始 SetActive(false)。</li><li>【打字机】协程逐字显示（第 164 课完整实现）。</li><li>【推进】按 E/空格/鼠标点：打字中=快进整行，打完=下一行。</li><li>【结束】全部行播完关闭对话框。</li><li>【复用】做成通用 DialogueSystem（单例）。</li><li>【注意】对话时暂停玩家移动（isTalking 标记）。</li><li>【完成】对话框“会说人话”。</li><li>【结构】DialogueSystem 挂在 Canvas 或空对象。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>对话框 = 底部面板 + 打字机 + 按键推进。第 164 课 2D 版复用。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>触发对话</h2>
+<p>NPC/剧情点触发。</p>
+<ol class="steps"><li>【NPC 触发】NPC 对象加触发器：玩家靠近按 E：</li><li>public string[] lines; public string npcName;</li><li>void OnTriggerEnter2D(Collider2D other) { if (other.CompareTag("Player")) hint.SetActive(true); }</li><li>void OnTriggerExit2D(Collider2D other) { hint.SetActive(false); }</li><li>void Update() { if (inRange &amp;&amp; Input.GetKeyDown(KeyCode.E)) DialogueSystem.Instance.StartDialogue(npcName, lines); }</li><li>【剧情点触发】走到某处自动对话：Trigger 里直接 StartDialogue（无需按键）。</li><li>【对话数据】用 ScriptableObject 配置（第 85 课）或文本文件。</li><li>【分支选项】（进阶）对话中出现选项（第 164 课）。</li><li>【剧情标记】对话结束后设置剧情进度（PlayerPrefs/GameManager）。</li><li>【头像】对话框加角色头像 Image（切换）。</li><li>【测试】靠近 NPC 按 E 对话、走剧情点自动对话。</li><li>【注意】对话中禁止角色移动与再次触发。</li><li>【完成】你的 2D 游戏“会讲故事”！</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>对话触发 = 触发器 + 按键（或自动）→ StartDialogue。配数据驱动可做任何剧情。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>对话中角色还能动？<br><b>原因：</b>没锁玩家输入<br><b>解决：</b>对话开始设 isTalking=true 禁移动，结束恢复。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>搭对话框与打字机</li><li>NPC 靠近按 E 触发对话</li><li>剧情点自动触发对话</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>对话剧情完成。下一课做 2D 完整小游戏（跑酷）。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-221/index.html"><span class="dir">← 上一课</span><span class="t">2D 音效与音乐整合</span></a><a class="nav-item next" href="../lesson-223/index.html"><span class="dir">下一课 →</span><span class="t">2D 完整小游戏制作（跑酷）</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

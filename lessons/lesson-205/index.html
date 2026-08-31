@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 205 课：2D 角色控制（移动与跳跃） · Unity 星辰学院</title>
+<meta name="description" content="2D 角色控制（移动与跳跃） · Unity 星辰学院第 205 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-205">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 13 章 · 2D 游戏开发</a><span class="sep">/</span>
+    <span>第 205 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 205 · 2D 游戏开发</span>
+    <h1>2D 角色控制（移动与跳跃）</h1>
+    <p class="sub">2D 角色控制完成。下一课学 2D 物理与刚体。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 13 章 · 2D 游戏开发</span><span class="meta-item">📍 第 205 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:68.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">205 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">2D 移动</a>
+<a href="#sec-1">2D 跳跃</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现 2D 移动</li><li>实现跳跃</li><li>实现朝向翻转</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>2D 游戏第一件事：角色能左右走、能跳。本课做出核心操作手感。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>2D 移动</h2>
+<p>左右 + 翻转。</p>
+<ol class="steps"><li>【准备】把角色精灵放入场景，加 BoxCollider2D + Rigidbody2D（第 206-207 课），加脚本 PlayerController。</li><li>【移动代码】</li><li>public float moveSpeed = 5f;</li><li>private Rigidbody2D rb;</li><li>private SpriteRenderer sr;</li><li>void Start() { rb = GetComponent&lt;Rigidbody2D&gt;(); sr = GetComponent&lt;SpriteRenderer&gt;(); }</li><li>void Update() {</li><li>float h = Input.GetAxisRaw("Horizontal");</li><li>rb.velocity = new Vector2(h * moveSpeed, rb.velocity.y);</li><li>if (h &gt; 0) sr.flipX = false;</li><li>else if (h &lt; 0) sr.flipX = true;</li><li>}</li><li>【说明】GetAxisRaw 返回 -1/0/1（无平滑）；velocity 直接设 X 速度。</li><li>【朝向】按移动方向 flipX 翻转精灵。</li><li>【注意】2D 刚体用 Rigidbody2D，速度用 rb.velocity（Vector2）。</li><li>【测试】左右键移动、精灵跟随翻转。</li><li>【优化】跳跃/移动都用 FixedUpdate 里的物理（第 91 课）更稳（velocity 设物理量）。</li><li>【注意】别在 Update 里改 rb.velocity 再被物理覆盖，保持一致。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>2D 移动 = GetAxisRaw 方向 × 速度 → rb.velocity.x；翻转 = sr.flipX。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>2D 跳跃</h2>
+<p>按下空格跳起。</p>
+<ol class="steps"><li>【跳跃代码】</li><li>public float jumpForce = 8f;</li><li>public Transform groundCheck; public LayerMask groundLayer;</li><li>void Update() {</li><li>bool grounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);</li><li>if (Input.GetKeyDown(KeyCode.Space) &amp;&amp; grounded) {</li><li>rb.velocity = new Vector2(rb.velocity.x, jumpForce);</li><li>}</li><li>}</li><li>【原理】给刚体一个向上速度（而非 AddForce），跳跃高度可预测。</li><li>【落地检测】脚下一个小 Circle 检测地面：</li><li>创建子物体 GroundCheck 放脚底；LayerMask 指向“Ground”层（地面设 Ground 层）。</li><li>【防连跳】只有 grounded 时才允许跳。</li><li>【重力】Rigidbody2D 的 Gravity Scale=1（可调跳跃手感）。</li><li>【手感】jumpForce 8-10、moveSpeed 5-8 常见；Velocity 法高度稳定。</li><li>【可变跳跃】（进阶）按住跳得更高：松开时若上升中把 velocity.y 减半。</li><li>【测试】跑+跳+落地检测正常。</li><li>【注意】跳跃要“落地检测”防空中连跳与浮空。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>2D 跳跃 = 落地检测（脚底圆圈）+ 直接设向上速度。稳定可控。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>角色一直“飘”着不落地？<br><b>原因：</b>Rigidbody2D 没启用重力或没有 Collider2D<br><b>解决：</b>确认 Rigidbody2D Gravity Scale&gt;0；有 BoxCollider2D 与地面碰撞。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现左右移动与翻转</li><li>实现跳跃与落地检测</li><li>调节速度与跳跃高度</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>2D 角色控制完成。下一课学 2D 物理与刚体。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-204/index.html"><span class="dir">← 上一课</span><span class="t">2D 相机设置与像素完美</span></a><a class="nav-item next" href="../lesson-206/index.html"><span class="dir">下一课 →</span><span class="t">2D 刚体与物理</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

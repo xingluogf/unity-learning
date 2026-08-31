@@ -1,0 +1,188 @@
+/* ============================================================
+   Unity 星辰学院 · 课程页样式（lesson.css）
+   课程页特有的：面包屑、目录、正文、代码块、导航、练习卡
+   ============================================================ */
+
+/* ---------- 课程页布局 ---------- */
+.lesson-layout{
+  position:relative;z-index:1;
+  max-width:1120px;margin:0 auto;padding:110px 5% 60px;
+}
+.crumb{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  font-size:13px;color:var(--text-3);margin-bottom:18px;
+}
+.crumb a{color:var(--text-2)}
+.crumb .sep{opacity:.5}
+
+.lesson-hero{
+  padding:34px 36px;margin-bottom:26px;
+  background:linear-gradient(150deg,rgba(34,211,238,.10),rgba(167,139,250,.08)),var(--glass);
+  border:1px solid var(--line-glow);border-radius:var(--radius);
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.lesson-hero::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(96,165,250,.20),transparent 70%);pointer-events:none;
+}
+.lesson-no{
+  display:inline-block;font-family:var(--font-mono);font-size:13px;letter-spacing:2px;
+  color:var(--cyan);border:1px solid rgba(34,211,238,.35);padding:4px 14px;border-radius:999px;
+  background:rgba(34,211,238,.07);margin-bottom:14px;
+}
+.lesson-hero h1{font-size:clamp(24px,3.4vw,36px);margin-bottom:8px}
+.lesson-hero .sub{color:var(--text-2);max-width:760px}
+.lesson-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.lesson-meta .meta-item{
+  font-size:12.5px;color:var(--text-2);display:inline-flex;align-items:center;gap:6px;
+  background:rgba(120,170,255,.08);border:1px solid var(--line);
+  padding:4px 12px;border-radius:999px;
+}
+
+/* ---------- 目录 ---------- */
+.toc{
+  position:sticky;top:96px;align-self:start;
+  background:linear-gradient(160deg,var(--glass),var(--glass-2));
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;max-height:calc(100vh - 140px);overflow:auto;
+}
+.toc h3{font-size:15px;color:var(--cyan);margin-bottom:12px;letter-spacing:2px}
+.toc a{
+  display:block;color:var(--text-2);font-size:13.5px;padding:6px 10px;border-radius:8px;
+  border-left:2px solid transparent;transition:.25s;
+}
+.toc a:hover{color:var(--cyan);background:rgba(34,211,238,.06)}
+.toc a.active{color:#fff;background:rgba(34,211,238,.12);border-left-color:var(--cyan)}
+.toc-toggle{display:none}
+
+/* ---------- 正文内容 ---------- */
+.lesson-body{min-width:0}
+.lesson-card{
+  background:linear-gradient(160deg,var(--glass),var(--glass-2));
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px 30px;margin-bottom:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+.lesson-card h2{
+  font-size:21px;margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  color:var(--text-1);
+}
+.lesson-card h2 .ic{
+  width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;
+  background:linear-gradient(135deg,rgba(34,211,238,.25),rgba(167,139,250,.25));
+  border:1px solid var(--line-glow);color:var(--cyan);font-size:16px;
+}
+.lesson-card h3{font-size:16.5px;color:var(--cyan);margin:22px 0 10px}
+.lesson-card h4{font-size:15px;color:var(--blue);margin:16px 0 8px}
+.lesson-card ul,.lesson-card ol{padding-left:24px;margin:10px 0;color:var(--text-2)}
+.lesson-card li{margin:6px 0}
+.lesson-card li::marker{color:var(--cyan)}
+
+/* 步骤列表 —— 带编号大圆点，清晰可跟 */
+.steps{counter-reset:step;list-style:none;padding-left:0!important}
+.steps>li{
+  position:relative;counter-increment:step;padding:10px 0 10px 52px;margin:0 0 4px!important;
+  border-bottom:1px dashed rgba(120,170,255,.12);
+}
+.steps>li:last-child{border-bottom:none}
+.steps>li::before{
+  content:counter(step);position:absolute;left:0;top:12px;
+  width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(135deg,#22d3ee,#60a5fa);color:#03121f;font-weight:800;font-size:15px;
+  box-shadow:0 0 14px rgba(34,211,238,.4);
+}
+.steps>li b{color:#fff}
+
+/* 代码块 */
+pre{
+  position:relative;margin:14px 0;border-radius:12px;overflow:auto;
+  background:#040916;border:1px solid var(--line);
+  box-shadow:inset 0 0 30px rgba(34,211,238,.04);
+  padding:18px 20px;font-size:13.5px;line-height:1.7;max-height:520px;
+}
+pre code{display:block;color:#c8dcff;font-family:var(--font-mono)}
+.copy-btn{
+  position:sticky;float:right;margin-top:-8px;top:10px;z-index:5;
+  font-size:12px;padding:4px 12px;border-radius:8px;cursor:pointer;
+  background:rgba(34,211,238,.12);color:var(--cyan);border:1px solid rgba(34,211,238,.35);
+  transition:.25s;font-family:var(--font-body);
+}
+.copy-btn:hover{background:var(--cyan);color:#03121f}
+pre::-webkit-scrollbar{height:8px;width:8px}
+
+/* 提示框 */
+.tip{
+  border-radius:12px;padding:16px 18px;margin:14px 0;font-size:14.5px;
+  border:1px solid;display:flex;gap:12px;align-items:flex-start;
+}
+.tip .t-ic{flex:none;font-size:18px;line-height:1.4}
+.tip-note{background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.35);color:#cfe2ff}
+.tip-warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.35);color:#ffe8b8}
+.tip-danger{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.4);color:#ffd3db}
+.tip-success{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.35);color:#c9f7e6}
+
+/* 练习卡 */
+.exercise{
+  background:linear-gradient(150deg,rgba(251,191,36,.08),rgba(167,139,250,.06));
+  border:1px solid rgba(251,191,36,.3);border-radius:var(--radius);
+  padding:22px 24px;margin-top:14px;
+}
+.exercise h4{color:var(--gold);margin-bottom:10px;font-size:16px}
+.exercise li{color:var(--text-2)}
+
+/* 任务清单勾选框 */
+.task-list{list-style:none;padding-left:0!important}
+.task-list li{padding-left:34px;position:relative;color:var(--text-2)}
+.task-list li::before{
+  content:"☐";position:absolute;left:0;color:var(--cyan);font-size:18px;
+}
+
+/* 上下课导航 */
+.lesson-nav{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px;
+}
+.nav-item{
+  display:flex;flex-direction:column;gap:6px;padding:20px 22px;
+  background:linear-gradient(160deg,var(--glass),var(--glass-2));
+  border:1px solid var(--line);border-radius:var(--radius);
+  transition:.3s;color:var(--text-1);
+}
+.nav-item:hover{border-color:var(--line-glow);transform:translateY(-4px);box-shadow:var(--glow-cyan)}
+.nav-item.next{text-align:right;align-items:flex-end}
+.nav-item .dir{font-size:12px;color:var(--text-3);letter-spacing:2px}
+.nav-item .t{font-weight:700;color:var(--cyan);font-size:15px}
+.nav-item:hover .t{color:#fff}
+
+/* 完成打卡按钮 */
+.done-zone{text-align:center;margin:34px 0 10px}
+#done-btn{
+  padding:16px 44px;font-size:17px;font-weight:800;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line-glow);background:rgba(34,211,238,.1);color:var(--cyan);
+  transition:.3s;letter-spacing:2px;
+}
+#done-btn:hover{box-shadow:var(--glow-cyan);transform:translateY(-3px)}
+#done-btn.done{background:linear-gradient(135deg,rgba(52,211,153,.9),rgba(34,211,238,.9));color:#03121f;border:none}
+
+/* 课程进度条（页头） */
+.lesson-progress{
+  display:flex;align-items:center;gap:14px;margin-bottom:22px;
+  background:linear-gradient(160deg,var(--glass),var(--glass-2));
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px 20px;
+}
+.lesson-progress .progress-track{flex:1}
+.lesson-progress .p-label{font-size:13px;color:var(--text-2);white-space:nowrap}
+
+/* 响应式 */
+@media(max-width:900px){
+  .toc{position:static;display:none}
+  .toc.open{display:block}
+  .toc-toggle{
+    display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;
+    padding:9px 18px;border-radius:999px;cursor:pointer;
+    background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid var(--line-glow);
+    font-weight:700;font-size:14px;
+  }
+  .lesson-layout{padding:100px 4% 50px}
+  .lesson-nav{grid-template-columns:1fr}
+  .lesson-card{padding:22px 18px}
+}

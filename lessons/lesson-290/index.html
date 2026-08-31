@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 290 课：进阶修炼：面向对象编程 · Unity 星辰学院</title>
+<meta name="description" content="进阶修炼：面向对象编程 · Unity 星辰学院第 290 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-290">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 17 章 · 发布与进阶修炼</a><span class="sep">/</span>
+    <span>第 290 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 290 · 发布与进阶修炼</span>
+    <h1>进阶修炼：面向对象编程</h1>
+    <p class="sub">面向对象进阶完成。下一课学设计模式。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 17 章 · 发布与进阶修炼</span><span class="meta-item">📍 第 290 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:96.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">290 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">OOP 四特性</a>
+<a href="#sec-1">接口与设计原则</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握面向对象特性</li><li>掌握多态与接口</li><li>掌握设计原则</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“代码像搭积木”——面向对象是专业开发的地基。本课把 OOP 用到 Unity。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>OOP 四特性</h2>
+<p>封装继承多态抽象。</p>
+<ol class="steps"><li>【类与对象】类=蓝图、对象=实例（第 51 课）。</li><li>【封装】数据 + 方法打包，外部通过方法访问：</li><li>public class Player { private int hp; public int Hp =&gt; hp; public void TakeDamage(int d) { hp -= d; } }</li><li>【继承】子类复用父类：</li><li>public class Enemy : Character { }  // 继承血量/移动</li><li>【多态】同一方法不同实现：</li><li>public virtual void Attack() { }</li><li>public class Warrior : Character { public override void Attack() { /* 近战 */ } }</li><li>【抽象】定义规范不管实现：</li><li>public abstract class Weapon { public abstract void Use(); }</li><li>【Unity 应用】所有脚本都是 MonoBehaviour（继承）；角色/敌人继承公共基类。</li><li>【完成】OOP“懂了”。</li><li>【注意】继承别“过深”（多层继承难维护）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>OOP 记忆：封装（藏数据）、继承（复用）、多态（同一套接口不同行为）。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>接口与设计原则</h2>
+<p>“面向接口”。</p>
+<ol class="steps"><li>【接口】规范一组能力：</li><li>public interface IAttackable { void TakeDamage(int d); }</li><li>public interface IInteractable { void OnInteract(); }</li><li>【用接口】敌人/玩家/机关实现 IAttackable，伤害系统统一调用（第 248 课）。</li><li>【SOLID 原则】（简版）</li><li>S 单一职责：一个类一件事。</li><li>O 开闭原则：对扩展开放、对修改关闭（加功能用新类）。</li><li>L 里氏替换：子类能替换父类。</li><li>I 接口隔离：接口别太“大”。</li><li>D 依赖倒置：面向抽象不面向具体。</li><li>【实践】把“伤害逻辑”做成接口：新敌人实现即可被攻击。</li><li>【完成】“工程思维”有了！</li><li>【推荐】初学记住 S（单一职责）+ O（开闭）就领先很多。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>设计心法：接口定“能力”、类实现“能力”、调用方只看接口。解耦三件套。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>继承还是接口？<br><b>原因：</b>概念混淆<br><b>解决：</b>“是什么”用继承（敌人是角色）；“能干什么”用接口（能被攻击）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把角色/敌人用继承重构</li><li>定义接口并让多类实现</li><li>体会单一职责原则</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>面向对象进阶完成。下一课学设计模式。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-289/index.html"><span class="dir">← 上一课</span><span class="t">游戏上线与运营基础</span></a><a class="nav-item next" href="../lesson-291/index.html"><span class="dir">下一课 →</span><span class="t">进阶修炼：设计模式入门</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

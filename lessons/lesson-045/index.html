@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 45 课：资源命名与目录规范 · Unity 星辰学院</title>
+<meta name="description" content="资源命名与目录规范 · Unity 星辰学院第 45 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-045">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 4 章 · 资源导入与管理</a><span class="sep">/</span>
+    <span>第 45 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 45 · 资源导入与管理</span>
+    <h1>资源命名与目录规范</h1>
+    <p class="sub">规范已建立，你将写出专业的代码。下一章正式进入 C# 编程世界！</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 10 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 4 章 · 资源导入与管理</span><span class="meta-item">📍 第 45 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:15.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">45 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">命名规范</a>
+<a href="#sec-1">目录组织规范</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>掌握资源命名规范</li><li>掌握目录组织规范</li><li>养成专业开发习惯</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>好的规范让项目可读、可维护、不踩坑。本课建立你的“开发者素养”。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>命名规范</h2>
+<p>统一规则，一眼看懂。</p>
+<ol class="steps"><li>【文件/资源名】：全英文小写 + 下划线或驼峰，如 enemy_model、PlayerController.cs。</li><li>【脚本类名】：大驼峰（PascalCase），与文件名一致，如 PlayerController（文件名 PlayerController.cs）。</li><li>【变量名】：小驼峰（camelCase），如 playerSpeed、scoreValue。</li><li>【方法名】：大驼峰，如 StartMove()、TakeDamage()。</li><li>【常量】：全大写 + 下划线，如 MAX_HEALTH。</li><li>【禁止】：不能用中文命名文件/类/变量；不能以数字开头；不能与 Unity 关键字同名（如 transform、gameObject 大小写敏感）。</li><li>【前缀习惯】：UI 物体加 UI_ 前缀（UI_HealthBar），脚本功能清晰。</li><li>【Tag 与 Layer】：英文小写，如 Enemy、Player。</li></ol>
+<div class="tip tip-danger"><span class="t-ic">⛔</span><div>中文命名脚本是新手重灾区，会导致编译错误。全部使用英文命名！</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>目录组织规范</h2>
+<p>文件夹结构参考。</p>
+<ol class="steps"><li>Assets 下按类型分：Scenes / Scripts / Materials / Textures / Models / Audio / Prefabs / UI / Animations。</li><li>脚本再细分：Scripts/Player、Scripts/Enemy、Scripts/Managers、Scripts/UI。</li><li>预制体按用途：Prefabs/Characters、Prefabs/Props、Prefabs/UI。</li><li>场景文件放 Scenes，按关卡命名 level_01。</li><li>【文件夹不要乱套】：资源放对文件夹，找起来快，导入导出也好管理。</li><li>【版本管理意识】：配合 Git 时 Assets 全提交、Library/Temp 忽略（第 278 课）。</li><li>【存档规范】：项目文件多时定期备份，养成 Ctrl+S 习惯。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>规范不是束缚，是让你三个月后还能看懂自己的项目。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>脚本保存后报错：文件名与类名不一致？<br><b>原因：</b>文件名和类名必须一致<br><b>解决：</b>把 .cs 文件名改为与类同名，或把类名改为与文件名相同。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>把项目里之前随意命名的物体/资源全部按规范改名</li><li>为 Assets 建立完整的分目录结构</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>规范已建立，你将写出专业的代码。下一章正式进入 C# 编程世界！</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-044/index.html"><span class="dir">← 上一课</span><span class="t">资源打包与导出（Export Package）</span></a><a class="nav-item next" href="../lesson-046/index.html"><span class="dir">下一课 →</span><span class="t">为什么需要编程？C# 语言入门</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

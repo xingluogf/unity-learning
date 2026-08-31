@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 175 课：3D 空间音频与衰减 · Unity 星辰学院</title>
+<meta name="description" content="3D 空间音频与衰减 · Unity 星辰学院第 175 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-175">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 175 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 175 · 音频系统</span>
+    <h1>3D 空间音频与衰减</h1>
+    <p class="sub">3D 空间音频已掌握。下一课学 AudioMixer 混音器。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 175 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:58.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">175 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">3D 音效原理</a>
+<a href="#sec-1">实战：环境音与脚步</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 3D 音效原理</li><li>掌握衰减设置</li><li>掌握多普勒效果</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“敌人的脚步声从左边传来，越走越近越大声”——3D 空间音频营造沉浸感。本课掌握。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>3D 音效原理</h2>
+<p>声音“有位置”。</p>
+<ol class="steps"><li>【2D vs 3D】2D 音效无视位置（全局音量）；3D 音效随距离/方位变化。</li><li>【Spatial Blend】AudioSource 属性：0=纯 2D、1=纯 3D、中间值=混合。</li><li>【设为 1】做音效（脚步声、枪声）时 Spatial Blend=1，成为 3D 音效。</li><li>【3D 效果】</li><li>音量随距离衰减（靠近大声、远离小声）。</li><li>左右耳音量差/延迟实现方位感（Stereo Pan）。</li><li>【Doppler 多普勒】相对速度导致音调变化（救护车驶过“呜”的感觉），默认 1，可调 0 关闭。</li><li>【Min Distance / Max Distance】衰减范围：min 内音量不变、min 到 max 衰减、max 外无声。</li><li>【Volume Rolloff 衰减曲线】Logarithmic（对数，真实）/ Linear（线性，均匀）。</li><li>【注意事项】3D 音效要听得出方位，Listener 位置很重要（第 174 课）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>3D 音效 = Spatial Blend 1 + Min/Max 距离 + 衰减曲线。三样配置。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：环境音与脚步</h2>
+<p>做出有空间感的声音。</p>
+<ol class="steps"><li>【火焰/瀑布 3D 音效】给火焰粒子对象加 AudioSource：clip 火焰声、Spatial Blend=1、Loop、Min Distance 1、Max Distance 20。</li><li>播放后走近/走远，听音量变化。</li><li>【脚步 3D 音效】角色脚步：在脚部/身体加 AudioSource（Spatial Blend=1），动画事件触发播放（第 135 课）。</li><li>【多普勒测试】让一个音源快速掠过（速度大的刚体音源），听音调变化，Doppler Level 调大更明显。</li><li>【衰减曲线】把 Volume Rolloff 改成 Linear 对比 Logarithmic 的听感差异。</li><li>【曲线自定义】点开 Volume Rolloff 的曲线可手动编辑（进阶）。</li><li>【多个 3D 音源】场景多音源时，注意合并同类音源控性能。</li><li>【完成】你的游戏有了“空间感”。</li><li>【注意】3D 音效的衰减在 AudioSource 的 3D Sound Settings 里。</li><li>【推荐】角色音效用 3D（Spatial 1），UI 音效/BGM 用 2D（Spatial 0）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>分声音的“性格”：BGM/UI 声 2D 全局，角色/环境声 3D 有空间感。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>3D 音效走远就突然没声？<br><b>原因：</b>Max Distance 太小<br><b>解决：</b>调大 Max Distance；或用 Logarithmic 衰减让渐变更自然。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>做一个 3D 火焰声效并走近听变化</li><li>用多普勒体验音调变化</li><li>对比 2D 与 3D 音效的区别</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>3D 空间音频已掌握。下一课学 AudioMixer 混音器。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-174/index.html"><span class="dir">← 上一课</span><span class="t">AudioListener 监听器</span></a><a class="nav-item next" href="../lesson-176/index.html"><span class="dir">下一课 →</span><span class="t">AudioMixer 混音器</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

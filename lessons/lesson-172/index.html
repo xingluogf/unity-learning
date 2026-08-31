@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 172 课：播放背景音乐 · Unity 星辰学院</title>
+<meta name="description" content="播放背景音乐 · Unity 星辰学院第 172 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-172">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 11 章 · 音频系统</a><span class="sep">/</span>
+    <span>第 172 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 172 · 音频系统</span>
+    <h1>播放背景音乐</h1>
+    <p class="sub">背景音乐系统完成。下一课学播放音效。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 11 章 · 音频系统</span><span class="meta-item">📍 第 172 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:57.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">172 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">基础循环播放</a>
+<a href="#sec-1">跨场景延续（DontDestroyOnLoad）</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>实现循环 BGM</li><li>实现音乐切换</li><li>实现跨场景延续</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>游戏一开就有背景音乐、切换场景不停。本课做一个“打不死”的 BGM 系统。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>基础循环播放</h2>
+<p>最简单的 BGM。</p>
+<ol class="steps"><li>创建空对象 BGM，加 AudioSource。</li><li>【设置】AudioClip 拖入背景音乐；勾选 Loop（循环）；勾选 Play On Awake（开局就播）。</li><li>【音量】Volume 设 0.6 左右。</li><li>【播放】运行即响，循环不断。</li><li>【代码控制】</li><li>AudioSource bgm;</li><li>void Start() { bgm = GetComponent&lt;AudioSource&gt;(); }</li><li>public void PlayMusic(AudioClip clip) { bgm.clip = clip; bgm.Play(); }</li><li>public void StopMusic() { bgm.Stop(); }</li><li>public void SetVolume(float v) { bgm.volume = v; }</li><li>【切换音乐】换关卡时调用 PlayMusic(新音乐)。</li><li>【淡入淡出】切换时音量渐出渐入（协程）。</li><li>【注意】Loop 必须勾选，否则音乐播完就停。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>BGM 核心：Loop 循环 + Play On Awake + 代码可切换。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>跨场景延续（DontDestroyOnLoad）</h2>
+<p>切场景音乐不断。</p>
+<ol class="steps"><li>【问题】切场景会销毁当前场景对象，BGM 停掉。</li><li>【解决】用 DontDestroyOnLoad 让 BGM 对象跨场景存活：</li><li>public class BGM : MonoBehaviour {</li><li>public static BGM Instance;</li><li>void Awake() {</li><li>if (Instance != null) { Destroy(gameObject); return; } // 防重复</li><li>Instance = this;</li><li>DontDestroyOnLoad(gameObject);</li><li>}</li><li>}</li><li>【说明】首个 BGM 保留并跨场景；重复进入时销毁新增的。</li><li>【完整单例音乐管理器】把 PlayMusic/SetVolume 等并入，全局可用（第 86 课单例）。</li><li>【切场景验证】从主菜单进游戏，音乐不断。</li><li>【注意】DontDestroyOnLoad 的对象会在场景切换时保留，注意别造成重复。</li><li>【进阶】按场景切换不同 BGM（在场景加载时触发切换）。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>跨场景 BGM = 单例 + DontDestroyOnLoad。所有全局管理器都用这套。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>切场景后两个音乐同时响？<br><b>原因：</b>BGM 对象被重复创建<br><b>解决：</b>用单例检查 Instance 已存在则 Destroy 新对象（Awake 里）。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>实现循环 BGM 并控制音量</li><li>用单例实现跨场景延续</li><li>实现切换不同 BGM</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>背景音乐系统完成。下一课学播放音效。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-171/index.html"><span class="dir">← 上一课</span><span class="t">音频系统总览与 AudioSource</span></a><a class="nav-item next" href="../lesson-173/index.html"><span class="dir">下一课 →</span><span class="t">播放音效与随机音调</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

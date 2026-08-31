@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 21 课：什么是 GameObject 游戏对象 · Unity 星辰学院</title>
+<meta name="description" content="什么是 GameObject 游戏对象 · Unity 星辰学院第 21 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-021">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 3 章 · 场景与基础对象</a><span class="sep">/</span>
+    <span>第 21 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 21 · 场景与基础对象</span>
+    <h1>什么是 GameObject 游戏对象</h1>
+    <p class="sub">理解了“对象+组件”模型，你就拿到了理解 Unity 的钥匙。下一课详讲最基础的 Transform 组件。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 12 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 3 章 · 场景与基础对象</span><span class="meta-item">📍 第 21 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:7.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">21 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">对象 = 空盒子 + 组件</a>
+<a href="#sec-1">创建对象的几种方式</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 GameObject 的本质</li><li>学会创建空对象与各种对象</li><li>理解“对象+组件”模型</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>Unity 里万物皆对象（GameObject）。本课从哲学层面讲透“对象”概念，这是理解整个 Unity 的钥匙。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>对象 = 空盒子 + 组件</h2>
+<p>把 GameObject 想象成一个空的工具箱。</p>
+<ol class="steps"><li>【GameObject 游戏对象】本身只是一个“存在”的容器，本身没有外观、没有行为。</li><li>外观由组件提供：加【Mesh Filter + Mesh Renderer】就有形状能显示；加【Light】就能发光；加【AudioSource】就能发声。</li><li>行为由组件提供：加【Rigidbody】就会受重力；加自己写的【脚本】就有自定义逻辑。</li><li>所以：想让你创建的东西“是什么样、会做什么”，取决于你往盒子里放了哪些组件。</li><li>【空对象 Empty GameObject】 = 最纯粹的盒子，只带一个 Transform，常作为“管理器”“挂载点”使用。</li><li>层级里的每个对象，其实都是“空盒子+若干组件”的组合体。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>记住这句心法：Unity 编程 = 把合适的能力（组件）装配到对象上。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>创建对象的几种方式</h2>
+<p>动手体验。</p>
+<ol class="steps"><li>【方式1 菜单创建】：Hierarchy 右键 → 3D Object → Cube/Sphere 等，创建带默认组件的对象。</li><li>【方式2 空对象】：Hierarchy 右键 → Create Empty（或 Ctrl+Shift+N），得到只带 Transform 的空对象。</li><li>【方式3 代码创建】：脚本里用 new GameObject(“名字”) 创建，后续章节详讲。</li><li>【方式4 复制】：选中对象 Ctrl+D。</li><li>【方式5 预制体实例】：从 Project 把预制体拖进场景（第 32-34 课）。</li><li>现在创建 3 个空对象，分别命名为 Player、Enemy、Manager，看看 Hierarchy 里它们的区别。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>空对象常用于“空壳管理器”：放一个 Manager 空对象，挂上管理脚本，负责全局逻辑。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>创建的对象在场景里看不见？<br><b>原因：</b>对象没有可渲染的组件（如只有 Transform）<br><b>解决：</b>空对象本就不显示，这是正常的；要显示需加 Mesh Renderer 等组件。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建 2 个空对象并改名</li><li>说明“为什么 Cube 在场景里可见而空对象不可见”</li><li>创建一个 Cube 并给它添加 AudioSource 组件，理解“组件加能力”</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>理解了“对象+组件”模型，你就拿到了理解 Unity 的钥匙。下一课详讲最基础的 Transform 组件。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-020/index.html"><span class="dir">← 上一课</span><span class="t">3D 场景导航漫游实战</span></a><a class="nav-item next" href="../lesson-022/index.html"><span class="dir">下一课 →</span><span class="t">Transform 变换组件详解</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 83 课：事件与委托 delegate · Unity 星辰学院</title>
+<meta name="description" content="事件与委托 delegate · Unity 星辰学院第 83 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-083">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 6 章 · 游戏对象与组件交互</a><span class="sep">/</span>
+    <span>第 83 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 83 · 游戏对象与组件交互</span>
+    <h1>事件与委托 delegate</h1>
+    <p class="sub">委托与事件已掌握。下一课学序列化字段 SerializeField。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 16 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 6 章 · 游戏对象与组件交互</span><span class="meta-item">📍 第 83 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:27.7%"></div></div><span class="p-label" style="font-family:var(--font-mono)">83 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">委托 delegate</a>
+<a href="#sec-1">实战：死亡事件驱动</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解委托的概念</li><li>掌握声明与使用</li><li>理解事件与观察者模式</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“角色死亡时，UI 要刷新、音效要播放、任务要更新”——用事件把“谁死了”广播出去，让关心它的人各自响应。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>委托 delegate</h2>
+<p>“方法的类型”。</p>
+<ol class="steps"><li>委托 = 一种“方法的类型”，可以声明一个“存放方法”的变量。</li><li>【声明】public delegate void MyDelegate(); 声明一个“无参无返回值”的方法类型。</li><li>【定义事件】public event MyDelegate OnDeath; 声明一个事件（只能 += / -= 挂接方法）。</li><li>【订阅】OnDeath += DieHandler; 把方法挂到事件上（在 Start 或 Awake 里）。</li><li>【退订】OnDeath -= DieHandler;（在 OnDisable 里退订防泄漏）。</li><li>【触发】OnDeath?.Invoke(); 触发所有订阅的方法（?. 判空防报错）。</li><li>【带参委托】delegate void DamageEvent(int amount); 事件可以携带数据。</li><li>【系统预置】UnityEngine.Events.UnityEvent 可用于 Inspector 可视配置（第 167 课 UI 按钮）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>“事件是广播站”：只负责喊“我死了”，不关心谁在听。让代码解耦、扩展容易。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>实战：死亡事件驱动</h2>
+<p>做一个事件系统。</p>
+<ol class="steps"><li>创建脚本 HealthEvent：</li><li>public event System.Action OnDeath; // 直接用系统 Action 委托</li><li>public int hp = 100;</li><li>public void TakeDamage(int dmg) { hp -= dmg; if (hp &lt;= 0) { OnDeath?.Invoke(); } }</li><li>创建脚本 DeathListener（挂到另一对象）：</li><li>public HealthEvent health;</li><li>void Start() { health = FindObjectOfType&lt;HealthEvent&gt;(); health.OnDeath += HandleDeath; }</li><li>void HandleDeath() { Debug.Log("角色死亡！刷新 UI、播放音效、任务更新"); }</li><li>void OnDisable() { if (health != null) health.OnDeath -= HandleDeath; }</li><li>播放：给角色扣血到 0，触发死亡事件，监听者响应。</li><li>【要点】订阅用 +=、退订用 -=、触发用 ?.Invoke()。</li><li>【好处】Health 不需要知道谁在听，新增响应者不用改 Health 代码。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>事件/委托是游戏架构解耦的核心，配合第 86 课单例更好用。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>事件触发时报 null 引用？<br><b>原因：</b>没人订阅时 Invoke 可能 null<br><b>解决：</b>用 OnDeath?.Invoke()（?. 判空）或先判断 OnDeath != null。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>声明一个带 int 参数的事件</li><li>订阅、触发、退订完整走一遍</li><li>用 UnityEvent 在 Inspector 配置一个响应</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>委托与事件已掌握。下一课学序列化字段 SerializeField。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-082/index.html"><span class="dir">← 上一课</span><span class="t">协程 Coroutine</span></a><a class="nav-item next" href="../lesson-084/index.html"><span class="dir">下一课 →</span><span class="t">序列化字段 [SerializeField] 与 [Header]</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

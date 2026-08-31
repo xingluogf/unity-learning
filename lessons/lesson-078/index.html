@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 78 课：标签 Tag 与层级 Layer · Unity 星辰学院</title>
+<meta name="description" content="标签 Tag 与层级 Layer · Unity 星辰学院第 78 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-078">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 6 章 · 游戏对象与组件交互</a><span class="sep">/</span>
+    <span>第 78 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 78 · 游戏对象与组件交互</span>
+    <h1>标签 Tag 与层级 Layer</h1>
+    <p class="sub">Tag 与 Layer 已掌握。下一课学习查找对象的方法。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 14 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 6 章 · 游戏对象与组件交互</span><span class="meta-item">📍 第 78 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:26.0%"></div></div><span class="p-label" style="font-family:var(--font-mono)">78 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">标签 Tag</a>
+<a href="#sec-1">层级 Layer</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>理解 Tag 与 Layer 的区别</li><li>掌握设置与判断</li><li>了解 Layer 在碰撞中的作用</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>“它是敌人还是子弹？”——用 Tag 给对象打标签，用 Layer 做分类管理。两者看似像，用途不同。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>标签 Tag</h2>
+<p>给对象“贴名牌”。</p>
+<ol class="steps"><li>选中对象，Inspector 顶部有【Tag】下拉框（默认 Untagged）。</li><li>【使用内置标签】下拉选择 MainCamera、Player、Enemy 等（新项目含默认标签）。</li><li>【新建标签】点下拉框底部的【Add Tag…】→ 在 Tags 列表输入新标签名（如 Enemy）→ 保存。</li><li>新建后回到对象 Tag 下拉选择刚建的 Enemy。</li><li>【代码判断】gameObject.CompareTag("Enemy") 返回 bool（推荐，比 == 高效且防报错）。</li><li>【用途】区分“这是什么”：敌人、玩家、墙壁、道具。</li><li>【删除标签】Tags 列表选中标签点减号（使用中的标签不能删）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>判断标签优先用 CompareTag 而不是 gameObject.tag == "..."，后者拼错会报错。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>层级 Layer</h2>
+<p>给对象“分类编组”。</p>
+<ol class="steps"><li>选中对象，Inspector 顶部的【Layer】下拉框（默认 Default）。</li><li>【新建 Layer】点下拉框 →【Add Layer…】→ 在空白槽输入层名（如 Player、Enemy、Wall）。</li><li>选中对象 Layer 设为对应层。</li><li>【用途1 碰撞矩阵】：Edit→Project Settings→Physics→Layer Collision Matrix，控制“哪些层之间会发生碰撞”（第 99 课）。</li><li>【用途2 相机渲染】：Camera 的 Culling Mask 可只渲染指定层。</li><li>【用途3 射线过滤】：Raycast 指定只检测某些层（第 100 课）。</li><li>【代码获取层编号】gameObject.layer（int）与 LayerMask.NameToLayer("Player") 配合。</li><li>【区别】Tag=标识身份（用于逻辑判断）；Layer=分类编组（用于物理/渲染控制）。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>一个对象只能有一个 Tag 和一个 Layer；Layer 编号 0-31。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>CompareTag 报错：不存在该标签？<br><b>原因：</b>标签名拼错或未创建<br><b>解决：</b>确认 Tag 已在 Tag Manager 里创建，且代码里拼写一致。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>创建一个 Enemy 标签并打到一个对象上</li><li>在代码中用 CompareTag 判断并打印</li><li>新建一个 Enemy Layer 并设置到对象</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>Tag 与 Layer 已掌握。下一课学习查找对象的方法。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-077/index.html"><span class="dir">← 上一课</span><span class="t">销毁对象 Destroy</span></a><a class="nav-item next" href="../lesson-079/index.html"><span class="dir">下一课 →</span><span class="t">查找对象与组件 Find 系列</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>

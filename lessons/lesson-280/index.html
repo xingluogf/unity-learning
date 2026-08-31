@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 280 课：优化收尾与上线检查清单 · Unity 星辰学院</title>
+<meta name="description" content="优化收尾与上线检查清单 · Unity 星辰学院第 280 课，超详细步骤，闭着眼都能做。">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../assets/css/theme.css">
+<link rel="stylesheet" href="../../assets/css/lesson.css">
+<style>
+.lesson-layout{padding-top:120px}
+</style>
+</head>
+<body data-lesson-key="lesson-280">
+<canvas id="stars-canvas"></canvas>
+<div class="grid-overlay"></div>
+<div class="top-bar"></div>
+
+<nav class="navbar">
+  <div class="brand"><div class="logo">U</div><span>Unity <span style="color:var(--cyan)">星辰学院</span></span></div>
+  <div class="nav-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../../index.html#chapters">章节导览</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../../index.html#start" class="btn btn-cyan btn-sm" style="margin-left:8px">返回主站</a>
+  </div>
+  <div class="nav-burger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="lesson-layout">
+  <div class="crumb">
+    <a href="../../index.html">首页</a><span class="sep">/</span>
+    <a href="../../index.html#chapters">第 16 章 · 性能优化</a><span class="sep">/</span>
+    <span>第 280 课</span>
+  </div>
+
+  <div class="lesson-hero reveal">
+    <span class="lesson-no">LESSON 280 · 性能优化</span>
+    <h1>优化收尾与上线检查清单</h1>
+    <p class="sub">性能章毕业！下一章进入发布与进阶修炼。</p>
+    <div class="lesson-meta"><span class="meta-item">⏱ 约 15 分钟</span><span class="meta-item">📊 难度：<span class="badge badge-green">入门</span></span><span class="meta-item">🗂 第 16 章 · 性能优化</span><span class="meta-item">📍 第 280 / 300 课</span></div>
+  </div>
+
+  <div class="lesson-progress"><span class="p-label">课程进度</span><div class="progress-track"><div class="progress-fill" style="width:93.3%"></div></div><span class="p-label" style="font-family:var(--font-mono)">280 / 300</span></div>
+
+  <div style="display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:start">
+    <aside>
+      <button class="toc-toggle">展开目录 ▼</button>
+      <div class="toc"><h3>本课目录</h3><a href="#goal">本节目标</a>
+<a href="#intro">课程导读</a>
+<a href="#sec-0">优化检查清单</a>
+<a href="#sec-1">真机与多档验证</a>
+<a href="#errors">常见错误</a>
+<a href="#exercise">动手练习</a>
+<a href="#summary">本节小结</a></div>
+    </aside>
+    <div class="lesson-body">
+      <div id="goal" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🎯</span>本节学习目标</h2><ul class="task-list"><li>建立检查清单</li><li>逐项验证</li><li>完成上线准备</li></ul></div></div>
+<div id="intro" class="reveal"><div class="lesson-card reveal"><h2><span class="ic">🚀</span>课程导读</h2><p>发布前最后一道“体检”：把性能章所有手段整理成清单逐项过。本课完成上线准备。</p></div></div>
+<div id="sec-0" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>优化检查清单</h2>
+<p>一条条“打勾”。</p>
+<ol class="steps"><li>【渲染】</li><li>□ Draw Call 达标（Frame Debugger 验证）。</li><li>□ 静态物体勾 Static（合批/遮挡）。</li><li>□ 大场景烘焙 + 遮挡剔除。</li><li>□ LOD 已配置。</li><li>【物理】</li><li>□ 静态物无 Rigidbody。</li><li>□ 层碰撞矩阵配置好。</li><li>【脚本】</li><li>□ 无每帧 GetComponent/Find。</li><li>□ 无每帧字符串拼接。</li><li>□ 高频对象走对象池。</li><li>【资源】</li><li>□ 纹理压缩/尺寸合理。</li><li>□ 音频加载方式正确。</li><li>□ 无未用大资源。</li><li>【帧率】</li><li>□ targetFrameRate 设置。</li><li>□ 多档画质 + 设备适配。</li><li>【内存】</li><li>□ 内存峰值可控。</li><li>□ 无泄漏（长时间游玩稳定）。</li><li>【完成】清单“打满”。</li><li>【注意】每项都要“实测过”不是“应该可以”。</li></ol>
+<div class="tip tip-note"><span class="t-ic">💡</span><div>检查清单心法：每项都要“实测证据”，别用“应该没问题”过关。</div></div>
+</div></div>
+<div id="sec-1" class="reveal"><div class="lesson-card reveal">
+<h2><span class='ic'>◆</span>真机与多档验证</h2>
+<p>最后防线。</p>
+<ol class="steps"><li>【真机测试】在目标设备（手机/低配 PC）实机运行。</li><li>【多设备】低/中/高端各测一台（移动端）。</li><li>【长时间】连续玩 30 分钟+：查发热、掉帧、内存。</li><li>【各场景】所有场景都测（菜单/关卡/战斗/Boss）。</li><li>【异常】记录任何卡顿/闪退/发热。</li><li>【修复】针对真机问题再优化（第 272 课流程）。</li><li>【复测】修复后回归。</li><li>【通过标准】平均帧率达标 + 无闪退 + 温度可接受。</li><li>【完成】“上线”资格拿到！</li><li>【注意】编辑器流畅 ≠ 真机流畅，真机是最终标准。</li><li>【推荐】真机测试留足时间，别上线前一天才发现问题。</li></ol>
+<div class="tip tip-success"><span class="t-ic">✅</span><div>上线标准 = 目标帧率 + 零闪退 + 温度可控 + 多设备验证。四条缺一不可。</div></div>
+</div></div>
+<div id="errors" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">⚠</span>常见错误与排查</h2><div class="tip tip-danger" style="margin:10px 0"><span class="t-ic">⛔</span><div><b>错误：</b>真机闪退？<br><b>原因：</b>内存超标或兼容问题<br><b>解决：</b>查日志（Logcat/崩溃报告）定位；降画质/内存优化；真机复现修复。</div></div></div></div>
+<div id="exercise" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">★</span>动手练习</h2><div class="exercise"><h4>课后小任务（做出来才算真的学会）</h4><ul class="task-list"><li>按检查清单逐项验证</li><li>真机长时间压力测试</li><li>修复并复测通过</li></ul></div></div></div>
+<div id="summary" class="reveal">
+<div class="lesson-card reveal"><h2><span class="ic">✓</span>本节小结</h2><p>性能章毕业！下一章进入发布与进阶修炼。</p></div></div>
+    </div>
+  </div>
+
+  <div class="done-zone">
+    <button id="done-btn" class="">标记为已完成</button>
+    <p style="margin-top:10px;font-size:13px;color:var(--text-3)">完成打卡后，主站会实时更新你的学习进度 🎯</p>
+  </div>
+
+  <div class="lesson-nav"><a class="nav-item" href="../lesson-279/index.html"><span class="dir">← 上一课</span><span class="t">资源与内存审计</span></a><a class="nav-item next" href="../lesson-281/index.html"><span class="dir">下一课 →</span><span class="t">发布总览与 Build Settings</span></a></div>
+</div>
+
+<footer class="footer">
+  <div class="brand" style="justify-content:center"><div class="logo">U</div><span>Unity 星辰学院</span></div>
+  <div class="f-links">
+    <a href="../../index.html">首页</a>
+    <a href="../../index.html#course">课程表</a>
+    <a href="../lesson-001/index.html">第 1 课</a>
+    <a href="../lesson-300/index.html">最后一课</a>
+  </div>
+  <p>© 2026 Unity 星辰学院 · 300 节零基础到精通全攻略</p>
+</footer>
+
+<button class="to-top" title="返回顶部">↑</button>
+
+<script src="../../assets/js/stars.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="../../assets/js/lesson.js"></script>
+</body>
+</html>
